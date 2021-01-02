@@ -20,7 +20,7 @@ export default function Home() {
           South Africa's first digital bank. And prior to that I was at AIG working in their{' '}<a href="https://hbr.org/2014/10/how-aig-moved-toward-evidence-based-decision-making">Science</a> team.
         </p>
         <p>
-          I'm passionate about data science, technology, engineering, digital products, and philanthropy.
+          I'm passionate about code, data science, technology, engineering, digital products, and philanthropy.
           Feel free to checkout some of my projects on my{' '}<a href="https://github.com/franciscojavierarceo">GitHub</a> where you'll find some work I've done on Machine Learning, Natural Language Processing, Web Development, Cloud Computing, and other random things.
         </p>
       </section>
