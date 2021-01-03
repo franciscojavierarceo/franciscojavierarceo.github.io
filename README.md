@@ -2,7 +2,8 @@
 
 I built this site using Next.js's tutorial <a href="https://nextjs.org/learn/basics/create-nextjs-app/setup">here</a>.
 
-To start the server simply run 
+To start the server simply run
+
 ```
 npm install
 npm run dev
