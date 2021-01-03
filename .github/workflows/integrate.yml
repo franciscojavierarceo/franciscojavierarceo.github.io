@@ -5,7 +5,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: ./src
+        working-directory: ./
 
     steps:
       - name: Checkout 🛎️
@@ -31,5 +31,5 @@ jobs:
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           BRANCH: main # The branch the action should deploy to.
-          FOLDER: src/out # The folder the action should deploy.
+          FOLDER: ./out # The folder the action should deploy.
           CLEAN: true # Automatically remove deleted files from the deploy branch
