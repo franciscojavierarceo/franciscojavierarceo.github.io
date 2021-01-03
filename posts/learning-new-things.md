@@ -1,6 +1,7 @@
 ---
 title: 'Learning New Things'
 date: '2020-01-02'
+description: "Francisco's 2020 Year in Review"
 ---
 
 2020 was an **difficult year for most people**, this was true for me as well. Fortunately, along the way I was able to learn some new things. More specifically, I spent a lot of my time learning how to develop web applications (specifically in <a href="https://www.djangoproject.com/">Django</a>), which included:

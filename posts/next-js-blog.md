@@ -1,6 +1,7 @@
 ---
 title: 'Learning Next JS'
 date: '2020-01-03'
+description: 'Learning the Next JavaScript Framework'
 ---
 
 In the spirit of my last blog post talking about learning new things, I decided to learn <a href="https://nextjs.org/">Next.JS</a>, which is a JavaScript framework built on top of <a href="https://reactjs.org/">React</a> for web development. One of the main reasons I was particularly interested in Next.JS was because of it's opinionated optimizations.
