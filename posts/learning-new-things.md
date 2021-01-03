@@ -19,7 +19,7 @@ It has been an interesting exercise to be much more hands on with JavaScript thi
 
 In statistics, the Data Generating Process (<a href="https://en.wikipedia.org/wiki/Data_generating_process">DGP</a>) is an extremely critical part of approximating the world with mathematical functions. So, I wanted to learn very rigorously how the web is developed so that I could better understand the DGP and ultimately better approximate the things I'm particularly interested in.
 
-As an entrepreneur this is a *terrible* way to allocate one's attention in order to accomplish one's business goals, but the knowledge I've gained over the year has been **extremely** valuable and it compounds significantly. I think the knowledge investment I've made this past year has better helped me prepare for much faster growth going forward.
+As an entrepreneur this is a *terrible* way to allocate one's attention in order to accomplish one's business goals, but the knowledge I've gained over the year has been *extremely* valuable and it compounds significantly. I think the knowledge investment I've made this past year has better helped me prepare for much faster growth going forward.
 
 What I've learned over the past 10 years is that investing in learning has exponential rewards, especially in time. Things that used to take me days or hours to accomplish can now be solved in minutes.
 
