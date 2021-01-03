@@ -53,6 +53,7 @@ export default function Home({ allPostsData }) {
           ))}
         </ul>
       </section>
+      <p>Like the format of this blog? Check out the code for it <a href="https://github.com/franciscojavierarceo/nextjs-blog">here</a>.</p>
     </Layout>
   )
 }
