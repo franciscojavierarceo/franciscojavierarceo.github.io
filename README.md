@@ -9,4 +9,4 @@ npm run dev
 
 I invite you to go through the tutorial as it's very elegant and well documented. I've added made some minor modifications to things here and there but most of the structure is based on what you'll see in the tutorial.
 
-Currently, the site is hosted on <a href="https://vercel.com/">Vercel</a>. Feel free to <a href="https://nextjs-blog-8imrs0u65.vercel.app">click here</a> to visit it.
+Currently, the site is hosted on <a href="https://vercel.com/">Vercel</a>. Feel free to <a href="https://nextjs-blog-git-main.franciscojavierarceo.vercel.app/">click here</a> to visit it.
