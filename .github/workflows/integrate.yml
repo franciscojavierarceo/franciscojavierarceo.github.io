@@ -5,7 +5,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: ./src/out
+        working-directory: ./src
 
     steps:
       - name: Checkout 🛎️
