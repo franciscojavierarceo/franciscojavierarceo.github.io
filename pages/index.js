@@ -35,7 +35,7 @@ export default function Home({ allPostsData }) {
           I'm passionate about code, data science, technology, engineering, digital products, and philanthropy.
           Feel free to checkout some of my projects on my{' '}<a href="https://github.com/franciscojavierarceo">GitHub</a> where you'll find some work I've done on Machine Learning, Natural Language Processing, Web Development, Cloud Computing, and other random things.
         </p>
-        <p>Want to get in touch? Feel free to connect with me on {' '}<a href='https://www.linkedin.com/in/franciscojavierarceo/'>LinkedIn</a> or{' '}<a href='https://twitter.com/franciscojarceo'>Twitter</a></p>
+        <p>Want to get in touch? Feel free to connect with me on {' '}<a href='https://www.linkedin.com/in/franciscojavierarceo/'>LinkedIn</a> or{' '}<a href='https://twitter.com/franciscojarceo'>Twitter</a>.</p>
       </section>
       <section className={`${utilStyles.headingMd} ${utilStyles.padding1px}`}>
         <h2 className={utilStyles.headingLg}>My Blog</h2>
