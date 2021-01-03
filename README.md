@@ -1,5 +1,3 @@
-# nextjs-blog
-Learning Next JS
+# My personal site using Next.js
 
-Following this tutorial: 
-https://nextjs.org/learn/basics/create-nextjs-app/setup
+Following this tutorial: https://nextjs.org/learn/basics/create-nextjs-app/setup
