@@ -10,4 +10,4 @@ In my last post I mentioned that I spent a lot of time learning about the techni
 
 To learn it, I built this blog using their <a href="https://nextjs.org/learn/basics/create-nextjs-app">tutorial</a>, which I highly recommend!
 
-My goal is to move <a href="https://www.unidosfin.com/en">Unidos</a> to Next.JS for the front and keep the Django backend, much of which I've already converted to APIs.
+My goal is to move <a href="https://www.unidosfin.com/en">Unidos</a> to Next.JS for the front-end and keep the Django back-end, much of which I've already converted to APIs.
