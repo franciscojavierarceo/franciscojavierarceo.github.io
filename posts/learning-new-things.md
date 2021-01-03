@@ -1,5 +1,5 @@
 ---
-title: 'Learning new things'
+title: 'Learning New Things'
 date: '2020-01-02'
 ---
 
