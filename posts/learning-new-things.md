@@ -12,7 +12,6 @@ description: "Francisco's 2020 Year in Review"
 - Developing APIs using Django Rest Framework
 - The benefits of JavaScript code compression/minification
 - How to adhere to SEO best practices for web content
-- JavaScript frameworks (like React/NextJS)
 - Building Webhooks for 3rd party APIs
 - Building an application that handles multiple languages in a database, as an API, and that optimizes for SEO
 
