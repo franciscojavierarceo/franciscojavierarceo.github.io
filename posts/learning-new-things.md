@@ -4,7 +4,7 @@ date: '2020-01-02'
 description: "Francisco's 2020 Year in Review"
 ---
 
-2020 was a **difficult year for most people**, this was true for me as well. Fortunately, along the way I was able to learn some new things. More specifically, I spent a lot of my time learning how to develop web applications (specifically in <a href="https://www.djangoproject.com/">Django</a>), which included:
+2020 was a **difficult year for most people**, this was true for me as well. Fortunately, along the way I was able to learn some new things. More specifically, I spent a lot of my time learning how to develop web applications (particularly in <a href="https://www.djangoproject.com/">Django</a>), which included:
 
 - Building a Content Management System (<a href="https://en.wikipedia.org/wiki/Content_management_system">CMS</a>)
 - Image optimization and various forms of cacheing
