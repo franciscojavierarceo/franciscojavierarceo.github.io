@@ -1,6 +1,6 @@
 # My personal site using Next.js
 
-I built this site using Next.js's tutorial <a href=" https://nextjs.org/learn/basics/create-nextjs-app/setup">here</a>.
+I built this site using Next.js's tutorial <a href="https://nextjs.org/learn/basics/create-nextjs-app/setup">here</a>.
 
 To start the server simply run 
 ```
