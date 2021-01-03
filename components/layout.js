@@ -1,4 +1,5 @@
 import Head from 'next/head'
+import Footer from '../components/footer'
 import styles from './layout.module.css'
 import utilStyles from '../styles/utils.module.css'
 import Link from 'next/link'
