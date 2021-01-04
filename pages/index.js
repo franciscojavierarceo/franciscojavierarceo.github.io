@@ -17,6 +17,7 @@ export async function getStaticProps() {
 export default function Home({ allPostsData }) {
   return (
     <Layout home>
+      <html lang="en">
       <Head>
         <title>{siteTitle}</title>
       </Head>
@@ -54,6 +55,7 @@ export default function Home({ allPostsData }) {
         </ul>
       </section>
       <p>Like the format of this blog? Check out the code for it <a href="https://github.com/franciscojavierarceo/nextjs-blog">here</a>.</p>
+      </html>
     </Layout>
   )
 }

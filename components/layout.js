@@ -27,8 +27,6 @@ export default function Layout({ children, home }) {
         <meta name="twitter:description" content={siteDescription}/>
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:site" content="franciscojarceo"/>
-
-        
       </Head>
       <header className={styles.header}>
         {home ? (
