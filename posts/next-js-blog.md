@@ -1,6 +1,6 @@
 ---
-title: 'Learning Next JS'
-date: '2020-01-03'
+title: 'Learning Next.js'
+date: '2020-01-02'
 description: 'Learning the Next JavaScript Framework'
 ---
 

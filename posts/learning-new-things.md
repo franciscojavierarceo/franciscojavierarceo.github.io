@@ -1,6 +1,6 @@
 ---
 title: 'Learning New Things'
-date: '2020-01-02'
+date: '2020-01-01'
 description: "Francisco's 2020 Year in Review"
 ---
 

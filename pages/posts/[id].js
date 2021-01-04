@@ -29,7 +29,6 @@ export async function getStaticProps({ params }) {
             <meta name="description" content={postData.description}/>
             <meta property="og:description" content={postData.description}/>
             <meta name="twitter:description" content={postData.description}/>
-            
         </Head>
         <article>
             <h1 className={utilStyles.headingXl}>{postData.title}</h1>
