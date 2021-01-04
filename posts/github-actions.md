@@ -6,7 +6,7 @@ description: "GitHub Actions to Deploy a Static Site built with Next.js"
 
 I'm a huge fan of GitHub Actions. They're so simple but so effective at doing such a broad range of things. For today's post, I'll focus on how I used <a href="https://github.com/features/actions">GitHub Actions</a> to automate deploying my static site built with Next.js to <a href="https://pages.github.com/">GitHub Pages</a>.
 
-I made this blog on a repo in GitHub and added a github action to `next export` to compile the JavaScript into static HTML files. This really didn't require all that much effort.
+I made this blog on a repo in GitHub and added a github action to `npm build export` to compile the JavaScript into static HTML files. This really didn't require all that much effort.
 
 Here's what I had to do:
 
