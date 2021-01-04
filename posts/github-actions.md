@@ -12,13 +12,12 @@ I made this blog on a repository hosted on GitHub and added an action to compile
 
 Here's what I had to do:
 
-0. Built a Next.js blog following the [detailed tutorial](https://nextjs.org/learn/basics/create-nextjs-app) and store the code on a GitHub repository
-1. Create a workflow file in the repository with the following path: [`./github/workflows/integrate.yml`](https://github.com/franciscojavierarceo/franciscojavierarceo.github.io/blob/main/.github/workflows/integrate.yml)
-2. Specify that workflow file to export the static files whenever I push to `main` and *commit* the exported files to a separate branch called `gh-pages` (you can just follow the workflow file I used)
-3. Manually add a `.nojekyll` file to the `gh-pages` branch (this is to resolve [this bug](https://github.com/vercel/next.js/issues/2029))
-4. Configure my repository branch settings so that sources the GitHub Pages build from the `gh-pages` branch
-5. Push to the `main` branch with new files!
+1. Built a Next.js blog following the [detailed tutorial](https://nextjs.org/learn/basics/create-nextjs-app) and store the code on a GitHub repository
+2. Create a workflow file in the repository with the following path: [`./github/workflows/integrate.yml`](https://github.com/franciscojavierarceo/franciscojavierarceo.github.io/blob/main/.github/workflows/integrate.yml)
+3. Specify that workflow file to export the static files whenever I push to `main` and *commit* the exported files to a separate branch called `gh-pages` (you can just follow the workflow file I used)
+4. Manually add a `.nojekyll` file to the `gh-pages` branch (this is to resolve [this bug](https://github.com/vercel/next.js/issues/2029))
+5. Configure my repository branch settings so that sources the GitHub Pages build from the `gh-pages` branch
 
 And that's it, adding new blog posts is as simple as creating a new [markdown](https://www.markdownguide.org/) file and pushing to the main branch. The GitHub Action will handle all of the rest!
 
-This is much nicer in behavior than my old site, which was built using Jekyll (a Ruby framework)
+This is much nicer in behavior than my old site, which was built using Jekyll (a Ruby framework) and it's much less work than Django to get high quality page loads.
