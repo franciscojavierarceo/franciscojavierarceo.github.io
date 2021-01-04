@@ -11,4 +11,7 @@ npm run dev
 
 I invite you to go through the tutorial as it's very elegant and well documented. I've added made some minor modifications to things here and there but most of the structure is based on what you'll see in the tutorial.
 
-Currently, the site is hosted on <a href="https://vercel.com/">Vercel</a>. Feel free to <a href="https://franciscojavierarceo-github-io.vercel.app/">click here</a> to visit it.
+This site is hosted on both (Vercel)[https://vercel.com/] and (GitHub Pages)[https://pages.github.com/].
+
+Here's the link on GitHub Pages: https://franciscojavierarceo.github.io/.
+Here's the link on Vercel: https://franciscojavierarceo-github-io.vercel.app/.
