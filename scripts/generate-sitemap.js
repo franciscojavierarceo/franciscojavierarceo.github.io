@@ -8,13 +8,19 @@ const prettier = require('prettier');
 
   // Ignore Next.js specific files (e.g., _app.js) and API routes.
   const pages = await globby([
-    'pages/**/*{.js,.md}',
+    // 'pages/**/*{.js,.md}',
     '!pages/_*.js',
+    'posts/*.md',
     '!pages/api'
   ]);
   const sitemap = `
         <?xml version="1.0" encoding="UTF-8"?>
         <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+            <url>
+                <loc>https://franciscojavierarceo.github.io</loc>
+                <changefreq>daily</changefreq>
+                <priority>0.8</priority>
+            </url>
             ${pages
               .map((page) => {
                 const path = page
@@ -25,8 +31,9 @@ const prettier = require('prettier');
 
                 return `
                         <url>
-                            <loc>${`https://franciscojavierarceo.github.io${route}`}</loc>
+                            <loc>${`https://franciscojavierarceo.github.io/${route}`}</loc>
                             <changefreq>daily</changefreq>
+                            <priority>0.5</priority>
                         </url>
                     `;
               })
