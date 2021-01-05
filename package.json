@@ -4,16 +4,20 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build && next export",
+    "build": "next build && next export && node ./scripts/generate-sitemap.js",
     "start": "next start"
   },
   "dependencies": {
     "date-fns": "^2.16.1",
+    "globby": "^11.0.1",
     "gray-matter": "^4.0.2",
     "next": "^10.0.0",
     "react": "16.13.1",
     "react-dom": "16.13.1",
     "remark": "^13.0.0",
     "remark-html": "^13.0.1"
+  },
+  "devDependencies": {
+    "prettier": "^2.2.1"
   }
 }
