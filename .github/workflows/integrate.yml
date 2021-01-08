@@ -17,7 +17,7 @@ jobs:
         uses: actions/cache@v2
         with:
           path: ${{ github.workspace }}/.next/cache
-          key: ${{ runner.os }}-nextjs-v2-${{ hashFiles('**/package-lock.json') }}
+          key: ${{ runner.os }}-nextjs-v3-${{ hashFiles('**/package-lock.json') }}
 
       - name: Install and Build 🔧
         uses: actions/setup-node@v1
