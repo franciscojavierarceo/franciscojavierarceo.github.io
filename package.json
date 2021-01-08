@@ -39,9 +39,9 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Jfelix61/nextjs-starter-blog.git"
+    "url": "git+git@github.com:franciscojavierarceo/franciscojavierarceo.github.io.git"
   },
-  "homepage": "https://github.com/Jfelix61/nextjs-starter-blog#readme",
+  "homepage": "https://github.com/franciscojavierarceo/franciscojavierarceo.github.io#readme",
   "keywords": [
     "next.js",
     "blog",
