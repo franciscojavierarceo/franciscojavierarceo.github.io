@@ -1,7 +1,7 @@
 ---
-title: 'Deploying a Next.js site using Github Actions'
-date: '2020-01-03'
-description: "GitHub Actions to Deploy a Static Site built with Next.js"
+title: Deploying a Next.js Site using Github Actions
+description: GitHub Actions to Deploy a Static Site built with Next.js
+date: 2020-01-03
 ---
 
 I'm a huge fan of [GitHub Actions](https://github.com/features/actions). They're so simple but so effective at doing such a broad range of things. In short, you can tell GitHub do something on a computer everytime you push to your repository (or to a branch on a specific repository like the `main` branch).

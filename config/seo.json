@@ -1,0 +1,15 @@
+{
+  "siteMetadata": {
+    "title": "Francisco's Random Thoughts",
+    "author": {
+      "name": "Francisco Javier Arceo",
+      "summary": "Data Science, Engineering, Product"
+    },
+    "description": "Another blog built with Next.js and Tailwind.css",
+    "siteUrl": "https://franciscojavier.arceo/",
+    "language": "en-US",
+    "social": {
+      "twitter": "franciscojarceo"
+    }
+  }
+}

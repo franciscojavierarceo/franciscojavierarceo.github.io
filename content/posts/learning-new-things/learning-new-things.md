@@ -1,7 +1,7 @@
 ---
-title: 'Learning New Things'
-date: '2020-01-01'
-description: "Francisco's 2020 Year in Review"
+title: '2020 & Learning New Things'
+description: Francisco's 2020 Year in Review
+date: 2020-01-01
 ---
 
 2020 was a **difficult year for most people**, this was true for me as well. Fortunately, along the way I was able to learn some new things. More specifically, I spent a lot of my time learning how to develop web applications (particularly in <a href="https://www.djangoproject.com/">Django</a>), which included:

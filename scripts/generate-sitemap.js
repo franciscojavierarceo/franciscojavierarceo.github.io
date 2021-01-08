@@ -1,5 +1,4 @@
 const fs = require('fs');
-
 const globby = require('globby');
 const prettier = require('prettier');
 
@@ -8,9 +7,8 @@ const prettier = require('prettier');
 
   // Ignore Next.js specific files (e.g., _app.js) and API routes.
   const pages = await globby([
-    // 'pages/**/*{.js,.md}',
+    'content/posts/',
     '!pages/_*.js',
-    'posts/*.md',
     '!pages/api'
   ]);
   const sitemap = `
@@ -27,7 +25,10 @@ const prettier = require('prettier');
                   .replace('pages', '')
                   .replace('.js', '')
                   .replace('.md', '');
-                const route = path === '/index' ? '' : path;
+                console.log(page);
+                const spath = path.split('/');
+                spathfin = spath.slice(0, spath.length -1).join('/')
+                const route = spathfin === '/index' ? '' : spathfin;
 
                 return `
                         <url>

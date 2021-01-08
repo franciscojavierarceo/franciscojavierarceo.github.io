@@ -1,61 +1,40 @@
-import Link from 'next/link'
-import Date from '../components/date'
-import Head from 'next/head'
-import Layout, { siteTitle } from '../components/layout'
-import utilStyles from '../styles/utils.module.css'
-import { getSortedPostsData } from '../lib/posts'
+import Link from "next/link";
 
-export async function getStaticProps() {
-  const allPostsData = getSortedPostsData()
-  return {
-    props: {
-      allPostsData
-    }
-  }
+import { Layout, Bio, SEO } from "@components/common";
+import { getSortedPosts } from "@utils/posts";
+
+export default function Home({ posts }) {
+  return (
+    <Layout>
+      <SEO title="My chaotic thoughts on computers, statistics, finance, and data" />
+      <Bio className="my-5" />
+
+      {posts.map(({ frontmatter: { title, description, date }, slug }) => (
+        <article key={slug}>
+          <header className="mb-2">
+            <h3 className="mb-2">
+              <Link href={"/post/[slug]"} as={`/post/${slug}`}>
+                <a className="text-4xl font-bold text-yellow-600 font-display">
+                  {title}
+                </a>
+              </Link>
+            </h3>
+            <span className="text-sm">{date}</span>
+          </header>
+          <section>
+            <p className="mb-8 text-lg">{description}</p>
+          </section>
+        </article>
+      ))}
+    </Layout>
+  );
 }
 
-export default function Home({ allPostsData }) {
-  return (
-    <Layout home>
-      <html lang="en">
-      <Head>
-        <title>{siteTitle}</title>
-      </Head>
-      <section className={utilStyles.headingMd}>
-        <p>Hello there! &#128075;</p>
-        <p>I am the Founder and CEO of{' '} <a href="https://www.unidosfin.com/en">Unidos</a>, a technology company bringing financial wellness to the Latino community. 
-          I'm also the Executive Director of Data Science at{' '}<a href="https://www.understood.org">Understood.org</a> where we are dedicated to shaping a world 
-          where millions of people who learn and think differently can thrive at home, at school, and at work.</p>
-        <p>
-          I was previously at Goldman Sachs where I worked in the Credit Risk team developing and executing 
-          the underwriting strategy for their Digital Retail Bank ({''}<a href="https://www.Marcus.com">Marcus, by Goldman Sachs</a>). 
-          Prior to that I worked at the Commonwealth Bank of Australia where I helped launch{' '}<a href="https://www.tymebank.co.za/">TymeDigital</a>, 
-          South Africa's first digital bank. And prior to that I was at AIG working in their{' '}<a href="https://hbr.org/2014/10/how-aig-moved-toward-evidence-based-decision-making">Science</a> team.
-        </p>
-        <p>
-          I'm passionate about code, data science, technology, engineering, digital products, and philanthropy.
-          Feel free to checkout some of my projects on my{' '}<a href="https://github.com/franciscojavierarceo">GitHub</a> where you'll find some work I've done on Machine Learning, Natural Language Processing, Web Development, Cloud Computing, and other random things.
-        </p>
-        <p>Want to get in touch? Feel free to connect with me on {' '}<a href='https://www.linkedin.com/in/franciscojavierarceo/'>LinkedIn</a> or{' '}<a href='https://twitter.com/franciscojarceo'>Twitter</a>.</p>
-      </section>
-      <section className={`${utilStyles.headingMd} ${utilStyles.padding1px}`}>
-        <h2 className={utilStyles.headingLg}>My Blog</h2>
-        <ul className={utilStyles.list}>
-          {allPostsData.map(({ id, date, title }) => (
-            <li className={utilStyles.listItem} key={id}>
-            <Link href={`/posts/${id}`}>
-              <a>{title}</a>
-            </Link>
-            <br />
-            <small className={utilStyles.lightText}>
-              <Date dateString={date} />
-            </small>
-          </li>          
-          ))}
-        </ul>
-      </section>
-      <p>Like the format of this blog? Check out the code for it <a href="https://github.com/franciscojavierarceo/nextjs-blog">here</a>.</p>
-      </html>
-    </Layout>
-  )
+export async function getStaticProps() {
+  const posts = getSortedPosts();
+  return {
+    props: {
+      posts,
+    },
+  };
 }

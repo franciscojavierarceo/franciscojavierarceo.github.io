@@ -7,19 +7,29 @@
   </url>
 
   <url>
-    <loc>https://franciscojavierarceo.github.io/posts/github-actions</loc>
+    <loc
+      >https://franciscojavierarceo.github.io/content/posts/github-actions</loc
+    >
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
 
   <url>
-    <loc>https://franciscojavierarceo.github.io/posts/learning-new-things</loc>
+    <loc>https://franciscojavierarceo.github.io/content/posts/i-love-code</loc>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
 
   <url>
-    <loc>https://franciscojavierarceo.github.io/posts/next-js-blog</loc>
+    <loc
+      >https://franciscojavierarceo.github.io/content/posts/learning-new-things</loc
+    >
+    <changefreq>daily</changefreq>
+    <priority>0.5</priority>
+  </url>
+
+  <url>
+    <loc>https://franciscojavierarceo.github.io/content/posts/next-js-blog</loc>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
