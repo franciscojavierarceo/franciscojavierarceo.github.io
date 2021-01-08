@@ -22,6 +22,8 @@ const prettier = require('prettier');
             ${pages
               .map((page) => {
                 const path = page
+                  .replace('content/','')
+                  .replace("posts/", 'post/')
                   .replace('pages', '')
                   .replace('.js', '')
                   .replace('.md', '');
