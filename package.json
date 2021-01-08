@@ -1,11 +1,11 @@
 {
-  "name": "nextjs-blog-starter",
+  "name": "franciscos-blog",
   "version": "0.2.0",
   "description": "A Next.js template for a blog website.",
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build && next export",
+    "build": "next build && next export && node ./scripts/generate-sitemap.js",
     "start": "next start"
   },
   "dependencies": {
