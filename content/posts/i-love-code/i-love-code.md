@@ -27,3 +27,5 @@ def f(n: int) -> int:
         return {1:0, 2:1}[n]
     return f(n-1) + f(n-2)
 ```
+
+This code is both brief *and* elegant. That's what I love about it. In 5 little lines so much of human collaboration and information is represented. To think that 5 little lines could do all of that is astounding to me, I genuinely find it beauitful. I guess that's because I just love code.
