@@ -4,6 +4,10 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { DarkModeSwitch } from "react-toggle-dark-mode";
 import { useTheme } from "next-themes";
+import { Person } from "schema-dts";
+import { JsonLd } from "react-schemaorg";
+import { jsonLdScriptProps } from "react-schemaorg";
+
 
 export function Layout({ children }) {
   return (
@@ -14,6 +18,8 @@ export function Layout({ children }) {
         <hr/>
         <div><footer className="text-lg font-light">
           Built with{" "}<a href="https://nextjs.org/">Next.js</a> and &#x2615;
+
+        
         </footer>
         </div>
       </div>
@@ -70,7 +76,6 @@ const Header = () => {
     <div className={"max-w-md"}>
       {isRoot ? <LargeTitle /> : <SmallTitle />}
       </div>
-
       {mounted && (
         <DarkModeSwitch
           checked={isDarkMode}
@@ -78,6 +83,19 @@ const Header = () => {
           // className={isRoot ? 28 : 24}
         />
       )}
+      <script
+        {...jsonLdScriptProps<Person>({
+          "@context": "https://schema.org",
+          "@type": "Person",
+          name: name,
+          alternateName: siteTitle,
+          alumniOf: {
+            "@type": "CollegeOrUniversity",
+            name: ["Columbia University in the City of New York", "Clemson University", "Illinois State University"],
+          },
+          knowsAbout: ["Django", "Data Science", "Statistics", "Machine Learning", "Economics", "Econometrics", "Computer Science", "Natural Language Processing"],
+        })}
+      />
     </header>
   );
 };
