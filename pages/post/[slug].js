@@ -26,8 +26,7 @@ export default function Post({ post, frontmatter, nextPost, previousPost }) {
           source={post.content}
           renderers={{ code: CodeBlock, image: MarkdownImage }}
         />
-        {/* <hr className="mt-4" /> */}
-        <footer>          
+        <footer>
           <div style={{paddingTop: 10}}>
             <Link href="/">
               <a className="text-lg font-bold">← Back home</a>

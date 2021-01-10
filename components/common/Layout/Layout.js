@@ -18,8 +18,6 @@ export function Layout({ children }) {
         <hr/>
         <div><footer className="text-lg font-light">
           Built with{" "}<a href="https://nextjs.org/">Next.js</a> and &#x2615;
-
-        
         </footer>
         </div>
       </div>
