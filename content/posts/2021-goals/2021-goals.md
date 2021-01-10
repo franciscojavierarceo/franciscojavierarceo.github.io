@@ -4,7 +4,7 @@ description: Sharing some of my goals for 2021
 date: 2021-01-09
 ---
 
-I previously wrote about 2020 before ([link here](https://franciscojavierarceo.github.io/post/learning-new-things)) and I found that reflecting about the chaos of this past year was rather cathartic for me.
+[I previously wrote about 2020](https://franciscojavierarceo.github.io/post/learning-new-things) and I found that reflecting about the chaos of this past year was rather cathartic for me.
 
 While I feel lucky to have endured the pandemic without contracting COVID or suffering job losses, it has been quite isolating. I know that I'm not alone in feeling that and we're all getting through this in our own ways. Regardless, I found that writing my thoughts out loud was helpful, so I suppose I'll continue writing for now.
 
