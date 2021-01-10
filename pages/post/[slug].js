@@ -64,7 +64,12 @@ export async function getStaticProps({ params: { slug } }) {
 
 const CodeBlock = ({ language, value }) => {
   return (
-    <SyntaxHighlighter style={style} language={language} showLineNumbers={true}>
+    <SyntaxHighlighter 
+        style={style} 
+        language={language} 
+        showLineNumbers={true}
+        useInlineStyles={true}
+        >
       {value}
     </SyntaxHighlighter>
   );
