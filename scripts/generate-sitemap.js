@@ -8,6 +8,8 @@ const prettier = require('prettier');
   // Ignore Next.js specific files (e.g., _app.js) and API routes.
   const pages = await globby([
     'content/posts/',
+    'pages/*.js',
+    '!pages/index.js',
     '!pages/_*.js',
     '!pages/api'
   ]);
@@ -27,7 +29,7 @@ const prettier = require('prettier');
                   .replace('pages', '')
                   .replace('.js', '')
                   .replace('.md', '');
-                console.log(page);
+                // console.log(page); // Use this to confirm export of the sitemap
                 const spath = path.split('/');
                 spathfin = spath.slice(0, spath.length -1).join('/')
                 const route = spathfin === '/index' ? '' : spathfin;

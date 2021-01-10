@@ -16,13 +16,22 @@ export default function AboutMe() {
       <h2 style={{fontSize: '2.0rem', marginLeft: '2rem', textAlign: 'center'}}>Hello there! &#128075;</h2>
     </div>
     <div style={{paddingBottom: 20,}}>
-        <p>I'm{' '}<a href="/about-me">Francisco</a> and this is my blog. 
-          I'm very passionate about data, code, technology, engineering, economics, finance, machine learning, digital products, and philanthropy.
-          I'll probably write about some of those things so feel free to check back in if you're interested!
-        </p><br/>
-        <p>Want to get in touch? Feel free to  with me on{' '}<a href='https://twitter.com/franciscojarceo'>Twitter</a>.</p>
-        <br/>
-        <p>Thanks for stopping by my little corner of the internet! &#x1f913;</p>
+      
+    <p>
+      I am the Founder and CEO of{' '} <a href="https://www.unidosfin.com/en">Unidos</a>, a technology company bringing financial wellness to the Latino community.  
+      I'm also the Executive Director of Data Science at{' '}<a href="https://www.understood.org">Understood.org</a> where we are dedicated to shaping a world 
+      where millions of people who learn and think differently can thrive at home, at school, and at work.
+    </p><br/>
+    <p>
+      I was previously at Goldman Sachs where I worked in the Credit Risk team developing and executing
+      the underwriting strategy for their Digital Retail Bank ({''}<a href="https://www.Marcus.com">Marcus, by Goldman Sachs</a>).
+      Prior to that I worked at the Commonwealth Bank of Australia where I helped launch{' '}<a href="https://www.tymebank.co.za/">TymeDigital</a>,
+      South Africa's first digital bank. And prior to that I was at AIG working in their{' '}<a href="https://hbr.org/2014/10/how-aig-moved-toward-evidence-based-decision-making">Science</a> team.
+    </p><br/>
+    <p>
+      I'm passionate about code, data science, technology, engineering, digital products, and philanthropy.	            
+      Feel free to checkout some of my projects on my{' '}<a href="https://github.com/franciscojavierarceo">GitHub</a> where you'll find some work I've done on Machine Learning, Natural Language Processing, Web Development, Cloud Computing, and other random things.
+    </p>
     </div>
     </section>
     </Layout>
