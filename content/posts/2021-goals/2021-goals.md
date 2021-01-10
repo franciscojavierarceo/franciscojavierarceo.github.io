@@ -1,7 +1,7 @@
 ---
 title: Goals for 2021
 description: Sharing some of my goals for 2021
-date: 2020-01-09
+date: 2021-01-09
 ---
 
 I previously wrote about 2020 before ([link here](https://franciscojavierarceo.github.io/post/learning-new-things)) and I found that reflecting about the chaos of this past year was rather cathartic for me.
