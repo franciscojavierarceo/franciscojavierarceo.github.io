@@ -28,4 +28,4 @@ More specific goals that I have that are much more technical in nature are:
 
 These will be interesting and I'm making progress on DRF and React but I still have quite a bit of work to do.
 
-Hopefully it'll be a fun and challenging year.
+Hopefully this year will be better, I'm optimistic about it.
