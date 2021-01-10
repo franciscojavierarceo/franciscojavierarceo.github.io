@@ -7,7 +7,7 @@ import { useTheme } from "next-themes";
 import { Person } from "schema-dts";
 import { JsonLd } from "react-schemaorg";
 import { jsonLdScriptProps } from "react-schemaorg";
-
+import { getSiteMetaData } from "@utils/helpers";
 
 export function Layout({ children }) {
   return (
@@ -27,10 +27,11 @@ export function Layout({ children }) {
   );
 }
 
-const name = 'Francisco Javier Arceo'
-export const siteTitle = "Francisco's personal site built with Next.js"
-export const siteDescription = "My chaotic thoughts on computers, statistics, finance, and data"
-export const siteKeywords = "francisco javier arceo, data science, finance, fintech, engineering, django, python"
+const siteMetadata = getSiteMetaData();
+const name = siteMetadata.author.name;
+export const siteTitle = siteMetadata.title; 
+export const siteDescription = siteMetadata.description;
+export const siteKeywords = siteMetadata.keywords;
 
 const Header = () => {  
   const { setTheme, resolvedTheme } = useTheme();

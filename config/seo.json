@@ -5,11 +5,12 @@
       "name": "Francisco Javier Arceo",
       "summary": "Data Science, Engineering, Product"
     },
-    "description": "Another blog built with Next.js and Tailwind.css",
+    "description": "My chaotic thoughts on computers, statistics, finance, and data",
     "siteUrl": "https://franciscojavier.arceo/",
     "language": "en-US",
     "social": {
       "twitter": "franciscojarceo"
-    }
+    },
+    "keywords": "francisco javier arceo, data science, finance, fintech, engineering, django, python"
   }
 }
