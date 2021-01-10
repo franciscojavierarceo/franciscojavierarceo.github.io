@@ -8,7 +8,7 @@ date: 2021-01-09
 
 While I feel lucky to have endured the pandemic without contracting COVID or suffering job losses, it has been quite isolating. I know that I'm not alone in feeling that and we're all getting through this in our own ways. Regardless, I found that writing my thoughts out loud was helpful, so I suppose I'll continue writing for now.
 
-Since I'll try to be writing more I figured I'd share some of my goals for the new year; so, here are my foolish high-level goals in some unknown order:
+Since I'm going to try to write more I figured I'd share some of my goals for the new year; so, here are my foolish high-level goals in some unknown order:
 
 1. Be a better husband
 2. Talk less, listen more
