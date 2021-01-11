@@ -2,7 +2,7 @@ const fs = require('fs');
 const globby = require('globby');
 const prettier = require('prettier');
 
-(async () => {
+const sitemapXML = (async () => {
   const prettierConfig = await prettier.resolveConfig('./.prettierrc.js');
 
   // Ignore Next.js specific files (e.g., _app.js) and API routes.
@@ -11,7 +11,8 @@ const prettier = require('prettier');
     'pages/*.js',
     '!pages/index.js',
     '!pages/_*.js',
-    '!pages/api'
+    '!pages/api',
+    '!pages/sitemap.xml.js'
   ]);
   const sitemap = `
         <?xml version="1.0" encoding="UTF-8"?>
@@ -26,13 +27,18 @@ const prettier = require('prettier');
                 const path = page
                   .replace('content/','')
                   .replace("posts/", 'post/')
-                  .replace('pages', '')
+                  .replace('pages/', '')
                   .replace('.js', '')
                   .replace('.md', '');
                 // console.log(page); // Use this to confirm export of the sitemap
                 const spath = path.split('/');
-                spathfin = spath.slice(0, spath.length -1).join('/')
+                if (spath.length === 1){
+                  spathfin = spath[0]
+                } else {
+                  spathfin = spath.slice(0, spath.length -1).join('/')
+                }                
                 const route = spathfin === '/index' ? '' : spathfin;
+                // console.log(page, route);
 
                 return `
                         <url>
@@ -51,6 +57,5 @@ const prettier = require('prettier');
     ...prettierConfig,
     parser: 'html'
   });
-
   fs.writeFileSync('public/sitemap.xml', formatted);
 })();

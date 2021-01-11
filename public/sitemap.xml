@@ -19,6 +19,12 @@
   </url>
 
   <url>
+    <loc>https://franciscojavierarceo.github.io/post/i-love-code</loc>
+    <changefreq>daily</changefreq>
+    <priority>0.5</priority>
+  </url>
+
+  <url>
     <loc>https://franciscojavierarceo.github.io/post/learning-new-things</loc>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
@@ -31,13 +37,7 @@
   </url>
 
   <url>
-    <loc>https://franciscojavierarceo.github.io/post/i-love-code</loc>
-    <changefreq>daily</changefreq>
-    <priority>0.5</priority>
-  </url>
-
-  <url>
-    <loc>https://franciscojavierarceo.github.io/</loc>
+    <loc>https://franciscojavierarceo.github.io/about-me</loc>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>

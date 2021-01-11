@@ -5,10 +5,11 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build && next export && node ./scripts/generate-sitemap.js",
+    "build": "next build && next export",
     "start": "next start"
   },
   "dependencies": {
+    "axios": "^0.21.1",
     "clsx": "^1.1.1",
     "globby": "^11.0.2",
     "imagemin-mozjpeg": "^9.0.0",
