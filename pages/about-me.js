@@ -1,6 +1,30 @@
 import clsx from "clsx";
 import Link from 'next/link'
 import { Layout } from "@components/common";
+import { render } from 'react-dom'
+import Highcharts from 'highcharts'
+import HighchartsReact from 'highcharts-react-official'
+
+function getRandomInt(max) {
+  return Math.floor(Math.random() * Math.floor(max));
+}
+var i = 0;
+const nums = [Math.random(0, 10)];
+for (i=1; i <100; i++){
+  nums[i] = i + i/10.*getRandomInt(20);
+}
+const options = {
+  title: {
+    text: 'This is a randomly generated chart :)'
+  },
+  series: [{
+    data: nums,
+    name: 'A Stochastic Process with a Drift',
+  }],
+  yAxis: {
+    title: {text: ''}
+  }
+}
 
 export default function AboutMe() {
   return (
@@ -32,6 +56,12 @@ export default function AboutMe() {
       I'm passionate about code, data science, technology, engineering, digital products, and philanthropy.	            
       Feel free to checkout some of my projects on my{' '}<a href="https://github.com/franciscojavierarceo">GitHub</a> where you'll find some work I've done on Machine Learning, Natural Language Processing, Web Development, Cloud Computing, and other random things.
     </p>
+    </div>
+    <div>
+    <HighchartsReact
+      highcharts={Highcharts}
+      options={options}
+      />
     </div>
     </section>
     </Layout>
