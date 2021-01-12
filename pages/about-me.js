@@ -24,10 +24,10 @@ const options = {
     myformat: ''
   }],
   yAxis: {
-    title: {text: ''}
+    title: {text: 'f(t) + e'},
   },
   xAxis: {
-    title: {text: ''},
+    title: {text: 't'},
   },
   legend: {
     enabled: false
