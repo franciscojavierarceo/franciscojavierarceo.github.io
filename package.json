@@ -5,7 +5,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build && next export",
+    "build": "next build && next export && node ./scripts/generate-sitemap.js",
     "start": "next start"
   },
   "dependencies": {

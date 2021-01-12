@@ -58,4 +58,7 @@ const sitemapXML = (async () => {
     parser: 'html'
   });
   fs.writeFileSync('public/sitemap.xml', formatted);
+  return formatted;
 })();
+
+
