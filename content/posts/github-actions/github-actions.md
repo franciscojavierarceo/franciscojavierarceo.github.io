@@ -8,7 +8,7 @@ I'm a huge fan of [GitHub Actions](https://github.com/features/actions). They're
 
 For today's post, I'll focus on how I used an action to automate deploying my static site built with Next.js to [GitHub Pages](https://pages.github.com).
 
-I made this blog on a repository hosted on GitHub and added a GirHub Action to compile the JavaScript/React code into static HTML files. This really didn't require all that much effort.
+I made this blog on a repository hosted on GitHub and added a GitHub Action to compile the JavaScript/React code into static HTML files. This really didn't require all that much effort.
 
 
 Here's what I had to do:
