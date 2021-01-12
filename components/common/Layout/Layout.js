@@ -9,17 +9,43 @@ import { JsonLd } from "react-schemaorg";
 import { jsonLdScriptProps } from "react-schemaorg";
 import { getSiteMetaData } from "@utils/helpers";
 
+export const Footer = () => {
+  const { pathname } = useRouter();
+  const isRoot = pathname === "/";  
+  return (
+    <footer className="text-lg font-light">
+    {
+      isRoot ? <div/>: <div style={{paddingTop: 10, paddingBottom: 10}}><Link href="/"><a className="text-lg font-bold">← Back home</a></Link></div>
+    }
+    <hr/>
+    <div>
+      <p>Like this blog? Check out the code on my{' '}<a href="https://github.com/franciscojavierarceo/franciscojavierarceo.github.io">GitHub</a>.</p>
+      <p>Built with{" "}<a href="https://nextjs.org/">Next.js</a> and &#x2615;</p>
+    </div>
+  </footer>
+  );
+};
+
+export const Footer2 = ({}) => (
+  <footer className="text-lg font-light">
+    {
+      useRouter() === "/" ?  <div style={{paddingTop: 10}}><Link href="/"><a className="text-lg font-bold">← Back home</a></Link></div>: <div/>
+    }
+    <hr/>
+    <div>
+      <p>Like this blog? Check out the code on my{' '}<a href="https://github.com/franciscojavierarceo/franciscojavierarceo.github.io">GitHub</a></p>
+      <p>Built with{" "}<a href="https://nextjs.org/">Next.js</a> and &#x2615;</p>
+    </div>
+  </footer>
+);
+  
 export function Layout({ children }) {
   return (
     <div className="w-full min-h-screen dark:bg-gray-700 dark:text-white">
       <div className="max-w-screen-sm px-4 py-12 mx-auto antialiased font-body">
         <Header />
         <main style={{paddingBottom: 10}}>{children}</main>
-        <hr/>
-        <div><footer className="text-lg font-light">
-          Built with{" "}<a href="https://nextjs.org/">Next.js</a> and &#x2615;
-        </footer>
-        </div>
+        <Footer />
       </div>
     </div>
   );

@@ -2,8 +2,7 @@ import Link from "next/link";
 import ReactMarkdown from "react-markdown/with-html";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import style from "react-syntax-highlighter/dist/cjs/styles/prism/dracula";
-
-import { Layout, Image, SEO, Bio } from "@components/common";
+import { Layout, Footer, Image, SEO, Bio } from "@components/common";
 import { getPostBySlug, getPostsSlugs } from "@utils/posts";
 
 export default function Post({ post, frontmatter, nextPost, previousPost }) {
@@ -26,13 +25,6 @@ export default function Post({ post, frontmatter, nextPost, previousPost }) {
           source={post.content}
           renderers={{ code: CodeBlock, image: MarkdownImage }}
         />
-        <footer>
-          <div style={{paddingTop: 10}}>
-            <Link href="/">
-              <a className="text-lg font-bold">← Back home</a>
-            </Link>
-          </div>
-        </footer>
       </article>
     </Layout>
   );
