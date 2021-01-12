@@ -1,20 +1,17 @@
 const optimizedImages = require("next-optimized-images");
 
-module.exports = optimizedImages;
-
-module.exports = {
+module.exports = optimizedImages({
     async headers() {
-      return [
-        {
-          source: '/sitemap.xml',
-          headers: [
-            {
-              key: 'Content-type',
-              value: 'application/xml',
-            }
-          ],
-        },
-      ]
-    },
-  }
-  
+        return [
+          {
+            source: '/sitemap.xml',
+            headers: [
+              {
+                key: 'Content-type',
+                value: 'application/xml',
+              }
+            ],
+          },
+        ]
+      },
+});
