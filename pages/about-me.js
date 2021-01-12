@@ -15,14 +15,25 @@ for (i=1; i <100; i++){
 }
 const options = {
   title: {
-    text: 'This is a randomly generated chart :)'
+    text: 'A Stochastic Process with a Drift',
+    textSize: 10,
   },
   series: [{
     data: nums,
-    name: 'A Stochastic Process with a Drift',
+    name: null,
+    myformat: ''
   }],
   yAxis: {
     title: {text: ''}
+  },
+  xAxis: {
+    title: {text: ''},
+  },
+  legend: {
+    enabled: false
+  },
+  credits: {
+    enabled: false
   }
 }
 
@@ -57,11 +68,11 @@ export default function AboutMe() {
       Feel free to checkout some of my projects on my{' '}<a href="https://github.com/franciscojavierarceo">GitHub</a> where you'll find some work I've done on Machine Learning, Natural Language Processing, Web Development, Cloud Computing, and other random things.
     </p>
     </div>
-    <div>
-    <HighchartsReact
-      highcharts={Highcharts}
-      options={options}
-      />
+    <div style={{padding: 10}}>
+      <HighchartsReact
+        highcharts={Highcharts}
+        options={options}
+        />
     </div>
     </section>
     </Layout>
