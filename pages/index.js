@@ -1,14 +1,14 @@
 import Link from "next/link";
-
 import { Layout, Bio, SEO } from "@components/common";
 import { getSortedPosts } from "@utils/posts";
+import { getSiteMetaData } from "@utils/helpers";
 
+const siteMetadata = getSiteMetaData();
 export default function Home({ posts }) {
   return (
     <Layout>
-      <SEO title="My chaotic thoughts on computers, statistics, finance, and data" />
       <Bio className="my-5" />
-
+      <SEO title={siteMetadata.title} description={siteMetadata.description}/>  
       {posts.map(({ frontmatter: { title, description, date }, slug }) => (
         <article key={slug}>
           <header className="mb-2">

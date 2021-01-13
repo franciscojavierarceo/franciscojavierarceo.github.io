@@ -4,13 +4,12 @@ import { getSiteMetaData } from "@utils/helpers";
 
 export function SEO({ title, description = "" }) {
   const siteMetadata = getSiteMetaData();
-
-  const metaDescription = description || siteMetadata.description;
+  const metaDescription = description;
 
   return (
     <Head>
       <title>
-        {title} | {siteMetadata.title}
+        {title}
       </title>
       <meta name="description" content={metaDescription} />
       <meta property="og:type" content="website" />
