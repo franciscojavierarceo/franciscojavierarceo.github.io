@@ -1,5 +1,5 @@
 ---
-title: I love Code
+title: I Love Code
 description: Some thoughts on the elegance of code.
 date: 2021-01-06
 ---
