@@ -1,9 +1,32 @@
 import Link from "next/link";
 import ReactMarkdown from "react-markdown/with-html";
+import MathJax from 'react-mathjax';
+import RemarkMathPlugin from 'remark-math';
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import style from "react-syntax-highlighter/dist/cjs/styles/prism/dracula";
 import { Layout, Footer, Image, SEO, Bio } from "@components/common";
 import { getPostBySlug, getPostsSlugs } from "@utils/posts";
+
+function MarkdownRender(props) {
+  const newProps = {
+    ...props,
+    plugins: [
+      RemarkMathPlugin,
+    ],
+    renderers: {
+      ...props.renderers,
+      math: (props) =>
+      <MathJax.Node formula={props.value} />,
+      inlineMath: (props) =>
+      <MathJax.Node inline formula={props.value} />
+    }
+  };
+  return (
+    <MathJax.Provider input="text">
+      <ReactMarkdown {...newProps} />
+    </MathJax.Provider>
+  );
+}
 
 export default function Post({ post, frontmatter, nextPost, previousPost }) {
   return (
@@ -19,7 +42,7 @@ export default function Post({ post, frontmatter, nextPost, previousPost }) {
           </h1>
           <p className="text-sm">{frontmatter.date}</p>
         </header>
-        <ReactMarkdown
+        <MarkdownRender
           className="mb-4 prose lg:prose-lg dark:prose-dark"
           escapeHtml={false}
           source={post.content}
