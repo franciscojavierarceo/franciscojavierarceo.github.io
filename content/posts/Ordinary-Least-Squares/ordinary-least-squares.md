@@ -1,6 +1,6 @@
 ---
-title: 'The History of Ordinary Least Squares'
-description: A brief history of the most important equation in all of statistics.
+title: 'Ordinary Least Squares'
+description: A brief note about the most important equation in all of statistics.
 date: 2021-01-14
 ---
 
