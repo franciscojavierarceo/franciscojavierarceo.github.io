@@ -31,7 +31,7 @@ $\bf \hat{\beta} = \bf (X'X)^{-1} X'Y$.
 
 I find this simple equation to be so extraordinary because of what can be learned from it.
 
-This single equation is used to estimate models for pharmaceuticals, businesses, movie recommendations, and even decisions about public health. I am constantly amazed at how one little equation could accomplish so much.
+This single expression is used to estimate models for pharmaceuticals, businesses, movie recommendations, and even decisions about public health. I am constantly amazed at how one little equation could accomplish so much.
 
 To think Gauss had discovered OLS as a method of calculating the orbits of celestial bodies and that today, over 200 years later, humans would use it to for so much of what we do is astounding.
 
