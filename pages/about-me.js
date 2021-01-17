@@ -1,5 +1,6 @@
 import clsx from "clsx";
 import Link from 'next/link'
+import { getSiteMetaData } from "@utils/helpers";
 import { Layout, SEO } from "@components/common";
 import { render } from 'react-dom'
 import Highcharts from 'highcharts'
@@ -36,6 +37,7 @@ const options = {
     enabled: false
   }
 }
+const siteMetadata = getSiteMetaData();
 
 export default function AboutMe() {
   return (
