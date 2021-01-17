@@ -1,6 +1,6 @@
 import clsx from "clsx";
 import Link from 'next/link'
-import { Layout } from "@components/common";
+import { Layout, SEO } from "@components/common";
 import { render } from 'react-dom'
 import Highcharts from 'highcharts'
 import HighchartsReact from 'highcharts-react-official'
@@ -41,6 +41,7 @@ export default function AboutMe() {
   return (
     <>
     <Layout>
+    <SEO title={siteMetadata.title} description={siteMetadata.description}/>  
     <section style={{fontSize: '1.2rem', lineHeight: 1.5,textAlign: 'justify'}}>
     <div className={clsx(`flex items-center`, 'my-5')}>
       <img
