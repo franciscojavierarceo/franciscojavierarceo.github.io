@@ -13,16 +13,22 @@ function MarkdownRender(props) {
     plugins: [
       RemarkMathPlugin,
     ],
+    options: {
+      tex2jax: {
+        inlineMath: [ ['$','$'], ['\\(','\\)'] ],
+        displayMath: [ ['$$','$$'], ['\[','\]'] ]
+      }
+    },
     renderers: {
       ...props.renderers,
       math: (props) =>
-      <MathJax.Node formula={props.value} />,
+        <MathJax.Node formula={props.value} />,
       inlineMath: (props) =>
-      <MathJax.Node inline formula={props.value} />
+        <MathJax.Node inline formula={props.value} />
     }
   };
   return (
-    <MathJax.Provider input="text">
+    <MathJax.Provider input="tex">
       <ReactMarkdown {...newProps} />
     </MathJax.Provider>
   );
@@ -46,7 +52,10 @@ export default function Post({ post, frontmatter, nextPost, previousPost }) {
           className="mb-4 prose lg:prose-lg dark:prose-dark"
           escapeHtml={false}
           source={post.content}
-          renderers={{ code: CodeBlock, image: MarkdownImage }}
+          renderers={{ 
+            code: CodeBlock, 
+            image: MarkdownImage 
+          }}
         />
       </article>
     </Layout>
