@@ -1,59 +1,52 @@
 ---
 title: 'Data Science and FinTech'
-description: How has data science fueled the FinTech revolution?
+description: How Data Science Scaled the FinTech Revolution
 date: 2021-01-22
 ---
 
-I've spent the last 11 years working in data science, mostly in FinTech.
+I've spent the last 10 years working in data science, mostly in Fintech and it's been really exciting to have seen how data science, engineering, and the internet has reshaped all aspects of finance.
 
-One of my favorite authors and historical statisticians [Dr. Stephen Stigler](https://stat.uchicago.edu/people/profile/stephen-m.-stigler/) published a wonderful historical review in 1981 titled [*Gauss and the Invention of Least Squares*](https://projecteuclid.org/download/pdf_1/euclid.aos/1176345451). He argued that the prolific [Carl Freidrich Gauss](https://en.wikipedia.org/wiki/Carl_Friedrich_Gauss) discovered [Ordinary Least Squares](https://en.wikipedia.org/wiki/Least_squares) (OLS) in 1809 and fundamentally shaped the future of science, business, and society as we know it.
+[Others have written before](https://fintechtoday.substack.com/p/part-1-what-is-fintech-30-anyway) about how Fintech has evolved from 0.0 to 3.0 over the last decade and one area that I think is interesting is how data science and analytics has helped fuel that growth.
 
-So, what is OLS and why is it so important?
+>So, how *exactly* has data science helped scale fintech?
 
-OLS is often referred to by many things across several different discipilines, some of them are:
+I think primarily in 5 areas with a handful of approaches.
 
-- Linear Regression
-- Multivariate Regression
-- The Normal Equations
-- Maximum Likelihood
-- Method of Moments
-- Singular Value Decomposition of $\bf{X}\bf{w}-\bf{y}=U(\Sigma'\bf{w}-U'-\bf{y})$
+## 1. Operations
 
-But all of them ultimately reflect the same mathematical expression (in scalar notation):
+The market tends to have a preference for technology companies because of the operational efficiencies that come from technology's scale. Data scientists help identify data and processes that can be automated to help achieve better operational efficiency.
 
-$$y_i = \beta_0 + \sum_{j=1}^{k} \beta_i x_i + \epsilon_i$$
+A concrete Fintech example of this is fraud operations.
+If you're a bank with a credit card product, manually reviewing even 10% of your credit card transactions would be an impossible task (it's been [cited](https://www.marketwatch.com/story/why-bitcoin-wont-displace-visa-or-mastercard-soon-2017-12-15) that Visa and Mastercard process 5,000 transactions per second).
 
-Which yields the famous estimator (i.e., equation) for $\hat{\beta_j}$ as
+So, in this circumstance data scientists will build models to reduce the amount of review needed through predictive models.
 
-$$\hat{\beta_j} = \sum_{i=1}^{n} (x_i - y_i)^2 / \sum_{i=1}^n (x_i - \bar{x})^2$$
+## 2. Marketing
 
-Or in matrix notation:
+In Fintech, Customer Acquisition Cost (CAC) is everything. Others have written about [CAC and Fintech](https://medium.com/unifimoney/the-no-cac-bank-5e0e577d5473) in greater depth, but suffice it to say it is a challenging, competitive problem.
 
-$$\bf \hat{\beta} = \bf (X'X)^{-1} X'Y$$.
+Data scientists focused on marketing try to reduce CAC through a wide variety of strategies.
+Some of them are by tightly monitoring product metrics to see which features yield the best ROI on growth, while other approaches take a broader lense by trying to take a comprehensive view of your marketing investments and, again, trying to optimize the expected return (e.g., through [Marketing Mix Models](https://blog.hurree.co/blog/marketing-mix-modeling)).
 
-I find this simple equation to be so extraordinary.
+Other approaches are more focused on [propensity models](https://medium.com/the-official-integrate-ai-blog/heres-what-you-need-to-know-about-propensity-modeling-521ab660cb43) and trying to maximize customer engagement or acquisition. Sometimes this involves building propensity models to convert a customer from an email subscriber to a fully-converted user (e.g., for a lending product), while other propensities may focus on simply getting a customer to re-engage with your product.
 
-Why? Because of what can be learned from it: the equation basically says "Look at data about $\bf{x}$ and estimate a linear relationship to $\bf{y}$". 
+## 3. Risk Management
 
-As a concrete example, imagine you wanted to know the relationship between age and income (a simplification of the well-studied [Mincer Equation](https://en.wikipedia.org/wiki/Mincer_earnings_function)), how would you figure this out? A simple linear regression could estimate that relationship and the $\hat{\beta}$ would represent the partial-correlation (sometimes called the marginal effect or coefficient estimate) and it exactly represents the slope of the line below.
+This is where I've spent most of my career and I think it's a really hard problem that most fintechs struggle with in the lending space.
+Generally speaking, data scientists will build risk models (e.g., for credit risk or fraud risk) to predict the probability of default or some likelihood of delinquency ([more on the difference between them](https://www.investopedia.com/ask/answers/062315/what-are-differences-between-delinquency-and-default.asp)).
 
-![A scatter plot!](scatterplot.png)
-<p align="center" style="padding:0"><i>A Scatter Plot of Age and Income</i></p>
+Building good predictive models is hard. Building good *risk* models is extremely hard.
 
-Isn't that just amazing??
+This is less because of a technology or data problem and more because of regulatory checks and balances in place. Making sure that you adhere to [FCRA](https://www.ftc.gov/enforcement/statutes/fair-credit-reporting-act) and [ECOA](https://uscode.house.gov/view.xhtml?req=granuleid%3AUSC-prelim-title15-chapter41-subchapter4&edition=prelim) and other regulatory oversight.
 
-This single expression is used to estimate models for movie recommendations, businesses, pharmaceuticals, and even decisions about public health. I am constantly amazed at how one little equation could accomplish so much.
+Implementation (i.e., getting an algorithm in production that impacts your customers) of these models is a whole other area of data science and one of the areas I personally find quite fun (maybe I'll write more abou this topic later).
 
-To think Gauss had discovered OLS as a method of calculating the orbits of celestial bodies and that today, over 200 years later, humans would use it to for so much of what we do is astounding.
+## 4. Technology
 
-Over the years statisticians, economists, computer scientists, engineers, and psychometricians have advanced OLS in such profound and unique ways. Some of them have been used to reflect data generated from more non-standard distributions (e.g., a [Weibull distribution](https://en.wikipedia.org/wiki/Weibull_distribution)), or to frame the problem to use prior information in a structured way (e.g., through [Bayesian Inference](https://en.wikipedia.org/wiki/Bayesian_inference)), while others have enhanced these equations to learn high-dimensional non-linear relationships (e.g., via [Artificial Neural Networks](https://en.wikipedia.org/wiki/Artificial_neural_network)). Again, all of these are extended from the extraordinary work of Gauss.
+Occassionally, data scientists will work with engineering/technology teams in order to improve the technology stack. This may involve changing an architecture to reducy latency of certain services or enhancing the curent stack for a unique problem (cew machine learning and Airflow DAGs).
+While some of this is behind the scenes, it can be some of the most impactful work done by a data scientist in the fintech space.
 
-There's so much that can be written about all of the advancements that have been made in all of these fields and a short blog post simply won't do it justice, but I thought I'd at least share some thoughts about it.
+## 5. Customer Experience
 
-Somewhere along the way today I came across something related to important equations and it led me to write this, so I hope you enjoyed it. 
+Data scientists working with product teams are often tasked with measurement of different experiences within the product and finding out ways to enhance it. That can vary from creating dashboards to monitor something custom to building a recommendation system to curate something specific for a user.
 
-I'm such a fan of the history of statistics and mathematics that this piece, while not as structured as I'd like, was very enjoyable to write.
-
-Happy computing!
-
--Francisco
