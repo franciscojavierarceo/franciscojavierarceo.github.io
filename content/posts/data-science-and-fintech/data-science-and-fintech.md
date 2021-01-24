@@ -47,9 +47,11 @@ While some of this is behind the scenes, it can be some of the most impactful wo
 
 ## 5. Product<a name="Product"></a>
 
-Data scientists working with product teams are often tasked with the measurement of different experiences within the product and finding out ways to enhance it. That can vary from creating dashboards to monitor the right metrics to building a recommendation system to curate something specific for a user. Data scientists can fuel product growth, which is why [Facebook, Google, Amazon, Microsoft](https://www.datasciencedegreeprograms.net/lists/five-of-the-largest-companies-that-employ-data-scientists/) and other tech companies hire so many data scientists.
+Data scientists working with product teams are often tasked with the measurement of different experiences within the product and finding out ways to enhance it. That can vary from creating dashboards to monitor the right metrics, to building a recommendation system to curate something specific for a user. 
 
-I've ignored many of the technology, organizational, and cost complexities involved but only because I wanted to keep this post high-level to introduce the topics. I'll probably write more technical examples of each one of these to give more concrete examples with code and diagrams. 
+Data scientists can fuel product growth, which is why [Facebook, Google, Amazon, Microsoft](https://www.datasciencedegreeprograms.net/lists/five-of-the-largest-companies-that-employ-data-scientists/) and other tech companies hire so many data scientists.
+
+It's worth noting that I've ignored many of the technology and organizational complexities involved when hiring or building data science teams but only because I wanted to keep this post high-level to introduce some of the applications of data science to fintech. I'll probably write more technical examples of each one of these to give more concrete examples with code and diagrams. 
 
 So, to summarize, data scientists are useful (particularly in fintech) when there are hard problems and data available to solve them.
 
