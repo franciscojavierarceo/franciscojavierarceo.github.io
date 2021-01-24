@@ -10,7 +10,7 @@ I've spent the last 10 years working in data science, mostly in Fintech and it's
 
 >So, how ***exactly*** has data science helped scale fintech?
 
-I think data science has scales fintech in five key areas.
+I think data science has scaled fintech in five key areas.
 
 ## 1. Operations
 
