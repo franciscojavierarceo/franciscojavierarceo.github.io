@@ -12,7 +12,7 @@ I've spent the last 10 years working in data science, mostly in Fintech and it's
 
 I think data science has scaled fintech in five key areas.
 
-## 1. Operations
+## 1. Operations<a name="Operations></a>
 
 The market tends to have a preference for technology companies because of the operational efficiencies that come from technology's scale. Simply put, data scientists help identify data and processes that can be automated to help achieve better operational efficiency.
 
@@ -20,7 +20,7 @@ A concrete Fintech example of this is fraud operations. If you're a bank with a 
 
 So, in this circumstance data scientists will build models to reduce the amount of review needed through predictive models.
 
-## 2. Marketing
+## 2. Marketing<a name="Marketing"></a>
 
 In Fintech, Customer Acquisition Cost (CAC) is everything. Others have written about [CAC and Fintech](https://medium.com/unifimoney/the-no-cac-bank-5e0e577d5473) in greater depth, but suffice it to say it is a challenging and competitive problem.
 
@@ -29,7 +29,7 @@ Some of them are by tightly monitoring product metrics to see which features yie
 
 Other approaches are more focused on ["propensity models"](https://medium.com/the-official-integrate-ai-blog/heres-what-you-need-to-know-about-propensity-modeling-521ab660cb43) and trying to maximize customer engagement or acquisition. Sometimes this involves building propensity models to convert a customer from an email subscriber to a fully-converted user (e.g., for a lending product or a mobile application), while other propensities may focus on simply getting a customer to re-engage with your product.
 
-## 3. Risk Management
+## 3. Risk Management<a name="Risk-Management"></a>
 
 This is where I've spent most of my career and I think it's a really hard problem that most fintechs struggle with in the lending space.
 Generally speaking, data scientists will build risk models (e.g., for credit risk or fraud risk) to predict the probability of default or some likelihood of delinquency ([more on the difference between them](https://www.investopedia.com/ask/answers/062315/what-are-differences-between-delinquency-and-default.asp)).
@@ -40,12 +40,12 @@ This is less because of a technology or data problem and more because of regulat
 
 Implementation (i.e., getting an algorithm in production that impacts your customers) of these models is a whole other area of data science and one of the areas I personally find quite fun (maybe I'll write more abou this topic later).
 
-## 4. Technology
+## 4. Technology<a name="Technology"></a>
 
 Data scientists often work with engineering/technology teams in order to improve the technology stack. This may involve changing an architecture to reducy latency of certain services or enhancing the curent stack for a unique problem (cue machine learning and [Airflow DAGs](https://airflow.apache.org)).
 While some of this is behind the scenes, it can be some of the most impactful work done by a data scientist in the fintech space because of the broader impact of the items mentioned above.
 
-## 5. Customer Experience
+## 5. Product<a name="Product"></a>
 
 Data scientists working with product teams are often tasked with measurement of different experiences within the product and finding out ways to enhance it. That can vary from creating dashboards to monitoring the right metrics to building a recommendation system to curate something specific for a user. Data scientists can fuel product growth, which is why [Facebook, Google, Amazon, Microsoft](https://www.datasciencedegreeprograms.net/lists/five-of-the-largest-companies-that-employ-data-scientists/) and other tech companies hire so many data scientists.
 
