@@ -36,7 +36,7 @@ Generally speaking, data scientists will build risk models (e.g., for credit ris
 
 Building good predictive models is hard. Building good *risk* models is **extremely** hard.
 
-This is less because of a technology or data problem and more because of regulatory checks and balances in place. Making sure that you adhere to [FCRA](https://www.ftc.gov/enforcement/statutes/fair-credit-reporting-act) and [ECOA](https://uscode.house.gov/view.xhtml?req=granuleid%3AUSC-prelim-title15-chapter41-subchapter4&edition=prelim) and other regulatory oversight is hard on its own, adding statistical analysis into the mix makes it more challenging.
+This is less because of a technology or data problem and more because of regulatory checks and balances in place. Making sure that you adhere to [FCRA](https://www.ftc.gov/enforcement/statutes/fair-credit-reporting-act), [ECOA](https://uscode.house.gov/view.xhtml?req=granuleid%3AUSC-prelim-title15-chapter41-subchapter4&edition=prelim), and other regulatory oversight is hard on its own, adding statistical analysis into the mix makes it more challenging.
 
 Implementation (i.e., getting an algorithm into production that impacts your customers) of these models is a whole other area of data science and one of the areas I personally find quite fun (maybe I'll write more about this topic later).
 
