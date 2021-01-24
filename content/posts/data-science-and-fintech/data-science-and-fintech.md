@@ -6,7 +6,7 @@ date: 2021-01-22
 
 I've spent the last 10 years working in data science, mostly in Fintech and it's been really exciting to have seen how data science, engineering, and the internet has reshaped all aspects of finance.
 
-[Others have written before](https://fintechtoday.substack.com/p/part-1-what-is-fintech-30-anyway) about how Fintech has evolved from 0.0 to 3.0 over the last decade and one area that I think is interesting is how data science and analytics has helped fuel that growth.
+[Others have written before](https://fintechtoday.substack.com/p/part-1-what-is-fintech-30-anyway) about how fintech has evolved from 0.0 to 3.0 over the last decade and one area that I think is interesting is how data science and analytics has helped fuel that growth.
 
 >So, how ***exactly*** has data science helped scale fintech?
 
@@ -16,13 +16,13 @@ I think data science has scaled fintech in five key areas.
 
 The market tends to have a preference for technology companies because of the operational efficiencies that come from technology's scale. Simply put, data scientists help identify data and processes that can be automated to help achieve better operational efficiency.
 
-A concrete Fintech example of this is fraud operations. If you're a bank with a credit card product, manually reviewing even 10% of your credit card transactions would be an impossible task (it's been [cited](https://www.marketwatch.com/story/why-bitcoin-wont-displace-visa-or-mastercard-soon-2017-12-15) that Visa and Mastercard process 5,000 transactions per second, which would mean that there are 5000*60*60*24=432,000,000 transactions per day go through).
+A concrete fintech example of this is fraud operations. If you're a bank with a credit card product, manually reviewing even 10% of your credit card transactions would be an impossible task (it's been [cited](https://www.marketwatch.com/story/why-bitcoin-wont-displace-visa-or-mastercard-soon-2017-12-15) that Visa and Mastercard process 5,000 transactions per second, which would mean that there are 5000*60*60*24=432,000,000 transactions per day go through).
 
 So, in this circumstance data scientists work to reduce the amount of review needed through predictive models.
 
 ## 2. Marketing<a name="Marketing"></a>
 
-In Fintech, Customer Acquisition Cost (CAC) is everything. Others have written about [CAC and Fintech](https://medium.com/unifimoney/the-no-cac-bank-5e0e577d5473) in greater depth, but suffice it to say it is a challenging and competitive problem.
+In fintech, Customer Acquisition Cost (CAC) is everything. Others have written about [CAC and fintech](https://medium.com/unifimoney/the-no-cac-bank-5e0e577d5473) in greater depth, but suffice it to say it is a challenging and competitive problem.
 
 Data scientists focused on marketing try to reduce CAC through a wide variety of strategies.
 Some of them are by tightly monitoring product metrics to see which features yield the best ROI on growth, while other approaches take a broader lense by trying to take a comprehensive view of your marketing investments and, again, optimizee the expected return (e.g., through [Marketing Mix Models](https://blog.hurree.co/blog/marketing-mix-modeling)).
@@ -51,7 +51,7 @@ Data scientists working with product teams are often tasked with measurement of 
 
 I'll probably write more technical examples of each one of these to give a more concrete information with code and diagrams but I wanted to keep this post high-level to introduce the topics.
 
-So, to summarize, data scientists are useful (particularly in Fintech) when there are hard problems and data available to solve them.
+So, to summarize, data scientists are useful (particularly in fintech) when there are hard problems and data available to solve them.
 
 ***
 Have some feedback? Feel free to [let me know](https://twitter.com/franciscojarceo)!
