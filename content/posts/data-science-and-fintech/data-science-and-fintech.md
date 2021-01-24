@@ -12,7 +12,7 @@ I've spent the last 10 years working in data science, mostly in Fintech and it's
 
 I think data science has scaled fintech in five key areas.
 
-## 1. Operations<a name="Operations></a>
+## 1. Operations<a name="Operations"></a>
 
 The market tends to have a preference for technology companies because of the operational efficiencies that come from technology's scale. Simply put, data scientists help identify data and processes that can be automated to help achieve better operational efficiency.
 
