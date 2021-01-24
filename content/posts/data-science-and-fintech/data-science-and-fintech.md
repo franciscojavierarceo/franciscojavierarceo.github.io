@@ -55,5 +55,4 @@ It's worth noting that I've ignored many of the technology and organizational co
 
 So, to summarize, data scientists are useful (particularly in fintech) when there are hard problems and data available to solve them.
 
-***
-Have some feedback? Feel free to [let me know](https://twitter.com/franciscojarceo)!
+*Have some feedback? Feel free to [let me know](https://twitter.com/franciscojarceo)!*
