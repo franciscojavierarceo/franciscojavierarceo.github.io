@@ -53,6 +53,6 @@ Data scientists can fuel product growth, which is why [Facebook, Google, Amazon,
 
 It's worth noting that I've ignored many of the technology and organizational complexities involved when hiring or building data science teams but only because I wanted to keep this post high-level to introduce some of the applications of data science to fintech. In the future, I'll probably write more technical posts of each one of these to give more concrete examples with code and diagrams (which is what I find fun 😊). 
 
-So, to summarize, data scientists are useful (particularly in fintech) when there are hard problems and data available to solve them.
+To summarize, data scientists are useful (particularly in fintech) when there are hard problems and data available to solve them.
 
 *Have some feedback? Feel free to [let me know](https://twitter.com/franciscojarceo)!*
