@@ -49,7 +49,9 @@ While some of this is behind the scenes, it can be some of the most impactful wo
 
 Data scientists working with product teams are often tasked with measurement of different experiences within the product and finding out ways to enhance it. That can vary from creating dashboards to monitoring the right metrics to building a recommendation system to curate something specific for a user. Data scientists can fuel product growth, which is why [Facebook, Google, Amazon, Microsoft](https://www.datasciencedegreeprograms.net/lists/five-of-the-largest-companies-that-employ-data-scientists/) and other tech companies hire so many data scientists.
 
-In short, data scientists are useful when there are hard problems and a data available to solve them.
+I'll probably write more technical examples of each one of these to give a more concrete information with code and diagrams but I wanted to keep this post high-level to introduce the topics.
+
+So, to summarize, data scientists are useful (particularly in Fintech) when there are hard problems and data available to solve them.
 
 ***
 Have some feedback? Feel free to [let me know](https://twitter.com/franciscojarceo)!
