@@ -43,7 +43,7 @@ Implementation (i.e., getting an algorithm into production that impacts your cus
 ## 4. Technology<a name="Technology"></a>
 
 Data scientists often work with engineering/technology teams in order to improve the technology stack. This may involve changing an architecture to reduce the latency of certain [microservices](https://microservices.io/) or enhancing the curent stack for a unique problem (cue machine learning and [Airflow DAGs](https://airflow.apache.org)).
-While some of this is behind the scenes, it can be some of the most impactful work done by a data scientist in the fintech space because of the broader impact of what I mentioned above.
+While some of this is behind the scenes, it can be some of the most impactful work done by a data scientist in the fintech space because of the broader impact to the core business.
 
 ## 5. Product<a name="Product"></a>
 
