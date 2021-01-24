@@ -1,6 +1,6 @@
 ---
-title: 'Data Science and FinTech'
-description: How Data Science Scaled the FinTech Revolution
+title: 'Data Science and Fintech'
+description: How Data Science Scaled the Fintech Revolution
 date: 2021-01-22
 ---
 
