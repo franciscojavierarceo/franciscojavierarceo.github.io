@@ -18,7 +18,7 @@ The market tends to have a preference for technology companies because of the op
 
 A concrete Fintech example of this is fraud operations. If you're a bank with a credit card product, manually reviewing even 10% of your credit card transactions would be an impossible task (it's been [cited](https://www.marketwatch.com/story/why-bitcoin-wont-displace-visa-or-mastercard-soon-2017-12-15) that Visa and Mastercard process 5,000 transactions per second, which would mean that there are 5000*60*60*24=432,000,000 transactions per day go through).
 
-So, in this circumstance data scientists will build models to reduce the amount of review needed through predictive models.
+So, in this circumstance data scientists work to reduce the amount of review needed through predictive models.
 
 ## 2. Marketing<a name="Marketing"></a>
 
