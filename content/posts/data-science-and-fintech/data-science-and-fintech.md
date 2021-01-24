@@ -27,7 +27,7 @@ In fintech, Customer Acquisition Cost (CAC) is everything. Others have written a
 Data scientists focused on marketing try to reduce CAC through a wide variety of strategies.
 Some of them are by tightly monitoring product metrics to see which features yield the best ROI for growth, while other approaches take a broader lense by taking a comprehensive view of your marketing investments and, again, optimize the expected return (e.g., through [Marketing Mix Models](https://blog.hurree.co/blog/marketing-mix-modeling)).
 
-Other marketing focused approaches use [propensity models](https://medium.com/the-official-integrate-ai-blog/heres-what-you-need-to-know-about-propensity-modeling-521ab660cb43) to try to maximize customer engagement or acquisition. Sometimes this involves building propensity models to convert a customer from an email subscriber to a fully-converted user (e.g., for a lending product or a mobile application), while other propensities may focus on simply getting a customer to re-engage with your product.
+Other marketing focused approaches use [propensity models](https://medium.com/the-official-integrate-ai-blog/heres-what-you-need-to-know-about-propensity-modeling-521ab660cb43) to try to maximize customer engagement or acquisition. More concretely, this can involve building a propensity model to convert a customer from an email subscriber to a fully-converted user (e.g., for a lending product or a mobile application), while other propensities may focus on simply getting a customer to re-engage with your product.
 
 ## 3. Risk Management<a name="Risk-Management"></a>
 
