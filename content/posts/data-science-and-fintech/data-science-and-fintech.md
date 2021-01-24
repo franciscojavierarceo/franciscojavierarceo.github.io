@@ -16,7 +16,7 @@ I think data science has scaled fintech in five key areas.
 
 The market tends to have a preference for technology companies because of the operational efficiencies that come from technology's scale. Simply put, data scientists help identify data and processes that can be automated to help achieve better operational efficiency.
 
-A concrete fintech example of this is fraud operations. If you're a bank with a credit card product, manually reviewing even 10% of your credit card transactions would be an impossible task (it's been [cited](https://www.marketwatch.com/story/why-bitcoin-wont-displace-visa-or-mastercard-soon-2017-12-15) that Visa and Mastercard process 5,000 transactions per second, which would mean that there are 5000 * 60 * 60 * 24=432,000,000 transactions per day to go through).
+A concrete fintech example of this is fraud operations. If you're a bank with a credit card product, manually reviewing even 10% of your credit card transactions would be an impossible, and costly, task (it's been [cited](https://www.marketwatch.com/story/why-bitcoin-wont-displace-visa-or-mastercard-soon-2017-12-15) that Visa and Mastercard process 5,000 transactions per second, which would mean that there are 5000 * 60 * 60 * 24=432,000,000 transactions per day to go through).
 
 So, in this circumstance data scientists build technology and predictive models to reduce the amount of manual review.
 
