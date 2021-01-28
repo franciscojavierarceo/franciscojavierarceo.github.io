@@ -15,9 +15,12 @@ I worked at a couple of banks before as a data scientist and built credit risk m
 ## Estimating the Probability of Default
 
 ## Evaluating your Default Model
+- AUC and GINI
 
 ## Common Mistakes and Pitfalls
+- Simpson's Paradox
 
 ## Other Important pieces
+- Panel Data and the Discrete-Time Hazard Model
 
 ## Conclusion
