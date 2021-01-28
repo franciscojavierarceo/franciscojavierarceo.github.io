@@ -26,8 +26,9 @@ In the consumer/retail space, a credit risk model tries to predict the probabili
 A simple example of this is an [unsecured personal loan](https://www.investopedia.com/terms/u/unsecuredloan.asp). 
 Let's suppose you submitted an application to borrow $5,000 from a lender. That lender would want to know the likelihood of [default](https://www.investopedia.com/terms/d/default2.asp) before deciding on (1) whether to give you the loan and (2) the price they want to charge you to for borrowing the money. So that probability is probably quite important...but how do they come up with it?
 
-## Data and the Definition of Default
+## Data
 
+Lenders typically use data from the major [Credit Bureaus](https://www.investopedia.com/personal-finance/top-three-credit-bureaus/) that is [FCRA](https://www.ftc.gov/enforcement/statutes/fair-credit-reporting-act) compliant, which basically means that the legal and reputational risk of using this data is very low. 
 
 
 ## Estimating the Probability of Default
