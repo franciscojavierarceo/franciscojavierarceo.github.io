@@ -56,7 +56,7 @@ export default function AboutMe() {
     <div style={{paddingBottom: 20,}}>
       
     <p>
-      I am the Founder and CEO of{' '} <a href="https://www.unidosfin.com/en">Unidos</a>, a technology company bringing financial wellness to the Latino community.  
+      I am the founder and CEO of{' '} <a href="https://www.unidosfin.com/en">Unidos</a>, a technology company bringing financial wellness to the Latino community.  
       I'm also the Executive Director of Data Science at{' '}<a href="https://www.understood.org">Understood.org</a> where we are dedicated to shaping a world 
       where millions of people who learn and think differently can thrive at home, at school, and at work.
     </p><br/>
@@ -67,7 +67,7 @@ export default function AboutMe() {
       South Africa's first digital bank. And prior to that I was at AIG working in their{' '}<a href="https://hbr.org/2014/10/how-aig-moved-toward-evidence-based-decision-making">Science</a> team.
     </p><br/>
     <p>
-      Feel free to checkout some of my projects on my{' '}<a href="https://github.com/franciscojavierarceo">GitHub</a> where you'll find some work I've done on Machine Learning, Natural Language Processing, Web Development, Cloud Computing, and other random things.
+      Feel free to checkout some of my past work on my{' '}<a href="https://github.com/franciscojavierarceo">GitHub</a> where you'll find some work I've done on Machine Learning, Natural Language Processing, Web Development, Cloud Computing, and other random things.
     </p>
     </div>
     <div style={{padding: 10}}>
