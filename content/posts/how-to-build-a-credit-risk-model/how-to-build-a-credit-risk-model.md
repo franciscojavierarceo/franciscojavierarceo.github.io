@@ -72,10 +72,13 @@ One of the most important steps in the model development process is *precisely* 
 
 So how do you define it?
 
-Time. If you're planning to launch a term loan, you usually set boundaries on the duration of the loan.
+Time. 
+
+If you're planning to launch a term loan, you usually set boundaries on the duration of the loan.
 Let's say you want to launch a 12 month loan to an underserved market, then you'd want to get historical data of other lenders to build your model on.
 It sounds a little surprising that you can do this but that's basically how the bureaus make their money.
-An important thing to keep in mind is that you need to make sure you pull the data at 2 different time periods: (1) when the original application was made and (2) 12 months later to check if the consumer defaulted on their loan.
+
+An important thing to keep in mind is that you need to make sure you pull the data at 2 different time periods: (1) when the original application was made so you can use data that is relevant for underwriting (and so you don't have forward-looking data resulting in [data leakage](https://www.kaggle.com/dansbecker/data-leakage)) and (2) 12 months later (or whatever time period is appopriate for you) to check if the consumer defaulted on their loan.
 
 There's a lot more to it and you can expand on things in much more elegant ways to handle different phenomena but for the sake of simplicity, this is essentially how it's done.
 
@@ -90,7 +93,6 @@ If we stick with our simple model above, we could use our good old friend Python
 
 ```python
 import numpy as np
-import pandas as pd
 import statsmodels.api as sm
 
 n = 10000
@@ -134,7 +136,8 @@ x3            -0.3065      0.017    -18.045      0.000      -0.340      -0.273
 ==============================================================================
 ```
 
-
+Wow, look at all of that beautiful, useless statistical output! It's not really useless but 99% of the people involved will not find it useful. 
+So we probably need an alternative way to show and inform these results to non-technical stakeholders (but your data scientist can look at this as much as they'd like).
 
 ## Evaluating your Default Model
 - AUC and GINI
