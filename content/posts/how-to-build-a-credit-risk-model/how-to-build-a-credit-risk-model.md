@@ -28,7 +28,50 @@ Let's suppose you submitted an application to borrow $5,000 from a lender. That 
 
 ## Data
 
-Lenders typically use data from the major [Credit Bureaus](https://www.investopedia.com/personal-finance/top-three-credit-bureaus/) that is [FCRA](https://www.ftc.gov/enforcement/statutes/fair-credit-reporting-act) compliant, which basically means that the legal and reputational risk of using this data is very low. 
+Lenders typically use data from the major [Credit Bureaus](https://www.investopedia.com/personal-finance/top-three-credit-bureaus/) that is [FCRA](https://www.ftc.gov/enforcement/statutes/fair-credit-reporting-act) compliant, which basically means that the legal and reputational risk of using this data is very low.
+
+Typically, you'd purchase a dataset from one of the bureaus (or use their analytical sandboxes) and process a dataset that looks like the following:
+
+<table>
+  <tr>
+    <th>Default</th>
+    <th>Inquiries in Last 6 Months</th>
+    <th>Credit Utilization</th>
+    <th>Average Age of Credit</th>
+    <th>...</th>
+  </tr>
+  <tr>
+    <td>Yes</td>
+    <td>2</td>
+    <td>0.8</td>
+    <td>12</td>
+    <td>...</td>
+  </tr>
+  <tr>
+    <td>No</td>
+    <td>8</td>
+    <td>0.0</td>
+    <td>2</td>
+    <td>...</td>
+  </tr>
+  <tr>
+    <td>...</td>
+    <td>...</td>
+    <td>...</td>
+    <td>...</td>
+    <td>...</td>
+  </tr>
+</table>
+
+And so on.
+
+In summary, it's just a bunch of data about your borrowing history.
+It's a little recursive/cyclical because in order to grow your credit you need to have credit but let's ignore that detail.
+
+One of the most important steps in the model development process is defining default because this will eventually reflect the performance of your portfolio, so defining it rigorously, accurately, and confidently is extremely consequential.
+
+So how do you define it? 
+
 
 
 ## Estimating the Probability of Default
