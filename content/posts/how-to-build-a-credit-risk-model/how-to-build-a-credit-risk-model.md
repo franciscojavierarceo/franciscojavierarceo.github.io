@@ -26,7 +26,7 @@ So let's dive right in.
 In the consumer/retail space, a credit risk model tries to predict the probability that a consumer won't repay money that they've borrowed.
 A simple example of this is an [unsecured personal loan](https://www.investopedia.com/terms/u/unsecuredloan.asp). 
 
-Let's suppose you submitted an application to borrow $5,000 from a lender. That lender would want to know the likelihood of [default](https://www.investopedia.com/terms/d/default2.asp) before deciding on (1) whether to give you the loan and (2) the price they want to charge you to for borrowing the money. So that probability is probably quite important...but how do they come up with it?
+Let's suppose you submitted an application to borrow $5,000 from a lender. That lender would want to know the likelihood of [default](https://www.investopedia.com/terms/d/default2.asp) before deciding on (1) whether to give you the loan and (2) the price they want to charge you for borrowing the money. So that probability is probably quite important...but how do they come up with it?
 
 ## What Data does a Credit Risk Model Use?
 
