@@ -4,7 +4,6 @@ description: A data scientists guide to building a basic credit risk model
 date: 2021-01-27
 ---
 
-
 *TL;DR: A Data Science Tutorial on building a Credit Risk model*
 
 I previously [wrote](/post/data-science-and-fintech) about some of the work data scientists do in the fintech space, which briefly discussed [credit risk models](https://en.wikipedia.org/wiki/Credit_risk) but I wanted to write a more technical review and talk about what I think are the most important points.
@@ -139,19 +138,55 @@ x3            -0.3065      0.017    -18.045      0.000      -0.340      -0.273
 Wow, look at all of that beautiful, useless statistical output! It's not really useless but 99% of the people involved will not find it useful. 
 So we probably need an alternative way to show and inform these results to non-technical stakeholders (but your data scientist can look at this as much as they'd like).
 
-
 ![The Glorious Lift Chart!](liftchart.png)
 <p align="center" style="padding:0"><i>The Beloved Lift Chart</i></p>
 
+Cue the [Lift Chart](https://www.casact.org/education/rpm/2016/presentations/PM-LM-4.pdf). This Chart may look fancy but it's actually pretty simple, it's just [deciling](https://www.investopedia.com/terms/d/decile.asp) (i.e., sorting and bucketing into 10 equal groups) your data according to the *predicted* default rate from your model. It's worth noting that this is a quantized version of the [ROC chart](https://en.wikipedia.org/wiki/Receiver_operating_characteristic) and they represent the same information.
+
 ## Evaluating your Default Model
-- AUC and GINI
+
+So this visualization is helpful, but what about quantifying the performance in a single number? Well, how about [Accuracy](https://en.wikipedia.org/wiki/Accuracy_and_precision)?
+
+Well it turns out that Accuracy isn't a really great metric when you have a low rate (or more generally when you have severe [class-imbalance](https://en.wikipedia.org/wiki/Accuracy_paradox)). As an example suppose you have a 5% default rate, that means 95% of your data did not default, so if your model predicted that no one defaulted, you'd have 95% accuracy. Pretty useles, so we tend to ignore the accuracy and instead focus on the rank order seperation/predictive power of the model. There are 3 main metrics folks look at to summarize their model: [Precision, Recall](https://en.wikipedia.org/wiki/Precision_and_recall), and [Gini/AUC](https://en.wikipedia.org/wiki/Receiver_operating_characteristic#Area_under_the_curve). One last point that has been a surprisingly common topic of my discussion in my career is the equivalence of Gini and AUC. Bankers like Gini, for whatever inertia related reason, but it's equivalent to AUC via:
+
+$$Gini = 2 * AUC - 1$$ and
+
+$$AUC = (Gini+1)/2$$.
+
+Gini is between -1 and 1 and AUC is between 0 and 1 (but < 0.5 means you're doing worse than random so generally it's between 0.5 and 1). So, a good model is usually around 0.7 AUC or 0.4 Gini. The higher the better. It's always worth looking at your lift chart though as it can tell you a lot about how predictive the model is at different deciles. In some cases, your model may not have enough variation in the attributes/features/predictors to differentiate your data meaningfully. The metric won't show you that, only a glance at the Lift Chart will, so it's always a nice thing to look at.
+
+So now that yuo have your exciting new default model, you can use it in your underwriting strategy to differentiate amongst your competitors on pricing, approve/decline, and targeting customers, right?
+
+Not quite.
 
 ## Common Mistakes and Pitfalls
-- Simpson's Paradox
+Before you get too excited about your model, you want to verify that it's behaving logically, so I thought I'd list some items that you will want to check against to make sure nothing disastrous will happen. 
 
-## Other Important pieces
-- Panel Data and the Discrete-Time Hazard Model
-- Generating Adverse Actions codes has a variety of different approaches
-- Does a more complicated model impact my target population?
+- [Data Errors](https://www.datasciencecentral.com/profiles/blogs/common-errors-in-machine-learning-due-to-poor-statistics-knowledg)
+- Time Traveling (No external resource but this is basically making sure you don't use data that's in the future  of it's representation--excluding the default metric)
+- [Simpson's Paradox](https://en.wikipedia.org/wiki/Simpson%27s_paradox)
+- Double check for [Data Leakage](https://www.kaggle.com/dansbecker/data-leakage)
+- Validating your model with an [Out of Time](https://statmodeling.stat.columbia.edu/2016/11/22/30560/) Hold Out Sample
+- Validating your model actually has a [representative sample](https://www.investopedia.com/terms/r/representative-sample.asp#:~:text=A%20representative%20sample%20is%20a,three%20males%20and%20three%20females.) of your future portfolio
+
+I could have written an extraordinary amount of information both from a statistical and business lens, but for the sake of brevity, I wrote the most pressing ones and I invite you to search for more information about other complications. I've really trivialized the work here for the sake of intuition and simplicity.
+
+## Some other Interesting Extensions
+
+The model I showed above is quite literally the most basic example and the models that most lenders and vendors use are much more sophisticated. Many of them have enhanced their models to handle panel data (i.e., cohorts of people over time) and can constrcut models that are extremely robust. The best class of models in this category (in my personal opinion) are [Discrete Time Survival Models](https://bookdown.org/content/4253/fitting-basic-discrete-time-hazard-models.html). This isn't my opinon, interestingly this wisdom was shared with me from 2 of the former heads of statistical modeling at Capital One, so don't trust my judgement, trust theirs.
+
+Another interesting implementation detail is that typically modelers transform the inputs to the model via [quantization](https://en.wikipedia.org/wiki/Quantization). Typically through a transformation called the [Weight of Evidence](https://multithreaded.stitchfix.com/blog/2015/08/13/weight-of-evidence/).
+
+Additionally, an important piece of credit risk modeling is the requirement to grant adverse action codes in the case of rejecting a customer who applies for a credit product (this is a requirement from FCRA). Doing this algorithmitically is very doable and different people do it slightly differently but the short version is taking the aboslute larget partial prediction (i.e., $partial_j = x_j * \beta_j$,  $\forall j=1,..., k$).
+
+Lastly, when building these statistical models the most important thing to think about is the trade-off between complexity and performance on your target population. Typically in the lending space you will not approve all of your customers, so obsessing over model fit on the proportion of your population that won't be approved is not always useful. It's a small point, but extremely consequential and will hopefully save you some time.
 
 ## Conclusion
+
+This tutorial was not nearly as code heavy as I would have liked (only showing a very silly regression) but I felt like the content was dense outside of it. People spend their careers studying these statistical models and the important consequences of them, so I really want to emphasize how much I have trivialized the work here only for the sake of simplicity. I have not talking about how you can improve the model when it's underperforming or how one can try to measure biases that may occur, but these are important pieces for society.
+
+I will conclude by saying that while simplistic, these models are tightly modeled and governed by many layers of regulation. As a statistician and a minority, I think this is a good thing. That's not to say that harm isn't caused by these models because I think there is but I do think machines are able to be governed, evaluated, and modified unlike human decision making which can be subjective and prone to unknown biases.
+
+I hope you found this post useful and interesting.
+
+*Have some feedback? Feel free to [let me know](https://twitter.com/franciscojarceo)!*
