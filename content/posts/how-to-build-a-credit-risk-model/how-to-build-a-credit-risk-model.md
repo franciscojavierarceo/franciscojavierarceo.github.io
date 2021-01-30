@@ -239,9 +239,11 @@ Before you get too excited about your model, you want to verify that it's behavi
 - Validate your model with an [Out of Time](https://statmodeling.stat.columbia.edu/2016/11/22/30560/) Hold Out Sample
 - Confirm your model actually has a [representative sample](https://www.investopedia.com/terms/r/representative-sample.asp#:~:text=A%20representative%20sample%20is%20a,three%20males%20and%20three%20females.) of your future portfolio
 - Make sure you're not time traveling 
-    - There's no external resource for this but it's basically making sure you don't use data that's in the future of what you're representing (except the default flags that you're trying to predict/model)
+    - This is a form of Data Leakage (Leaky Predictors) and it's basically making sure you don't use data that's in the future of what you're representing (except the default flags that you're trying to predict/model)
 - Understand the correlation this default prediction may have to your other products in your portfolio
     - This is not important from a statistical perspective but it is very important for your business
+- Always be skeptical if your model performs too well
+    - This is very likely data leakage and can be very embarrassing if you over-excite management
 
 I could have written a book with a much longer set of information both from a statistical and business lense but, for the sake of brevity, I wrote the most pressing ones and I invite you to search for more information about other important details.
 
