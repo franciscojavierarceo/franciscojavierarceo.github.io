@@ -112,7 +112,7 @@ xs = np.hstack([
     x_3.reshape(n, 1)
 ])
 xs = sm.add_constant(xs)
-model = sm.Logit(y, x)
+model = sm.Logit(yclass, xs)
 res = model.fit()
 print(res.summary())
          Current function value: 0.163863
@@ -138,6 +138,10 @@ x3            -0.3065      0.017    -18.045      0.000      -0.340      -0.273
 
 Wow, look at all of that beautiful, useless statistical output! It's not really useless but 99% of the people involved will not find it useful. 
 So we probably need an alternative way to show and inform these results to non-technical stakeholders (but your data scientist can look at this as much as they'd like).
+
+
+![The Glorious Lift Chart!](liftchart.png)
+<p align="center" style="padding:0"><i>The Beloved Lift Chart</i></p>
 
 ## Evaluating your Default Model
 - AUC and GINI
