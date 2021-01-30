@@ -245,9 +245,7 @@ Before you get too excited about your model, you want to verify that it's behavi
 - Always be skeptical if your model performs too well
     - This is very likely data leakage and can be very embarrassing if you over-excite management
 
-I could have written a book with a much longer set of information both from a statistical and business lense but, for the sake of brevity, I wrote the most pressing ones and I invite you to search for more information about other important details.
-
-[Here's a book recommendation on credit risk modeling.](https://www.amazon.com/Credit-Risk-Modelling-Theoretical-Foundations-Diagnostic-ebook/dp/B07FZGG63V)
+I could have written a book ([recommendation here](https://www.amazon.com/Credit-Risk-Modelling-Theoretical-Foundations-Diagnostic-ebook/dp/B07FZGG63V)) with a much longer set of information both from a statistical and business lense but, for the sake of brevity, I wrote the most pressing ones and I invite you to search for more information about other important details.
 
 ## Some other Interesting Extensions
 
