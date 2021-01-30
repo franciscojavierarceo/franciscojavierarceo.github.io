@@ -4,7 +4,7 @@ description: A data scientists guide to building a basic credit risk model
 date: 2021-01-27
 ---
 
-*TL;DR: A Data Science Tutorial on building a Credit Risk model*
+*TL;DR: A Data Science Tutorial on building a Credit Risk model.*
 
 I previously [wrote](/post/data-science-and-fintech) about some of the work data scientists do in the fintech space, which briefly discussed [credit risk models](https://en.wikipedia.org/wiki/Credit_risk) but I wanted to write a more technical review and talk about what I think are the most important points.
 
@@ -18,6 +18,8 @@ In this post, I'll try to answer the following questions:
 - How do you know if your model is performing well?
 - What are some common mistakes to avoid?
 - What are useful facts to know about credit risk models?
+
+So let's dive right in.
 
 ## What is a Credit Risk Model?
 
