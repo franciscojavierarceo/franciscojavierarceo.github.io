@@ -1,7 +1,7 @@
 ---
 title: 'How to Build a Credit Risk Model'
 description: A data scientists guide to building a basic credit risk model
-date: 2021-01-27
+date: 2021-01-31
 ---
 
 *TL;DR: A Data Science Tutorial on building a Credit Risk model.*
@@ -269,7 +269,7 @@ Lastly, when building these statistical models the most important thing to think
 
 ## Conclusion
 
-This tutorial was not nearly as code heavy as I would have liked (only showing a very silly regression) but I felt like the content was still rather dense. 
+This tutorial was not nearly as code heavy as I would have liked (only showing a very silly regression) but I felt like the content was still rather dense ([the full code is available here](https://github.com/franciscojavierarceo/Python/blob/master/credit-model-demo.py)).
 
 People spend their careers studying these statistical models and the important consequences of them, so I really want to emphasize how much I have trivialized the work here only for the sake of simplicity. I have not talked about how you can improve the model when it's underperforming or how one can try to measure biases that may occur, but these are important pieces for society.
 
