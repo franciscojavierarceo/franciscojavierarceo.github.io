@@ -70,7 +70,7 @@ And so on.
 In summary, it's just a bunch of data about your borrowing history.
 It's a little recursive/cyclical because in order to grow your credit you need to have credit but let's ignore that detail.
 
-One of the most important steps in the model development process is *precisely* defining **default** because this will eventually reflect the performance of your portfolio, so defining it rigorously, accurately, and confidently is extremely consequential.
+One of the most important steps in the model development process is *precisely* defining **default** because this will eventually reflect the performance of your portfolio defining it thoughtfully, accurately, and confidently is extremely consequential.
 
 So how do you define it?
 
