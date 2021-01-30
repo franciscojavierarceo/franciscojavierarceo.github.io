@@ -1,5 +1,5 @@
 ---
-title: 'How to build a credit risk model'
+title: 'How to Build a Credit Risk Model'
 description: A data scientists guide to building a basic credit risk model
 date: 2021-01-27
 ---
@@ -23,9 +23,10 @@ In this post, I'll try to answer the following questions:
 
 In the consumer/retail space, a credit risk model tries to predict the probability that a consumer won't repay money that they've borrowed.
 A simple example of this is an [unsecured personal loan](https://www.investopedia.com/terms/u/unsecuredloan.asp). 
+
 Let's suppose you submitted an application to borrow $5,000 from a lender. That lender would want to know the likelihood of [default](https://www.investopedia.com/terms/d/default2.asp) before deciding on (1) whether to give you the loan and (2) the price they want to charge you to for borrowing the money. So that probability is probably quite important...but how do they come up with it?
 
-## What Data does a Credit Risk model use?
+## What Data does a Credit Risk Model Use?
 
 Lenders typically use data from the major [Credit Bureaus](https://www.investopedia.com/personal-finance/top-three-credit-bureaus/) that is [FCRA](https://www.ftc.gov/enforcement/statutes/fair-credit-reporting-act) compliant, which basically means that the legal and reputational risk of using this data is very low.
 
@@ -73,7 +74,8 @@ So how do you define it?
 
 Time. 
 
-If you're planning to launch a term loan, you usually set boundaries on the duration of the loan.
+If you're planning to launch a term loan, you usually set boundaries on the duration of the loan. For revolving lines of credit (like a credit card), you simply apply a reasonable boundary on time that makes good business sense.
+
 Let's say you want to launch a 12 month loan to an underserved market, then you'd want to get historical data of other lenders to build your model on.
 It sounds a little surprising that you can do this but that's basically how the bureaus make their money.
 
@@ -85,15 +87,17 @@ So, after painfully cleaning up all that data, what do you do with it?
 
 ## Building a Probability of Default Model
 
-Now that you have that glorious dataset you can start to run different [Logistic Regressions](https://en.wikipedia.org/wiki/Logistic_regression) or use other classification based machine learning algorithms to find hidden patterns and relationships (i.e., [non-linear functions](https://blog.minitab.com/blog/adventures-in-statistics-2/what-is-the-difference-between-linear-and-nonlinear-equations-in-regression-analysis#:~:text=If%20the%20equation%20doesn't,a%20linear%20equation%2C%20it's%20nonlinear.&text=Thetas%20represent%20the%20parameters%20and,one%20parameter%20per%20predictor%20variable.) and [interaction terms](https://en.wikipedia.org/wiki/Interaction_(statistics))).
+Now that you have that glorious dataset you can start to run different [Logistic Regressions](https://en.wikipedia.org/wiki/Logistic_regression) or use other classification based [machine learning](https://www.kdnuggets.com/2016/08/10-algorithms-machine-learning-engineers.html) algorithms to find hidden patterns and relationships (i.e., [non-linear functions](https://blog.minitab.com/blog/adventures-in-statistics-2/what-is-the-difference-between-linear-and-nonlinear-equations-in-regression-analysis#:~:text=If%20the%20equation%20doesn't,a%20linear%20equation%2C%20it's%20nonlinear.&text=Thetas%20represent%20the%20parameters%20and,one%20parameter%20per%20predictor%20variable.) and [interaction terms](https://en.wikipedia.org/wiki/Interaction_(statistics))).
+
 Personally, this is the most intellectually engaging part of the work. The other work involved in credit risk modeling is usually very stressful and filled with less exciting graphs but here you get to pause, look at data, and, for a moment, try to make a crude approximation of the world. I find this part *fascinating*.
 
-If we stick with our simple model above, we could use our good old friend Python to run a simple regression.
+If we stick with our simple dataset above for our model, we could use our good old friend Python to run that Logistic Regression.
 
 ```python
 import numpy as np
 import statsmodels.api as sm
 
+# Generating the data 
 n = 10000
 np.random.seed(0)
 x_1 = np.random.poisson(lam=5, size=n)
@@ -101,6 +105,7 @@ x_2 = np.random.poisson(lam=2, size=n)
 x_3 = np.random.poisson(lam=12, size=n)
 e = np.random.normal(size=n, loc=0, scale=1.)
 
+# Setting the coefficient values to give us a ~5% default rate
 b_1, b_2, b_3 = -0.005, -0.03, -0.15
 ylogpred =  x_1 * b_1 + x_2 * b_2 + x_3 * b_3 + e
 yprob = 1./ (1.+ np.exp(-ylogpred))
@@ -110,10 +115,13 @@ xs = np.hstack([
     x_2.reshape(n, 1), 
     x_3.reshape(n, 1)
 ])
+# Adding an intercept to the matrix
 xs = sm.add_constant(xs)
 model = sm.Logit(yclass, xs)
+# All that work just to run .fit(), how terribly uninteresting
 res = model.fit()
 print(res.summary())
+
          Current function value: 0.163863
          Iterations 8
                            Logit Regression Results                           
@@ -135,57 +143,134 @@ x3            -0.3065      0.017    -18.045      0.000      -0.340      -0.273
 ==============================================================================
 ```
 
-Wow, look at all of that beautiful, useless statistical output! It's not really useless but 99% of the people involved will not find it useful. 
-So we probably need an alternative way to show and inform these results to non-technical stakeholders (but your data scientist can look at this as much as they'd like).
+Wow, look at all of that beautiful, useless statistical output! 
+
+It's not *really* useless but 99% of the people involved will not find it useful. 
+So we probably need an alternative way to show and inform these results to non-technical stakeholders (but you as a data scientist can look at this as much as you'd like).
 
 ![The Glorious Lift Chart!](liftchart.png)
 <p align="center" style="padding:0"><i>The Beloved Lift Chart</i></p>
 
-Cue the [Lift Chart](https://www.casact.org/education/rpm/2016/presentations/PM-LM-4.pdf). This Chart may look fancy but it's actually pretty simple, it's just [deciling](https://www.investopedia.com/terms/d/decile.asp) (i.e., sorting and bucketing into 10 equal groups) your data according to the *predicted* default rate from your model. It's worth noting that this is a quantized version of the [ROC chart](https://en.wikipedia.org/wiki/Receiver_operating_characteristic) and they represent the same information.
+Cue the [Lift Chart](https://www.casact.org/education/rpm/2016/presentations/PM-LM-4.pdf). This chart may look fancy but it's actually pretty simple, it's just [deciling](https://www.investopedia.com/terms/d/decile.asp) (i.e., sorting and bucketing into 10 equal groups) your data according to the *predicted* default rate from your model. It's worth noting that this is a quantized and reversed version of the [ROC chart](https://en.wikipedia.org/wiki/Receiver_operating_characteristic) and they represent the same information.
+
+Here's the code to generate that graph.
+
+```python
+import numpy as np
+import pandas as pd
+from matplotlib import pyplot as plt
+
+def liftchart(df: pd.DataFrame, actual: str, predicted: str, buckets: int=10) -> None:
+    # Bucketing the predictions (Deciling is the default)
+    df['predbucket'] = pd.qcut(x=df[predicted], q=buckets)
+    sdf = df[[actual, predicted, 'predbucket']].groupby(
+        by=['predbucket']).agg({
+        actual: [np.mean, sum, len], 
+        predicted: np.mean
+        }
+    )
+    sdf.columns = sdf.columns.map(''.join) # I hate pandas multi-indexing
+    sdf = sdf.rename({
+        actual + 'mean': 'Actual Default Rate', 
+        predicted + 'mean': 'Predicted Default Rate'
+    }, axis=1)
+    sdf[['Actual Default Rate', 'Predicted Default Rate']].plot(
+        kind='line', style='.-', grid=True, figsize=(12, 8), 
+        color=['red', 'blue']
+    )
+    plt.ylabel('Default Rate')
+    plt.xlabel('Decile Value of Predicted Default')
+    plt.title('Actual vs Predicted Default Rate sorted by Predicted Decile')
+    plt.xticks(
+        np.arange(sdf.shape[0]), 
+        sdf['Predicted Default Rate'].round(3)
+    )
+    plt.show()
+
+# Using the data and model from before!
+pdf = pd.DataFrame(xs, columns=['intercept', 'x1', 'x2', 'x3'])
+pdf['preds'] = res.predict(xs)
+pdf['actual'] = yclass
+
+# Finally, what we all came here to see
+liftchart(pdf, 'actual', 'preds')
+```
+<center><i>Judge me not by the elegance of my code but by the fact that it runs.</i></center>
 
 ## Evaluating your Default Model
 
-So this visualization is helpful, but what about quantifying the performance in a single number? Well, how about [Accuracy](https://en.wikipedia.org/wiki/Accuracy_and_precision)?
+So this visualization is helpful, but how do you quantify the performance into a single number? Well, how about [Accuracy](https://en.wikipedia.org/wiki/Accuracy_and_precision)?
 
-Well it turns out that Accuracy isn't a really great metric when you have a low rate (or more generally when you have severe [class-imbalance](https://en.wikipedia.org/wiki/Accuracy_paradox)). As an example suppose you have a 5% default rate, that means 95% of your data did not default, so if your model predicted that no one defaulted, you'd have 95% accuracy. Pretty useles, so we tend to ignore the accuracy and instead focus on the rank order seperation/predictive power of the model. There are 3 main metrics folks look at to summarize their model: [Precision, Recall](https://en.wikipedia.org/wiki/Precision_and_recall), and [Gini/AUC](https://en.wikipedia.org/wiki/Receiver_operating_characteristic#Area_under_the_curve). One last point that has been a surprisingly common topic of my discussion in my career is the equivalence of Gini and AUC. Bankers like Gini, for whatever inertia related reason, but it's equivalent to AUC via:
+It turns out that Accuracy isn't really a great metric when you have a low default rate (or more generally when you have severe [class imbalance](https://en.wikipedia.org/wiki/Accuracy_paradox)). As an example suppose you have a 5% default rate, that means 95% of your data did *not default*, so if your model predicted that no one defaulted, you'd have 95% accuracy.
 
-$$Gini = 2 * AUC - 1$$ and
+Accurate, obvious, and entirely useless. Without proper adjustment, this behavior is actually very likely to occur in your model, so we tend to ignore the accuracy metric and instead we focus on the rank order seperation/predictive power of the model.
 
-$$AUC = (Gini+1)/2$$.
+To measure that predictive power, there are 4 metrics industry professionals typically look at to summarize their model: [Precision, Recall](https://en.wikipedia.org/wiki/Precision_and_recall), the [Kolomogorov-Smirnov (KS) Test](https://en.wikipedia.org/wiki/Kolmogorov–Smirnov_test), and [Gini/AUC](https://en.wikipedia.org/wiki/Receiver_operating_characteristic#Area_under_the_curve).
 
-Gini is between -1 and 1 and AUC is between 0 and 1 (but < 0.5 means you're doing worse than random so generally it's between 0.5 and 1). So, a good model is usually around 0.7 AUC or 0.4 Gini. The higher the better. It's always worth looking at your lift chart though as it can tell you a lot about how predictive the model is at different deciles. In some cases, your model may not have enough variation in the attributes/features/predictors to differentiate your data meaningfully. The metric won't show you that, only a glance at the Lift Chart will, so it's always a nice thing to look at.
+One point of humor that has been a surprisingly common topic of discussion in my career is the equivalence of Gini and AUC. Bankers like Gini, for whatever inertia related reason, but it's equivalent to AUC via:
 
-So now that yuo have your exciting new default model, you can use it in your underwriting strategy to differentiate amongst your competitors on pricing, approve/decline, and targeting customers, right?
+$$Gini = 2 * AUC - 1$$ 
+
+and obviously
+
+$$AUC = \frac{Gini+1}{2}$$.
+
+Gini is bound between [-1, 1] and AUC between [0, 1] but technically if your AUC is less than 0.5 (and < 0 for Gini) that means you're doing worse than random ([and you could do better by literally doing the opposite of what your model says](https://stats.stackexchange.com/questions/266387/can-auc-roc-be-between-0-0-5)) so most people will say AUC is between 0.5 and 1 and that Gini is between [0, 1].
+
+A good model is usually around 70% AUC / 40% Gini. The higher the better.
+
+It's always useful to look at your lift chart as it can tell you a lot about how predictive the model is at different deciles. In some cases, your model may not have enough variation in the attributes/features/predictors to differentiate your data meaningfully. The metric won't show you that, only a glance at the lift chart will, so it's always a good to review it.
+
+One important point here is that any single metric is very crude and a data set can be pathologically constructed to break it, so while these metrics and charts are very helpful, there are cases where things can still misbehave even though they seem normal.
+
+Now that you have your exciting new default model, you can use it in your underwriting strategy to differentiate amongst your competitors on pricing, approve/decline, and targeting customers, right?
 
 Not quite.
 
 ## Common Mistakes and Pitfalls
+
 Before you get too excited about your model, you want to verify that it's behaving logically, so I thought I'd list some items that you will want to check against to make sure nothing disastrous will happen. 
 
-- [Data Errors](https://www.datasciencecentral.com/profiles/blogs/common-errors-in-machine-learning-due-to-poor-statistics-knowledg)
-- Time Traveling (No external resource but this is basically making sure you don't use data that's in the future  of it's representation--excluding the default metric)
-- [Simpson's Paradox](https://en.wikipedia.org/wiki/Simpson%27s_paradox)
 - Double check for [Data Leakage](https://www.kaggle.com/dansbecker/data-leakage)
-- Validating your model with an [Out of Time](https://statmodeling.stat.columbia.edu/2016/11/22/30560/) Hold Out Sample
-- Validating your model actually has a [representative sample](https://www.investopedia.com/terms/r/representative-sample.asp#:~:text=A%20representative%20sample%20is%20a,three%20males%20and%20three%20females.) of your future portfolio
+- Verify that you don't have any [data errors](https://www.datasciencecentral.com/profiles/blogs/common-errors-in-machine-learning-due-to-poor-statistics-knowledg)
+- Make sure you've done your best not to fall for [Simpson's Paradox](https://en.wikipedia.org/wiki/Simpson%27s_paradox)
+- Validate your model with an [Out of Time](https://statmodeling.stat.columbia.edu/2016/11/22/30560/) Hold Out Sample
+- Confirm your model actually has a [representative sample](https://www.investopedia.com/terms/r/representative-sample.asp#:~:text=A%20representative%20sample%20is%20a,three%20males%20and%20three%20females.) of your future portfolio
+- Make sure you're not time traveling 
+    - There's no external resource for this but it's basically making sure you don't use data that's in the future of what you're representing (except the default flags that you're trying to predict/model)
+- Understand the correlation this default prediction may have to your other products in your portfolio
+    - This is not important from a statistical perspective but it is very important for your business
 
-I could have written an extraordinary amount of information both from a statistical and business lens, but for the sake of brevity, I wrote the most pressing ones and I invite you to search for more information about other complications. I've really trivialized the work here for the sake of intuition and simplicity.
+I could have written a book with a much longer set of information both from a statistical and business lense but, for the sake of brevity, I wrote the most pressing ones and I invite you to search for more information about other important details.
+
+[Here's a book recommendation on credit risk modeling.](https://www.amazon.com/Credit-Risk-Modelling-Theoretical-Foundations-Diagnostic-ebook/dp/B07FZGG63V)
 
 ## Some other Interesting Extensions
 
-The model I showed above is quite literally the most basic example and the models that most lenders and vendors use are much more sophisticated. Many of them have enhanced their models to handle panel data (i.e., cohorts of people over time) and can constrcut models that are extremely robust. The best class of models in this category (in my personal opinion) are [Discrete Time Survival Models](https://bookdown.org/content/4253/fitting-basic-discrete-time-hazard-models.html). This isn't my opinon, interestingly this wisdom was shared with me from 2 of the former heads of statistical modeling at Capital One, so don't trust my judgement, trust theirs.
 
-Another interesting implementation detail is that typically modelers transform the inputs to the model via [quantization](https://en.wikipedia.org/wiki/Quantization). Typically through a transformation called the [Weight of Evidence](https://multithreaded.stitchfix.com/blog/2015/08/13/weight-of-evidence/).
+### Model Extensions
+The model I showed above is quite literally the most basic example and the models that most lenders and vendors use are much, much more sophisticated. Many of them have enhanced their models to handle [panel data](https://en.wikipedia.org/wiki/Panel_data) (i.e., cohorts of people over time) and can construct models that are extremely robust.
 
-Additionally, an important piece of credit risk modeling is the requirement to grant adverse action codes in the case of rejecting a customer who applies for a credit product (this is a requirement from FCRA). Doing this algorithmitically is very doable and different people do it slightly differently but the short version is taking the aboslute larget partial prediction (i.e., $partial_j = x_j * \beta_j$,  $\forall j=1,..., k$).
+The best class of models in this elite category (in my personal opinion) are [Discrete Time Survival Models](https://bookdown.org/content/4253/fitting-basic-discrete-time-hazard-models.html). Actually, this isn't *my* opinon, this wisdom was shared with me from two of the former heads of statistical modeling at Capital One, so don't trust my judgement, trust theirs.
 
+### Quantization and the Weight of Evidence
+Another interesting implementation detail is that statisticians/data scientists in the credit scoring space often transform the inputs/attributes/features of their model via [quantization](https://en.wikipedia.org/wiki/Quantization). More specifically through a transformation called the [Weight of Evidence](https://multithreaded.stitchfix.com/blog/2015/08/13/weight-of-evidence/). It's neat, troglodytic, and surprisingly effective.
+
+
+### Adverse Action Reasons
+Credit risk modeling requires the underwriter to grant adverse action codes in the case of rejecting a customer who applies for a credit product (this is a driven by the FCRA). Doing this algorithmitically is very doable and different organizations do it slightly differently but the short version is you take the absolute largest partial predictions (i.e., $argmax_{x}f(x_j) = |x_j * \beta_j|$,  $\forall j=1,..., k$).
+
+### Model Complexity and Usefulness
 Lastly, when building these statistical models the most important thing to think about is the trade-off between complexity and performance on your target population. Typically in the lending space you will not approve all of your customers, so obsessing over model fit on the proportion of your population that won't be approved is not always useful. It's a small point, but extremely consequential and will hopefully save you some time.
 
 ## Conclusion
 
-This tutorial was not nearly as code heavy as I would have liked (only showing a very silly regression) but I felt like the content was dense outside of it. People spend their careers studying these statistical models and the important consequences of them, so I really want to emphasize how much I have trivialized the work here only for the sake of simplicity. I have not talking about how you can improve the model when it's underperforming or how one can try to measure biases that may occur, but these are important pieces for society.
+This tutorial was not nearly as code heavy as I would have liked (only showing a very silly regression) but I felt like the content was still rather dense. 
 
-I will conclude by saying that while simplistic, these models are tightly modeled and governed by many layers of regulation. As a statistician and a minority, I think this is a good thing. That's not to say that harm isn't caused by these models because I think there is but I do think machines are able to be governed, evaluated, and modified unlike human decision making which can be subjective and prone to unknown biases.
+People spend their careers studying these statistical models and the important consequences of them, so I really want to emphasize how much I have trivialized the work here only for the sake of simplicity. I have not talked about how you can improve the model when it's underperforming or how one can try to measure biases that may occur, but these are important pieces for society.
+
+I will conclude by saying that these models are tightly modeled and governed by many layers of regulation. As a statistician and a minority, I think this is a good thing. 
+That's not to say that harm isn't caused by these models because I think there is but I do think machines are more easily governed, evaluated, and modified...unlike human decision making which can be subjective and prone to unknown biases that are difficult to quantify.
 
 I hope you found this post useful and interesting.
 
