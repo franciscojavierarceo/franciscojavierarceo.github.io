@@ -217,7 +217,7 @@ and obviously
 
 $$AUC = \frac{Gini+1}{2}$$.
 
-Gini is bound between [-1, 1] and AUC between [0, 1] but technically if your AUC is less than 0.5 (and < 0 for Gini) that means you're doing worse than random ([and you could do better by literally doing the opposite of what your model says](https://stats.stackexchange.com/questions/266387/can-auc-roc-be-between-0-0-5)) so most people will say AUC is between 0.5 and 1 and that Gini is between [0, 1].
+Gini is bound between [-1, 1] and AUC between [0, 1] but technically if your AUC is less than 0.5 (and < 0 for Gini) that means you're doing worse than random ([and you could do better by literally doing the opposite of what your model says](https://stats.stackexchange.com/questions/266387/can-auc-roc-be-between-0-0-5)) so most people will say AUC is between [0.5, 1] and that Gini is between [0, 1].
 
 A good model is usually around 70% AUC / 40% Gini. The higher the better.
 
