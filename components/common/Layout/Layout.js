@@ -105,7 +105,6 @@ const Header = () => {
         <DarkModeSwitch
           checked={isDarkMode}
           onChange={toggleDarkMode}
-          // className={isRoot ? 28 : 24}
         />
       )}
       <script
@@ -142,7 +141,7 @@ const LargeTitle = () => (
 );
 
 const SmallTitle = () => (
-  <h1>
+  <a>
     <Link href="/">
       <a
         className={clsx(
@@ -153,5 +152,5 @@ const SmallTitle = () => (
         Francisco Javier Arceo
       </a>
     </Link>
-  </h1>
+  </a>
 );
