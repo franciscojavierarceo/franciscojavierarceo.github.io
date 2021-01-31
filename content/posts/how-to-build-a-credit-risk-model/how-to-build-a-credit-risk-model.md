@@ -161,6 +161,7 @@ Here's the code to generate that graph.
 import numpy as np
 import pandas as pd
 from matplotlib import pyplot as plt
+from sklearn.metrics import roc_auc_score
 
 def liftchart(df: pd.DataFrame, actual: str, predicted: str, buckets: int=10) -> None:
     # Bucketing the predictions (Deciling is the default)
@@ -171,6 +172,7 @@ def liftchart(df: pd.DataFrame, actual: str, predicted: str, buckets: int=10) ->
         predicted: np.mean
         }
     )
+    aucperf = roc_auc_score(df[actual], df[predicted])
     sdf.columns = sdf.columns.map(''.join) # I hate pandas multi-indexing
     sdf = sdf.rename({
         actual + 'mean': 'Actual Default Rate', 
@@ -182,7 +184,7 @@ def liftchart(df: pd.DataFrame, actual: str, predicted: str, buckets: int=10) ->
     )
     plt.ylabel('Default Rate')
     plt.xlabel('Decile Value of Predicted Default')
-    plt.title('Actual vs Predicted Default Rate sorted by Predicted Decile')
+    plt.title('Actual vs Predicted Default Rate sorted by Predicted Decile \nAUC = %.3f' % aucperf)
     plt.xticks(
         np.arange(sdf.shape[0]), 
         sdf['Predicted Default Rate'].round(3)
@@ -196,6 +198,10 @@ pdf['actual'] = yclass
 
 # Finally, what we all came here to see
 liftchart(pdf, 'actual', 'preds')
+
+# This is what it looks like when we have perfect information
+pdf['truth'] = pdf['actual'] + np.random.uniform(low=0, high=0.001, size=pdf.shape[0])
+liftchart(pdf, 'actual', 'truth', 10)
 ```
 <center><i>Judge me not by the elegance of my code but by the fact that it runs.</i></center>
 
