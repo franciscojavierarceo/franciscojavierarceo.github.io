@@ -291,7 +291,7 @@ This tutorial was not nearly as code heavy as I would have liked (only showing a
 People spend their careers studying these statistical models and the important consequences of them, so I really want to emphasize how much I have trivialized the work here only for the sake of simplicity. I have not talked about how you can improve the model when it's underperforming or how one can try to measure biases that may occur, but these are important pieces for society.
 
 I will conclude by saying that these models are heavily governed by many layers of regulation. As a statistician and a minority, I think this is a good thing.
-That's not to say that harm isn't caused by these models because I think there is but I do think machines are more easily governed, evaluated, and modified...unlike human decision making which can be subjective and prone to unknown biases that are difficult to quantify.
+That's not to say that harm isn't caused by these models because I think there is but I do think machines are more easily governed, evaluated, and modified...unlike human decision making which can be subjective and prone to unknown biases that are difficult to quantify ([here's some additional reading material](https://faculty.haas.berkeley.edu/morse/research/papers/discrim.pdf)).
 
 I hope you found this post useful and interesting.
 
