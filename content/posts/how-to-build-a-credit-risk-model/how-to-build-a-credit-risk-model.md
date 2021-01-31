@@ -153,9 +153,20 @@ So we probably need an alternative way to show and inform these results to non-t
 ![The Glorious Lift Chart!](liftchart.png)
 <p align="center" style="padding:0"><i>The Beloved Lift Chart</i></p>
 
-Cue the [Lift Chart](https://www.casact.org/education/rpm/2016/presentations/PM-LM-4.pdf). This chart may look fancy but it's actually pretty simple, it's just [deciling](https://www.investopedia.com/terms/d/decile.asp) (i.e., sorting and bucketing into 10 equal groups) your data according to the *predicted* default rate from your model. It's worth noting that this is a quantized and reversed version of the [ROC chart](https://en.wikipedia.org/wiki/Receiver_operating_characteristic) and they represent the same information.
+Cue the [Lift Chart](https://www.casact.org/education/rpm/2016/presentations/PM-LM-4.pdf). This chart may look fancy but it's actually pretty simple, it's just [deciling](https://www.investopedia.com/terms/d/decile.asp) your data (i.e., sorting and bucketing into 10 equal groups) according to the *predicted* default rate from your model. It's worth noting that this is a quantized and reversed version of the [ROC chart](https://en.wikipedia.org/wiki/Receiver_operating_characteristic) and they represent the same information.
 
-Here's the code to generate that graph.
+There are 3 important pieces of information from this graph: 
+
+1. The AUC tells you the performance
+2. The closer the two lines are together the more accurate the probability estimate
+3. The steeper the slope at the higher deciles, the better the rank order separation
+
+If you had perfect information, you'd get a graph that looks like this:
+
+![The Perfect Lift Chart!](liftchart_optimal.png)
+<p align="center" style="padding:0"><i>If your model looks like this, you've been something terribly wrong</i></p>
+
+And here's the code to generate those graphs.
 
 ```python
 import numpy as np
