@@ -83,7 +83,7 @@ If you're planning to launch a term loan, you usually set boundaries on the dura
 Let's say you want to launch a 12 month loan to an underserved market, then you'd want to get historical data of other lenders to build your model on.
 It sounds a little surprising that you can do this but that's basically how the bureaus make their money.
 
-An important thing to keep in mind is that you need to make sure you pull the data at 2 different time periods: (1) when the original application was made so you can use data that is relevant for underwriting (and so you don't have forward-looking data resulting in [data leakage](https://www.kaggle.com/dansbecker/data-leakage)) and (2) 12 months later (or whatever time period is appopriate for you) to check if the consumer defaulted on their loan.
+An important thing to keep in mind is that you need to make sure you pull the data at 2 different time periods: (1) when the original application was made so you can use data that is relevant for underwriting (and so you don't have forward-looking data resulting in [data leakage](https://www.kaggle.com/dansbecker/data-leakage)) and (2) 12 months later (or whatever time period is appropriate for you) to check if the consumer defaulted on their loan.
 
 There's a lot more to it and you can expand on things in much more elegant ways to handle different phenomena but for the sake of simplicity, this is essentially how it's done.
 
