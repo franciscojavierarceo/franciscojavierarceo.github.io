@@ -1,6 +1,6 @@
 ---
 title: 'How to Build a Credit Risk Model'
-description: A data scientists guide to building a basic credit risk model
+description: A Data Scientists Guide to Building a Basic Credit Risk Model
 date: 2021-01-31
 ---
 
