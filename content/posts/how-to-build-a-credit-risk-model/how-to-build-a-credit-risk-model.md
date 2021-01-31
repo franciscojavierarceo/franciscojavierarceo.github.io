@@ -13,13 +13,15 @@ I spent most of my career at banks as a data scientist and built credit risk, fr
 In this post, I'll try to answer the following questions:
 
 - What is a credit risk model?
-- What **data** does a credit risk model use?
+- What data does a credit risk model use?
 - How do you estimate a credit risk model?
 - How do you know if your model is performing well?
 - What are some common mistakes to avoid?
 - What are useful facts to know about credit risk models?
 
-So let's dive right in.
+It's worth caveating up front that this is a very narrow take, focused particularly on the analytical aspect of the work, and there is an extraordinary amount of legal, compliance, and business work that I am intentionally omitting.
+
+With that said, let's dive right in.
 
 ## What is a Credit Risk Model?
 
