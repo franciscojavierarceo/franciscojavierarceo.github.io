@@ -19,7 +19,7 @@ In this post, I'll try to answer the following questions:
 - What are some common mistakes to avoid?
 - What are useful facts to know about credit risk models?
 
-It's worth caveating up front that this is a very narrow take, focused particularly on the analytical aspect of the work, and there is an extraordinary amount of legal, compliance, and business work that I am intentionally omitting.
+It's worth caveating up front that this is a very narrow take focused only on the analytical aspect of the work and there is an extraordinary amount of legal, compliance, and business work that I am intentionally omitting.
 
 With that said, let's dive right in.
 
