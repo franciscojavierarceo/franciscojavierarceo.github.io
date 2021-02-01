@@ -166,7 +166,7 @@ There are 3 important pieces of information from this graph:
 If you had perfect information, you'd get a graph that looks like this:
 
 ![The Perfect Lift Chart!](liftchart_optimal.png)
-<p align="center" style="padding:0"><i>If your model looks like this, you've been something terribly wrong</i></p>
+<p align="center" style="padding:0"><i>If your model looks like this, you've done something terribly wrong</i></p>
 
 And here's the code to generate those graphs.
 
