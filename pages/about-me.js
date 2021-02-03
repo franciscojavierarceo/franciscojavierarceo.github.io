@@ -43,7 +43,7 @@ export default function AboutMe() {
   return (
     <>
     <Layout>
-    <SEO title={siteMetadata.title} description={siteMetadata.description}/>  
+    <SEO title={siteMetadata.title} description='Francisco Javier Arceo: A little About My Random Thoughts'/>  
     <section style={{fontSize: '1.2rem', lineHeight: 1.5,textAlign: 'justify'}}>
     <div className={clsx(`flex items-center`, 'my-5')}>
       <img
