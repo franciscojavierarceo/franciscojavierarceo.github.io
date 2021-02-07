@@ -152,8 +152,18 @@ cdf['Income Bucket'] = pd.cut(cdf['Annual Income ($K)'],
 ```
 This is a really helpful and simple way to understand our customers and it's the way that most businesses do analytics, but we can do more. 😊
 
-
 ### 2. Algorithmic Segments
 
+Segments defined using simple business logic are great because they are so simple and easy to interpret, but that's not free.
+By favoring simplicity we have to limit ourselves to (potentially) suboptimal segments. 
+This is typically on purpose and entirely fine but, again, we can do better.
 
-https://towardsdatascience.com/customer-segmentation-using-k-means-clustering-d33964f238c3
+So how do we do better?
+
+Cue statistics, data mining, analytics, machine learning, or whatever it's called this week. More specifically, we can use the classic [K-Means Clustering](https://en.wikipedia.org/wiki/K-means_clustering) algorithm to *learn* an optimal set of segments given some set of data.
+
+To skip over many important details ((more reading here)[https://towardsdatascience.com/customer-segmentation-using-k-means-clustering-d33964f238c3]), K-Means is an algorithm that optimally buckets your data into $K$ groups (according to a specific mathematical function called the [euclidean distance](https://en.wikipedia.org/wiki/Euclidean_distance)). It's a classic approach and tends to work quiet well in practice (there are a ton of other neat [clustering algorithms](https://en.wikipedia.org/wiki/Cluster_analysis#Algorithms)) but one non-technical challenge is (1) choosing $K$ and (2) explaining what a single cluster actually means to a non-technical stakeholder.
+
+
+
+
