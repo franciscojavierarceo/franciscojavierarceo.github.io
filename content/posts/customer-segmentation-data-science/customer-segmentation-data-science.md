@@ -33,39 +33,37 @@ Analytically speaking, I've seen Customer Segments defined really in two main wa
 ...but how do you *actually* (i.e., in code and data) get to those segments?
 
 ### 1. Logical Business Segments
+These segments tend to be defined by heuristics and things that make common sense. They are often built on things that are aligned with the goal of the business.
 
-These segments tend to be defined by heuristics and things that make common sense. Here's a list of examples:
+Here are some examples:
 
-- Site visitors who have and have not created an account
-- Age of the user bucketed into 5 groups (18+, 20-30, 30-40, 40-55, 55+)
-- Users who have visited your mobile app in the last 30 days and those who have not
-- Customers who have spent at least \$$X$ (retail) or purchased at least $Y$ number of products
-- Customers who have gone $Z$ days delinquent (i.e., without paying you back)
-- Customers who live in a certain geographic region (e.g., city, state, zipcode)
-
-And so on.
-
-In data, your customer information could look like this:
+- The age of the customer (in years)
+- The income of the customer (in dollars or thousands of dollars)
+- The amount of money a customer spent in the last year
+- The likelihood a customer will spend money at a given store (purchase propensity / propensity to buy)
+- The customer's geographic region (e.g., zipcode, state)
+- In data, some of that customer information would look something like this:
 
 <table>
   <tr>
     <th>User ID</th>
-    <th>State</th>
-    <th>Spent ($s)</th>
-    <th>Is Customer</th>
+    <th>Age</th>
+    <th>Customer Income</th>
+    <th>Purchase Propensity</th>
+    <th>...</th>
   </tr>
   <tr>
-    <td>Yes</td>
+    <td>1</td>
+    <td>25</td>
+    <td>$45,000</td>
+    <td>0.9</td>
+    <td>...</td>
+  </tr>
+  <tr>
     <td>2</td>
-    <td>0.8</td>
-    <td>12</td>
-    <td>...</td>
-  </tr>
-  <tr>
-    <td>No</td>
-    <td>8</td>
-    <td>0.0</td>
-    <td>2</td>
+    <td>30</td>
+    <td>$80,000</td>
+    <td>0.4</td>
     <td>...</td>
   </tr>
   <tr>
@@ -73,9 +71,86 @@ In data, your customer information could look like this:
     <td>...</td>
     <td>...</td>
     <td>...</td>
+    <td>...</td>
+  </tr>
+  <tr>
+    <td>n</td>
+    <td>56</td>
+    <td>$57,000</td>
+    <td>0.1</td>
     <td>...</td>
   </tr>
 </table>
+And so on.
+
+We would apply some logic/code to create segment like:
+
+- Age Buckets
+    1. < 25
+    2. 25-35
+    3. 35-55
+    4. 55+
+- Income Buckets
+    1. < $25K
+    2. $25K-50K
+    3. $50K-100K
+    4. $100-150K
+    5. $150K+
+- Propensity Buckets
+    1. Low: [0, 0.25]
+    2. Medium: [0.25, 0.75]
+    3. High: [0.75, 1.0]
+
+And map that logic into our data:
+<table>
+  <tr>
+    <th>User ID</th>
+    <th>Age Bucket</th>
+    <th>Income Bucket</th>
+    <th>Propensity Bucket</th>
+    <th>...</th>
+  </tr>
+  <tr>
+    <td>1</td>
+    <td>25-35</td>
+    <td>$25K-50K</td>
+    <td>High</td>
+    <td>...</td>
+  </tr>
+  <tr>
+    <td>2</td>
+    <td>25-35</td>
+    <td>$50K-100K</td>
+    <td>Medium</td>
+    <td>...</td>
+  </tr>
+  <tr>
+    <td>...</td>
+    <td>...</td>
+    <td>...</td>
+    <td>...</td>
+    <td>...</td>
+  </tr>
+  <tr>
+    <td>n</td>
+    <td>56</td>
+    <td>$50K-100K</td>
+    <td>Low</td>
+    <td>...</td>
+  </tr>
+</table>
+And so on.
+
+Pretty simple, right? The code for this is simple too (assuming you're using Pandas and Python; though it's also simple in SQL).
+
+# Here's one example
+```python
+cdf['Income Bucket'] = pd.cut(cdf['Annual Income ($K)'], 
+    bins=[0, 25, 35, 55, np.inf], 
+    labels=['<25', '25-35', '35-55', '55+']
+)
+```
+This is a really helpful and simple way to understand our customers and it's the way that most businesses do analytics, but we can do more. 😊
 
 
 ### 2. Algorithmic Segments
