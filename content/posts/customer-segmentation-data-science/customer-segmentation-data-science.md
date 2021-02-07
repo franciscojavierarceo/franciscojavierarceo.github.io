@@ -24,17 +24,59 @@ Here are the things I'd like to cover during this demo:
 
 ## Approaches to Customer Segmentation
 
-The phrase "Customer Segments" tends to mean different things across different industries, organizations, and even across business functions. As an example, for a consumer products retailer, they may refer to customer segments using both demographic information or their purchase behavior, where a lender may refer to their segments based on credit score bands. While very meaningfully different from a business perspective, the same algorithms can be used for both problems.
+The phrase "Customer Segments" tends to mean different things across different industries, organizations, and even across business functions (e.g., marketing, risk, product, etc.). 
 
-From an analytical perspective, I've seen Customer Segments defined really in two main ways:
+As an example, for a consumer products retailer, they may refer to customer segments using both demographic information or their purchase behavior, where a lender may refer to their segments based on credit score bands. While very meaningfully different from a business perspective, the same algorithms can be used for both problems.
+
+Analytically speaking, I've seen Customer Segments defined really in two main ways: (1) Business Segments and (2) Algorithmic Segments. Usually executives refer to their segments in the first category and data scientists focus on the second. The first is really important organizationally because 99% of the people working with your customers don't care about how you bucketed them and customers are the most important thing. Always.
+
+...but how do you *actually* (i.e., in code and data) get to those segments?
 
 ### 1. Logical Business Segments
 
 These segments tend to be defined by heuristics and things that make common sense. Here's a list of examples:
 
-- Customers who have spent at least $\$X$ (retail) or purchased at least $Y$ number of products
-- Customers who have visited your app or website and customers who haven't
-- 
+- Site visitors who have and have not created an account
+- Age of the user bucketed into 5 groups (18+, 20-30, 30-40, 40-55, 55+)
+- Users who have visited your mobile app in the last 30 days and those who have not
+- Customers who have spent at least \$$X$ (retail) or purchased at least $Y$ number of products
+- Customers who have gone $Z$ days delinquent (i.e., without paying you back)
+- Customers who live in a certain geographic region (e.g., city, state, zipcode)
+
+And so on.
+
+In data, your customer information could look like this:
+
+<table>
+  <tr>
+    <th>User ID</th>
+    <th>State</th>
+    <th>Spent ($s)</th>
+    <th>Is Customer</th>
+  </tr>
+  <tr>
+    <td>Yes</td>
+    <td>2</td>
+    <td>0.8</td>
+    <td>12</td>
+    <td>...</td>
+  </tr>
+  <tr>
+    <td>No</td>
+    <td>8</td>
+    <td>0.0</td>
+    <td>2</td>
+    <td>...</td>
+  </tr>
+  <tr>
+    <td>...</td>
+    <td>...</td>
+    <td>...</td>
+    <td>...</td>
+    <td>...</td>
+  </tr>
+</table>
+
 
 ### 2. Algorithmic Segments
 
