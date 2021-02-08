@@ -255,7 +255,7 @@ Lastly, segments can change; your customers are always evolving so it's good to 
 ## Conclusion
 This tutorial ended up being a little longer than I anticipated but oh well, I hope you enjoyed it.
 
-I've stored the code to reproduce this example in a [Jupyter Notebook](https://github.com/franciscojavierarceo/Python/blob/master/demos/Customer%20Segmentation%20Example.ipynb) available on my GitHub. To get it up and running you only need to download the notebook, install [Docker](https://www.docker.com/get-started), and simply run:
+I've stored the code to reproduce this example in a [Jupyter Notebook](https://github.com/franciscojavierarceo/Python/blob/master/demos/Customer%20Segmentation%20Example.ipynb) available on my GitHub (note to render the interactive 3D visualization you have to run the notebook). To get it up and running you only need to download the notebook, [download the data](https://www.kaggle.com/vjchoudhary7/customer-segmentation-tutorial-in-python), install [Docker](https://www.docker.com/get-started), and simply run:
 
 ```bash
 docker run -it -p 8888:8888 -v ~/path/to/your/folder/:/home/jovyan/work --rm --name jupyter jupyter/scipy-notebook:17aba6048f44
@@ -263,4 +263,4 @@ docker run -it -p 8888:8888 -v ~/path/to/your/folder/:/home/jovyan/work --rm --n
 
 And you should be good to go. Happy segmenting!
 
-*Have some feedback? Feel free to [let me know](https://twitter.com/franciscojarceo
+*Have some feedback? Feel free to [let me know](https://twitter.com/franciscojarceo)!*
