@@ -241,15 +241,15 @@ graph.write_png("./decisiontree.png")
 
 Now that we have our customer segments we can do all sorts of different things.
 We can create [A/B tests](https://www.optimizely.com/optimization-glossary/ab-testing/) for website experiences or we can test the impact of [changing our prices](https://medium.com/@judaikawa/price-elasticity-statistical-modeling-in-the-retail-industry-a-quick-overview-fdab5350222) to certain customers.
-In general, we can just try a bunch of new things.
+In general, we can just try a bunch of new stuff.
 
 ## How do I know if my segments are accurate?
 
-The measure (i.e., within cluster sum-of-squares / inertia) we used in the example above was a reasonably straightforward way to measure the accuracy of your segments from an analytical perspective, but if you wanted to take a closer look, I'd recommend reviewing individual users in each segment. It sounds a little silly and can, in some cases, lead to the wrong conclusions but I firmly believe that in data science, you just have to really **look** at your data. You learn a lot from it.
+The metric we used in the example above (i.e., within cluster sum-of-squares / inertia) was a reasonably straightforward way to measure the accuracy of your segments from an analytical perspective, but if you wanted to take a closer look, I'd recommend reviewing individual users in each segment. It sounds a little silly and can, in some cases, lead to the wrong conclusions but I firmly believe that in data science, you just have to really **look** at your data. You learn a lot from it.
 
 ## How do I know when my segments need to change?
 
-Lastly, segments can change; your customers are always evolving so it's good to re-evaluate your clusters time and again. The emergence of new segments should feel very obvious, since it may be driven by products or acquisition changes. As a concrete example, if you noticed that important businesss metrics split by your segments are starting to behave a little differently, then you can investigate whether it's driven by a change in the segments; sometimes it is, sometimes it's not.
+Lastly, segments can change; your customers are always evolving so it's good to re-evaluate your clusters time and again. The emergence of new segments should feel very obvious, since it may be driven by product or acquisition changes. As a concrete example, if you noticed that important businesss metrics split by your segments are starting to behave a little differently, then you can investigate whether it's driven by a change in the segments; sometimes it is, sometimes it's not.
 
 
 ## Conclusion
