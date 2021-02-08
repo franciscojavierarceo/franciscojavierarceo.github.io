@@ -144,8 +144,8 @@ And so on.
 
 Pretty simple, right? The code for this categorization is simple too (assuming you're using Pandas and Python; though it's also simple in SQL).
 
-# Here's one example
 ```python
+# Here's one example
 import numpy as np
 import pandas as pd
 
