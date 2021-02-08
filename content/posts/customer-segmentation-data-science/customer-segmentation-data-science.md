@@ -251,12 +251,16 @@ The measure (i.e., within cluster sum-of-squares / inertia) we used in the examp
 
 Lastly, segments can change; your customers are always evolving so it's good to re-evaluate your clusters time and again. The emergence of new segments should feel very obvious, since it may be driven by products or acquisition changes. As a concrete example, if you noticed that important businesss metrics split by your segments are starting to behave a little differently, then you can investigate whether it's driven by a change in the segments; sometimes it is, sometimes it's not.
 
+
+## Conclusion
 This tutorial ended up being a little longer than I anticipated but oh well, I hope you enjoyed it.
 
-I've stored the code to reproduce this example in a [Jupyter Notebook](https://github.com/franciscojavierarceo/Python/blob/master/demos/Customer%20Segmentation%20Example.ipynb) available on my GitHub. To get it up and running you only need to download the notebook, have Docker installed, and simply run:
+I've stored the code to reproduce this example in a [Jupyter Notebook](https://github.com/franciscojavierarceo/Python/blob/master/demos/Customer%20Segmentation%20Example.ipynb) available on my GitHub. To get it up and running you only need to download the notebook, install [Docker](https://www.docker.com/get-started), and simply run:
 
-``` docker run -it -p 8888:8888 -v ~/path/to/your/folder/:/home/jovyan/work --rm --name jupyter jupyter/scipy-notebook:17aba6048f44```
+```bash
+docker run -it -p 8888:8888 -v ~/path/to/your/folder/:/home/jovyan/work --rm --name jupyter jupyter/scipy-notebook:17aba6048f44
+```
 
-And you should be good to go!
+And you should be good to go. Happy segmenting!
 
-*Have some feedback? Feel free to [let me know](https://twitter.com/franciscojarceo)!*
+*Have some feedback? Feel free to [let me know](https://twitter.com/franciscojarceo
