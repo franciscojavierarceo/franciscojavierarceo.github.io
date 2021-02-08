@@ -4,7 +4,7 @@ description: A Data Scientists Guide to Segmenting your Customers using clusteri
 date: 2021-02-06
 ---
 
-*TL;DR: A Data Science Tutorial and using K-Means and Decision Trees together.*
+*TL;DR: A Data Science Tutorial on using K-Means and Decision Trees together.*
 
 Customer segmentation (sometimes called [Market Segmentation](https://en.wikipedia.org/wiki/Market_segmentation)) is ubiqutous in the private sector. We think about bucketing people into $k$ mutually exclusive and collectively exhausting (MECE) groups. The premise being that instead of having 1 strategy for delivering a product or experience, providing $k$ experiences or strategies will yield much better engagement or acquisition from our customers.
 
