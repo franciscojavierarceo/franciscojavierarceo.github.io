@@ -162,8 +162,187 @@ So how do we do better?
 
 Cue statistics, data mining, analytics, machine learning, or whatever it's called this week. More specifically, we can use the classic [K-Means Clustering](https://en.wikipedia.org/wiki/K-means_clustering) algorithm to *learn* an optimal set of segments given some set of data.
 
-To skip over many important details ((more reading here)[https://towardsdatascience.com/customer-segmentation-using-k-means-clustering-d33964f238c3]), K-Means is an algorithm that optimally buckets your data into $K$ groups (according to a specific mathematical function called the [euclidean distance](https://en.wikipedia.org/wiki/Euclidean_distance)). It's a classic approach and tends to work quiet well in practice (there are a ton of other neat [clustering algorithms](https://en.wikipedia.org/wiki/Cluster_analysis#Algorithms)) but one non-technical challenge is (1) choosing $K$ and (2) explaining what a single cluster actually means to a non-technical stakeholder.
+To skip over many important details ([more here](https://towardsdatascience.com/customer-segmentation-using-k-means-clustering-d33964f238c3)), K-Means is an algorithm that optimally buckets your data into $K$ groups (according to a specific mathematical function called the [euclidean distance](https://en.wikipedia.org/wiki/Euclidean_distance)). It's a classic approach and tends to work quiet well in practice (there are a ton of other neat [clustering algorithms](https://en.wikipedia.org/wiki/Cluster_analysis#Algorithms)) but one non-technical challenge is (1) choosing $K$ and (2) explaining what a single cluster actually means to literally anyone else.
 
+Solving (1) is relatively straight-forward. You can run K-means for some number of $K$ from [0, $m$] ($m > 0$ and choose what appears to be a $k$ that sufficiently minimizes the within-cluster sum-of-squares (i.e., $\sum_{i=0}^{n} min_{\mu_j \in C}||x_i - \mu_j||^2$). Here notice that the the majority of the variation of the clusters can be capture by $k=6$.
 
+![The Inertia Function!](inertia.png)
+<p align="center" style="padding:0"><i>Inertia as a function of k</i></p>
 
+Now to (2), which is the harder challenge. If I were to plot my data and look at the clusters, I'd have something that looks like:
 
+![K-Means!](kmeans.png)
+<p align="center" style="padding:0"><i>Look at all 3 of those beautiful dimensions!</i></p>
+
+How cool, right? This little algorithm learned pretty clear groups that you can see rather clearly in the data. Impressive! And also useless to your boss. 
+
+More seriously, while you can see these clusters, you can't actually extract a clear description from it, which makes interpreting it really, really hard when you go past 3 dimensions.
+
+So what can you do to make this slightly more meaningful?
+
+Enter [decision trees](https://en.wikipedia.org/wiki/Decision_tree). Another elegant, classic, and amazing algorithm. Decision Trees basically split up your data using simple `if-else` statements. So, a trick that you can use is to take the predicted clusters and run a Decision Tree (Classification) to predict the segment and use the learneed Tree's logic as your new business logic.
+
+I find this little trick pretty fun and effective since I can more easily describe how a machine learned a segment and I can also inspect it. Let's suppose I ran my tree on this learned K-means, what would the output look like?
+
+![Decision Tree Ouput!](decisiontree.png)
+<p align="center" style="padding:0"><i>Is this really more interpretable?</i></p>
+
+And there you have it, now you have a segmentation that is closer to optimal and somewhat easier to interpret. It's still not as good as the business definition but you could actually read through this and eventually come up with a heuristic driven approach as well, which is why I like it and why I've used it in the past.
+
+Finally, here's the code to run the K-means and the Decision tree.
+```python
+import plotly
+import pydotplus
+import numpy as np        
+import pandas as pd
+import matplotlib.pyplot as plt 
+import seaborn as sns 
+import plotly.graph_objs as go
+from sklearn.cluster import KMeans
+from sklearn import metrics
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.tree import export_graphviz
+from sklearn.externals.six import StringIO  
+from IPython.display import display
+from IPython.display import Image  
+plotly.offline.init_notebook_mode()
+
+%matplotlib inline
+
+def plot_clusters_3d(xdf: pd.DataFrame, xcols: list, predcol: str, cluster_colors: list, ptitle: str) -> None:
+    '''
+    Helper function to plot the clusters of an aglorithm given the predicted clusters
+    
+    Parameters
+    ---------
+    xdf : pandas.DataFrame
+        Input data frame of attributes and predicted cluster
+    
+    xcols : list
+        List of field names 
+    
+    xcol : str
+        Predicted cluster name
+    
+    cluster_colors : list
+        List of colors for plotting
+    ptitle: str
+        Plot title
+    '''
+    assert len(cluster_colors) == xdf[predcol].nunique(), 'Must have a color for each cluster'
+    plot_list = []
+    for predicted_cluster, cluster_color in zip(xdf[predcol].unique(), cluster_colors):
+        clusterdata = xdf[xdf[predcol] == predicted_cluster][xcols]
+        cluster_scatter = {
+            'mode' : "markers",
+            'name' : "Cluster %s" % (predicted_cluster + 1),
+            'type' : "scatter3d",    
+            'x' : clusterdata.values[:,0],
+            'y' : clusterdata.values[:,1], 
+            'z' : clusterdata.values[:,2],
+            'marker' : {'size': 2, 'color':cluster_color},        
+        }
+        cluster_centroid = {
+            'alphahull': 5,
+            'name': 'Cluster %s' % (predicted_cluster + 1),
+            'opacity': 0.1,
+            'type': 'mesh3d',
+            'x': clusterdata.values[:,0],
+            'y': clusterdata.values[:,1],
+            'z': clusterdata.values[:,2],
+            'color': cluster_color,
+            'showscale': True
+        }
+        plot_list.append(cluster_scatter)
+        plot_list.append(cluster_centroid)
+    
+    layout = {
+        "title" : ptitle,
+        "scene" : {
+            'xaxis': {"zeroline": True, "title": 'Age'}, 
+            'yaxis': {"zeroline": True, "title": 'Spending Score (0-100)'}, 
+            'zaxis': {"zeroline": True, "title": "Annual Income ($K)"},
+        },
+        "width": 1000,
+        "height": 800,
+        "margin": go.layout.Margin(
+            l=50,
+            r=50,
+            b=100,
+            t=100,
+            pad=4
+        ),
+        "plot_bgcolor": '#c7c7c7'
+    }
+
+    fig = {'data': plot_list, 'layout': layout}
+    plotly.offline.iplot(fig, filename='mesh3d_sample')
+
+# Here CDF is short for "Customer Data Frame"
+cdf = pd.read_csv("customer-segmentation-tutorial-in-python.zip")
+cdf.rename({'Annual Income (k$)': 'Annual Income ($K)'}, inplace=True, axis=1)
+
+# Removing gender though we could certainly add it is a binary field
+cdf['x'] = cdf['Age']
+cdf['y'] = cdf['Spending Score (1-100)']
+cdf['z'] = cdf['Annual Income ($K)']
+
+xcols = ['x', 'y', 'z']
+xcol_labels = ['Age', 'Spending Score (1-100)', 'Annual Income ($K)']
+
+# Setting this to a max of 11 Clusters
+k = 11
+
+X1 = cdf[xcols].values
+inertia = []
+for i in range(1 , k):
+    kmeans_model = (KMeans(n_clusters = i ,init='k-means++', n_init = 10 ,max_iter=300, 
+                        tol=0.0001,  random_state= 111  , algorithm='elkan') )
+    kmeans_model.fit(X1)
+    inertia.append(kmeans_model.inertia_)
+
+plt.figure(1 , figsize = (15 ,6))
+plt.plot(np.arange(1 , 11) , inertia , 'o')
+plt.plot(np.arange(1 , 11) , inertia , '-' , alpha = 0.5)
+plt.xlabel('Number of Clusters') , plt.ylabel('Inertia')
+plt.title("Inertia as a function of the Number of Clusters (k)")
+plt.grid()
+plt.show()
+
+optimal_clusters = 6
+# 6 clusters 6 colors
+xcolors = ['red', 'green', 'blue', 'orange', 'purple', 'gray']
+# Chose 6 as the best number of clusters
+kmeans_model = (KMeans(n_clusters = optimal_clusters ,init='k-means++', n_init = 10 ,max_iter=300, 
+                        tol=0.0001,  random_state= 111  , algorithm='elkan') )
+kmeans_model.fit(X1)
+cdf['pred_cluster_kmeans'] = kmeans_model.labels_
+centroids = kmeans_model.cluster_centers_
+
+display(pd.DataFrame(cdf['pred_cluster_kmeans'].value_counts(normalize=True)))
+
+clf = DecisionTreeClassifier()
+# Train Decision Tree Classifer
+clf = clf.fit(X1, cdf['pred_cluster_kmeans'])
+
+# Predict the response for test dataset
+cdf['pred_class_dtree'] = clf.predict(X1)
+
+display(pd.crosstab(cdf['pred_cluster_kmeans'], cdf['pred_class_dtree']))
+dot_data = StringIO()
+export_graphviz(
+    decision_tree=clf, 
+    out_file=dot_data,  
+    filled=True, 
+    rounded=False,
+    impurity=False,
+    special_characters=True, 
+    feature_names=xcol_labels, 
+    class_names=cdf['pred_cluster_kmeans'].unique().astype(str).tolist(),
+
+)
+graph = pydotplus.graph_from_dot_data(dot_data.getvalue())  
+graph.write_png("./decisiontree.png")
+```
+
+*Have some feedback? Feel free to [let me know](https://twitter.com/franciscojarceo)!*
