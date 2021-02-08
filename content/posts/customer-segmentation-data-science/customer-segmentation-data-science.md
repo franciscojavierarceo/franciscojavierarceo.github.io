@@ -42,7 +42,8 @@ Here are some examples:
 - The amount of money a customer spent in the last year
 - The likelihood a customer will spend money at a given store (purchase propensity / propensity to buy)
 - The customer's geographic region (e.g., zipcode, state)
-- In data, some of that customer information would look something like this:
+
+In data, some of that customer information would look something like this:
 
 <table>
   <tr>
@@ -83,7 +84,7 @@ Here are some examples:
 </table>
 And so on.
 
-We would apply some logic/code to create segment like:
+We could apply some logic/rules/code to create segment like:
 
 - Age Buckets
     1. < 25
@@ -101,7 +102,7 @@ We would apply some logic/code to create segment like:
     2. Medium: [0.25, 0.75]
     3. High: [0.75, 1.0]
 
-And map that logic into our data:
+And map that logic into our data, which would yield
 <table>
   <tr>
     <th>User ID</th>
@@ -141,10 +142,13 @@ And map that logic into our data:
 </table>
 And so on.
 
-Pretty simple, right? The code for this is simple too (assuming you're using Pandas and Python; though it's also simple in SQL).
+Pretty simple, right? The code for this categorization is simple too (assuming you're using Pandas and Python; though it's also simple in SQL).
 
 # Here's one example
 ```python
+import numpy as np
+import pandas as pd
+
 cdf['Income Bucket'] = pd.cut(cdf['Annual Income ($K)'], 
     bins=[0, 25, 35, 55, np.inf], 
     labels=['<25', '25-35', '35-55', '55+']
@@ -154,7 +158,7 @@ This is a really helpful and simple way to understand our customers and it's the
 
 ### 2. Algorithmic Segments
 
-Segments defined using simple business logic are great because they are so simple and easy to interpret, but that's not free.
+Segments defined using simple business logic are great because they are so easy to interpret, but that's not free.
 By favoring simplicity we have to limit ourselves to (potentially) suboptimal segments. 
 This is typically on purpose and entirely fine but, again, we can do better.
 
@@ -174,7 +178,7 @@ Now to (2), which is the harder challenge. If I were to plot my data and look at
 ![K-Means!](kmeans.png)
 <p align="center" style="padding:0"><i>Look at all 3 of those beautiful dimensions!</i></p>
 
-How cool, right? This little algorithm learned pretty clear groups that you can see rather clearly in the data. Impressive! And also useless to your boss. 
+How cool, right? This little algorithm learned pretty clear groups that you can see rather obviously in the data. Impressive! And also useless to your boss and colleagues.
 
 More seriously, while you can see these clusters, you can't actually extract a clear description from it, which makes interpreting it really, really hard when you go past 3 dimensions.
 
@@ -187,133 +191,22 @@ I find this little trick pretty fun and effective since I can more easily descri
 ![Decision Tree Ouput!](decisiontree.png)
 <p align="center" style="padding:0"><i>Is this really more interpretable?</i></p>
 
-And there you have it, now you have a segmentation that is closer to optimal and somewhat easier to interpret. It's still not as good as the business definition but you could actually read through this and eventually come up with a heuristic driven approach as well, which is why I like it and why I've used it in the past.
+There you have it, now you have a segmentation that is closer to optimal and somewhat easier to interpret. It's still not as good as the business definition but you could actually read through this and eventually come up with a heuristic driven approach as well, which is why I like it and why I've used it in the past.
 
-Finally, here's the code to run the K-means and the Decision tree.
+And here's the code to run the K-means and the Decision tree.
+
 ```python
-import plotly
 import pydotplus
-import numpy as np        
 import pandas as pd
-import matplotlib.pyplot as plt 
-import seaborn as sns 
-import plotly.graph_objs as go
-from sklearn.cluster import KMeans
-from sklearn import metrics
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.tree import export_graphviz
 from sklearn.externals.six import StringIO  
-from IPython.display import display
-from IPython.display import Image  
-plotly.offline.init_notebook_mode()
-
-%matplotlib inline
-
-def plot_clusters_3d(xdf: pd.DataFrame, xcols: list, predcol: str, cluster_colors: list, ptitle: str) -> None:
-    '''
-    Helper function to plot the clusters of an aglorithm given the predicted clusters
-    
-    Parameters
-    ---------
-    xdf : pandas.DataFrame
-        Input data frame of attributes and predicted cluster
-    
-    xcols : list
-        List of field names 
-    
-    xcol : str
-        Predicted cluster name
-    
-    cluster_colors : list
-        List of colors for plotting
-    ptitle: str
-        Plot title
-    '''
-    assert len(cluster_colors) == xdf[predcol].nunique(), 'Must have a color for each cluster'
-    plot_list = []
-    for predicted_cluster, cluster_color in zip(xdf[predcol].unique(), cluster_colors):
-        clusterdata = xdf[xdf[predcol] == predicted_cluster][xcols]
-        cluster_scatter = {
-            'mode' : "markers",
-            'name' : "Cluster %s" % (predicted_cluster + 1),
-            'type' : "scatter3d",    
-            'x' : clusterdata.values[:,0],
-            'y' : clusterdata.values[:,1], 
-            'z' : clusterdata.values[:,2],
-            'marker' : {'size': 2, 'color':cluster_color},        
-        }
-        cluster_centroid = {
-            'alphahull': 5,
-            'name': 'Cluster %s' % (predicted_cluster + 1),
-            'opacity': 0.1,
-            'type': 'mesh3d',
-            'x': clusterdata.values[:,0],
-            'y': clusterdata.values[:,1],
-            'z': clusterdata.values[:,2],
-            'color': cluster_color,
-            'showscale': True
-        }
-        plot_list.append(cluster_scatter)
-        plot_list.append(cluster_centroid)
-    
-    layout = {
-        "title" : ptitle,
-        "scene" : {
-            'xaxis': {"zeroline": True, "title": 'Age'}, 
-            'yaxis': {"zeroline": True, "title": 'Spending Score (0-100)'}, 
-            'zaxis': {"zeroline": True, "title": "Annual Income ($K)"},
-        },
-        "width": 1000,
-        "height": 800,
-        "margin": go.layout.Margin(
-            l=50,
-            r=50,
-            b=100,
-            t=100,
-            pad=4
-        ),
-        "plot_bgcolor": '#c7c7c7'
-    }
-
-    fig = {'data': plot_list, 'layout': layout}
-    plotly.offline.iplot(fig, filename='mesh3d_sample')
-
-# Here CDF is short for "Customer Data Frame"
-cdf = pd.read_csv("customer-segmentation-tutorial-in-python.zip")
-cdf.rename({'Annual Income (k$)': 'Annual Income ($K)'}, inplace=True, axis=1)
-
-# Removing gender though we could certainly add it is a binary field
-cdf['x'] = cdf['Age']
-cdf['y'] = cdf['Spending Score (1-100)']
-cdf['z'] = cdf['Annual Income ($K)']
-
-xcols = ['x', 'y', 'z']
-xcol_labels = ['Age', 'Spending Score (1-100)', 'Annual Income ($K)']
-
-# Setting this to a max of 11 Clusters
-k = 11
-
-X1 = cdf[xcols].values
-inertia = []
-for i in range(1 , k):
-    kmeans_model = (KMeans(n_clusters = i ,init='k-means++', n_init = 10 ,max_iter=300, 
-                        tol=0.0001,  random_state= 111  , algorithm='elkan') )
-    kmeans_model.fit(X1)
-    inertia.append(kmeans_model.inertia_)
-
-plt.figure(1 , figsize = (15 ,6))
-plt.plot(np.arange(1 , 11) , inertia , 'o')
-plt.plot(np.arange(1 , 11) , inertia , '-' , alpha = 0.5)
-plt.xlabel('Number of Clusters') , plt.ylabel('Inertia')
-plt.title("Inertia as a function of the Number of Clusters (k)")
-plt.grid()
-plt.show()
 
 optimal_clusters = 6
 # 6 clusters 6 colors
 xcolors = ['red', 'green', 'blue', 'orange', 'purple', 'gray']
 # Chose 6 as the best number of clusters
-kmeans_model = (KMeans(n_clusters = optimal_clusters ,init='k-means++', n_init = 10 ,max_iter=300, 
+kmeans_model = (KMeans(n_clusters = optimal_clusters,init='k-means++', n_init = 10 ,max_iter=300, 
                         tol=0.0001,  random_state= 111  , algorithm='elkan') )
 kmeans_model.fit(X1)
 cdf['pred_cluster_kmeans'] = kmeans_model.labels_
@@ -344,5 +237,26 @@ export_graphviz(
 graph = pydotplus.graph_from_dot_data(dot_data.getvalue())  
 graph.write_png("./decisiontree.png")
 ```
+## What can you do with your new segments?
+
+Now that we have our customer segments we can do all sorts of different things.
+We can create [A/B tests](https://www.optimizely.com/optimization-glossary/ab-testing/) for website experiences or we can test the impact of [changing our prices](https://medium.com/@judaikawa/price-elasticity-statistical-modeling-in-the-retail-industry-a-quick-overview-fdab5350222) to certain customers.
+In general, we can just try a bunch of new things.
+
+## How do I know if my segments are accurate?
+
+The measure (i.e., within cluster sum-of-squares / inertia) we used in the example above was a reasonably straightforward way to measure the accuracy of your segments from an analytical perspective, but if you wanted to take a closer look, I'd recommend reviewing individual users in each segment. It sounds a little silly and can, in some cases, lead to the wrong conclusions but I firmly believe that in data science, you just have to really **look** at your data. You learn a lot from it.
+
+## How do I know when my segments need to change?
+
+Lastly, segments can change; your customers are always evolving so it's good to re-evaluate your clusters time and again. The emergence of new segments should feel very obvious, since it may be driven by products or acquisition changes. As a concrete example, if you noticed that important businesss metrics split by your segments are starting to behave a little differently, then you can investigate whether it's driven by a change in the segments; sometimes it is, sometimes it's not.
+
+This tutorial ended up being a little longer than I anticipated but oh well, I hope you enjoyed it.
+
+I've stored the code to reproduce this example in a [Jupyter Notebook](https://github.com/franciscojavierarceo/Python/blob/master/demos/Customer%20Segmentation%20Example.ipynb) available on my GitHub. To get it up and running you only need to download the notebook, have Docker installed, and simply run:
+
+``` docker run -it -p 8888:8888 -v ~/path/to/your/folder/:/home/jovyan/work --rm --name jupyter jupyter/scipy-notebook:17aba6048f44```
+
+And you should be good to go!
 
 *Have some feedback? Feel free to [let me know](https://twitter.com/franciscojarceo)!*
