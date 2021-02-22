@@ -8,4 +8,12 @@ I've written about the wonders of [Linear Regression](https://franciscojavierarc
 
 But what does that mean?
 
-Approximating a function is a reasonably straightforward concept. Take two things with some relationship and estimate what that relationship looks like as a formula.
+Take two things with some relationship and estimate what that relationship looks like as a formula.
+
+Suppose you were interested in the relationship between Age and Income; i.e., you wanted to understand how a person's age *correlates* to their income.
+
+You could draw a scatter plot (like below) and look at the relationship between them and fit (i.e., estimate) the relationship (i.e., the slope of that line).
+
+![A scatter plot!](scatterplot.png)
+<p align="center" style="padding:0"><i>A Scatter Plot of Age and Income</i></p>
+
