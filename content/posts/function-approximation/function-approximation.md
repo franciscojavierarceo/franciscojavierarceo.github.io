@@ -38,7 +38,7 @@ Lastly, what if we saw something that was just plain *weird*?
 ![A scatter plot!](income_age_weird.jpeg)
 <p align="center" style="padding:0"><i>A Scatter Plot of Age and Income with a Piecewise Linear, Discontinuous Function</i></p>
 
-This is my favorite example because it shows a [piece-wise linear function](https://en.wikipedia.org/wiki/Piecewise_linear_function) and while strange looking, these relationships are very common phenomena in the wild.
+This is my favorite example because it shows a [piece-wise linear function](https://en.wikipedia.org/wiki/Piecewise_linear_function) and, while strange looking, these relationships are very common phenomena in the wild.
 
 ## Why?
 
