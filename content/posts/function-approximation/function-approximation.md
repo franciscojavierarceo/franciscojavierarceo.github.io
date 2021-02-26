@@ -40,7 +40,7 @@ Lastly, what if we saw something that was just plain *weird*?
 
 This is my favorite example because it shows a [piece-wise linear function](https://en.wikipedia.org/wiki/Piecewise_linear_function) and, while strange looking, these relationships are very common phenomena in the wild.
 
-## Why?
+Why?
 
 Because often times we are modeling behaviors or decisions by other systems in the world, and those systems, decisions, and behaviors often have weird boundary points/thresholds. In the credit world, you'll often see this because a lender's credit policy systematically rejects applications with a certain set of criteria, which would lead to visualizations identical to this.
 
@@ -78,7 +78,7 @@ print(summary(earth.mod, digits = 2, style = "pmax"))
 dft$preds <- predict(earth.mod, df)[,1]
 ```
 
-Short, sweet, and effective—my personal favorite combination. 
+Short, sweet, and effective—my favorite combination. 
 
 The other algorithms all have pros and cons, and I largely recommend to use each one depending on how smooth or *not*-smooth the underlying behavior of your data is (and how much you care to really account for it). 
 
