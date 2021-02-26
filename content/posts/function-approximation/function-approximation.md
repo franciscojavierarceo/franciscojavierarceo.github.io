@@ -82,6 +82,6 @@ Short, sweet, and effective—my favorite combination.
 
 The other algorithms all have pros and cons, and I largely recommend to use each one depending on how smooth or *not*-smooth the underlying behavior of your data is (and how much you care to really account for it). 
 
-Anyways, I hope you liked this post; it was a very enjoyable reason for me to make some graphs.
+Anyways, I hope you liked this post; it was a very enjoyable excuse for me to make some graphs.
 
 *Have some feedback? Feel free to [let me know](https://twitter.com/franciscojarceo)!*
