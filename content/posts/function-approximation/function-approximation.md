@@ -68,7 +68,7 @@ But my personal favorite is MARS. If we used R's [earth package](https://cran.r-
 ![A scatter plot!](income_age_mars.jpeg)
 <p align="center" style="padding:0"><i>A Scatter Plot of Age and Income using Function Approximation</i></p>
 
-And here's the code to generate it
+And here's the R code to generate it.
 
 ```R
 library(earth)
@@ -78,7 +78,7 @@ print(summary(earth.mod, digits = 2, style = "pmax"))
 dft$preds <- predict(earth.mod, df)[,1]
 ```
 
-Short, sweet, and effective--my personal favorite combination. 
+Short, sweet, and effective—my personal favorite combination. 
 
 The other algorithms all have pros and cons, and I largely recommend to use each one depending on how smooth or not-smooth your underlying behavior is (and how much you care to really account for it). Anyways, I hope you liked this post. It was a very enjoyable way for me to make some graphs.
 

@@ -6,7 +6,7 @@ date: 2021-01-06
 
 I love code. Plain and simple.
 
-I didn't always though. I started programming at 21 years old during my first masters---I was studying statistics and used code only as a means for running regression models and doing microeconometrics research. I started statistical programming back in 2011 using [STATA](https://www.stata.com/) and [SAS](https://www.sas.com/). They weren't *real* programming languages by a computer scientist's standards but that is technically how I started.
+I didn't always though. I started programming at 21 years old during my first masters—I was studying statistics and used code only as a means for running regression models and doing microeconometrics research. I started statistical programming back in 2011 using [STATA](https://www.stata.com/) and [SAS](https://www.sas.com/). They weren't *real* programming languages by a computer scientist's standards but that is technically how I started.
 
 I eventually moved onto to learning [SQL](https://en.wikipedia.org/wiki/SQL) and [R](https://www.r-project.org/about.html) when I started working and I found myself often writing Monte Carlo simulations of harmonic regressions, two stage least-squares, and other machine learning/statistical phenomenon.
 
