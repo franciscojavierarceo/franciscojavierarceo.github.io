@@ -80,6 +80,8 @@ dft$preds <- predict(earth.mod, df)[,1]
 
 Short, sweet, and effective—my personal favorite combination. 
 
-The other algorithms all have pros and cons, and I largely recommend to use each one depending on how smooth or not-smooth your underlying behavior is (and how much you care to really account for it). Anyways, I hope you liked this post. It was a very enjoyable way for me to make some graphs.
+The other algorithms all have pros and cons, and I largely recommend to use each one depending on how smooth or *not*-smooth the underlying behavior of your data is (and how much you care to really account for it). 
+
+Anyways, I hope you liked this post; it was a very enjoyable reason for me to make some graphs.
 
 *Have some feedback? Feel free to [let me know](https://twitter.com/franciscojarceo)!*
