@@ -42,11 +42,15 @@ This is my favorite example because it shows a [piece-wise linear function](http
 
 ## Why?
 
-Because often times we are modeling behaviors or decisions by other systems in the world, and those systems, decisions, and behaviors often have weird boundary points/thresholds. In the credit world, you'll often see this because a lender's credit policy systematically rejects applications with a certain set of criteria, which would lead to visuals identical to this.
+Because often times we are modeling behaviors or decisions by other systems in the world, and those systems, decisions, and behaviors often have weird boundary points/thresholds. In the credit world, you'll often see this because a lender's credit policy systematically rejects applications with a certain set of criteria, which would lead to visualizations identical to this.
 
-## How do we approximate weird functions?
+## What do we do with all of this information?
 
-The fun part! 
+This is the fun part! 
+
+If you're doing data science and modeling data with lots of features/attributes, you probably don't want to do this for hundreds or thousands of different variables. Instead, you may benefit from finding a way to estimate the univariate relationship algorithmically. 
+
+But how?
 
 When you have a bivariate relationship like this you don't want to have to tediously [engineer features](https://en.wikipedia.org/wiki/Feature_engineering) to estimate the underlying function, rather you'd prefer to have a machine learn (or estimate) the function using [supervised learning](https://en.wikipedia.org/wiki/Supervised_learning).
 
@@ -55,6 +59,27 @@ But which algorithm and how do I use it? Well, there are a few options people ty
 - [Polynomial Regression](https://en.wikipedia.org/wiki/Polynomial_regression)
 - [Multivariate Adaptive Regression Splines (MARS)](https://en.wikipedia.org/wiki/Multivariate_adaptive_regression_spline)
 - [Decision Trees](https://en.wikipedia.org/wiki/Decision_tree_learning)
-
+- [Weight of Evidence](https://documentation.sas.com/?cdcId=pgmsascdc&cdcVersion=9.4_3.3&docsetId=casstat&docsetTarget=casstat_binning_details03.htm&locale=en)
 
 And each has its own unique benefits.
+
+But my personal favorite is MARS. If we used R's [earth package](https://cran.r-project.org/web/packages/earth/earth.pdf) we can estimate this function automatically in a few simple lines of code and get the predicted fit below.
+
+![A scatter plot!](income_age_mars.jpeg)
+<p align="center" style="padding:0"><i>A Scatter Plot of Age and Income using Function Approximation</i></p>
+
+And here's the code to generate it
+
+```R
+library(earth)
+earth.mod <- earth(income ~ age, data = df)
+plotmo(earth.mod)
+print(summary(earth.mod, digits = 2, style = "pmax"))
+dft$preds <- predict(earth.mod, df)[,1]
+```
+
+Short, sweet, and effective--my personal favorite combination. 
+
+The other algorithms all have pros and cons, and I largely recommend to use each one depending on how smooth or not-smooth your underlying behavior is (and how much you care to really account for it). Anyways, I hope you liked this post. It was a very enjoyable way for me to make some graphs.
+
+*Have some feedback? Feel free to [let me know](https://twitter.com/franciscojarceo)!*
