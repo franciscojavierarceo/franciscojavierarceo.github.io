@@ -56,8 +56,7 @@ export default function AboutMe() {
     <div style={{paddingBottom: 20,}}>
       
     <p>
-      I'm the Executive Director of Data Science at{' '}<a href="https://www.understood.org">Understood.org</a> where we are dedicated to shaping a world 
-      where millions of people who learn and think differently can thrive at home, at school, and at work.
+      I'm a data scientist at{' '}<a href="https://www.fast.co">Fast</a> 🚀 where we are bringing one-click checkout to the internet.
       I also create technology bringing financial wellness to the Latino community at{' '} <a href="https://www.unidosfin.com/en">Unidos</a>.
     </p><br/>
     <p>
