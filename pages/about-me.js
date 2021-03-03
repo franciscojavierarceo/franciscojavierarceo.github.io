@@ -56,7 +56,8 @@ export default function AboutMe() {
     <div style={{paddingBottom: 20,}}>
       
     <p>
-      I'm a data scientist at{' '}<a href="https://www.fast.co">Fast</a> 🚀 where we are bringing one-click checkout to the internet.
+      I'm a data scientist at{' '}<a href="https://www.fast.co">Fast</a> 🚀 where we are bringing one-click checkout to the internet, 
+      where I work largely on quantitative problems all related to risk.
       I also create technology bringing financial wellness to the Latino community at{' '} <a href="https://www.unidosfin.com/en">Unidos</a>.
     </p><br/>
     <p>
