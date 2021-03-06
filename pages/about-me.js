@@ -56,9 +56,10 @@ export default function AboutMe() {
     <div style={{paddingBottom: 20,}}>
       
     <p>
-      I'm a data scientist at{' '}<a href="https://www.fast.co">Fast</a> 🚀 where we are bringing one-click checkout to the internet, 
-      where I work largely on quantitative problems all related to risk.
-      I also create technology bringing financial wellness to the Latino community at{' '} <a href="https://www.unidosfin.com/en">Unidos</a>.
+      I'm a data scientist at{' '}<a href="https://www.fast.co">Fast</a> 🚀 where we're bringing one-click checkout to the internet; 
+      I work largely on quantitative problems related to risk.
+    </p><br/>
+    <p>I also create technology bringing financial wellness to the Latino community at{' '} <a href="https://www.unidosfin.com/en">Unidos</a>.
     </p><br/>
     <p>
       I was previously at Goldman Sachs where I worked in the Credit Risk team developing and executing
@@ -68,6 +69,9 @@ export default function AboutMe() {
     </p><br/>
     <p>
       Feel free to checkout some of my past work on my{' '}<a href="https://github.com/franciscojavierarceo">GitHub</a> where you'll find some work I've done on Machine Learning, Natural Language Processing, Web Development, Cloud Computing, and other random things.
+    </p><br/>
+    <p>
+      If you'd like to get in touch, feel free to reach out to me on{' '}<a href="htps://www.twitter.com/franciscojarceo">Twitter</a> or{' '}<a href="https://www.linkedin.com/in/franciscojavierarceo/">LinkedIn</a>.
     </p>
     </div>
     <div style={{padding: 10}}>
