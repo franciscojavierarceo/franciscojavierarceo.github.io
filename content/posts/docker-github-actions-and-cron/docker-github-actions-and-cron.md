@@ -69,7 +69,7 @@ def main(message: str, filename: str='temp') -> None:
         except Exception as e:
             print('Error sending tweet \n %s' % e)
     except:
-        print("Twitter AUthentication Failed")
+        print("Twitter Authentication Failed")
 
 
 if __name__ == '__main__':
