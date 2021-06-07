@@ -1,6 +1,6 @@
 ---
-title: Bert Transformers, Fast API, and Toxic Twitter
-description: A Data Scientist's Guide to using Fast-API and BERT to Build a twitter scanner of your tweets.
+title: Bert Transformers, FastAPI, and Toxic Twitter
+description: A Data Scientist's Guide to using FastAPI and BERT to Build a twitter scanner of your tweets.
 date: 2021-04-11
 ---
 
@@ -40,7 +40,7 @@ This is an important step. In summary, we want to decouple the user-facing exper
 
 So far I've been diving into using a pre-trained BERT model developed by [Laura Hanu](https://laurahanu.github.io) at [Unitary](https://www.unitary.ai) and it's been pretty fun. I've been able to score my own tweets and see the behavior of this model and see various implementation details that I'll have to be mindful of (I'll probably write more on this later).
 
-I've been tinkering with [Fast-API](https://fastapi.tiangolo.com) and figuring out how the [cookie-cutter template](https://fastapi.tiangolo.com/project-generation/) works. I don't love the way it behaves and there's a lot of strong opinions in place which is helpful but imperfect; we'll see how my opinion shapes as I spend more time with it.
+I've been tinkering with [FastAPI](https://fastapi.tiangolo.com) and figuring out how the [cookie-cutter template](https://fastapi.tiangolo.com/project-generation/) works. I don't love the way it behaves and there's a lot of strong opinions in place which is helpful but imperfect; we'll see how my opinion shapes as I spend more time with it.
 
 I'm very excited to learn [Docker Swarm](https://docs.docker.com/get-started/swarm-deploy/) as it seems like a very promising framework for deploying the model API.
 
