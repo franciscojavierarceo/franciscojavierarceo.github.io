@@ -56,7 +56,7 @@ export default function AboutMe() {
     <div style={{paddingBottom: 20,}}>
       
     <p>
-      I'm a machine learning engineer at{' '}<a href="https://www.fast.co">Fast</a> 🚀 where we're bringing one-click checkout to the internet; 
+      I'm a data and machine learning tech lead at{' '}<a href="https://www.fast.co">Fast</a> 🚀where we're bringing one-click checkout to the internet; 
       I work largely on quantitative problems related to risk.
     </p><br/>
     <p>I also create technology bringing financial wellness to the Latino community at{' '} <a href="https://www.unidosfin.com/en">Unidos</a>.
@@ -68,10 +68,13 @@ export default function AboutMe() {
       South Africa's first digital bank. And prior to that I was at AIG working in their{' '}<a href="https://hbr.org/2014/10/how-aig-moved-toward-evidence-based-decision-making">Science</a> team.
     </p><br/>
     <p>
-      Feel free to checkout some of my past work on my{' '}<a href="https://github.com/franciscojavierarceo">GitHub</a> where you'll find some work I've done on Machine Learning, Natural Language Processing, Web Development, Cloud Computing, and other random things.
+      Feel free to checkout some of my past work on my{' '}<a href="https://github.com/franciscojavierarceo">GitHub</a> where you'll find some work I've done on Machine Learning, Natural Language Processing, Web Development, Cloud Computing, Data Visualization, and other random things.
     </p><br/>
     <p>
       If you'd like to get in touch, feel free to reach out to me on{' '}<a href="htps://www.twitter.com/franciscojarceo">Twitter</a> or{' '}<a href="https://www.linkedin.com/in/franciscojavierarceo/">LinkedIn</a>.
+    </p><br/>
+    <p>
+      Also, here's a random chart. 😊
     </p>
     </div>
     <div style={{padding: 10}}>
