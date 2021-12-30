@@ -56,7 +56,7 @@ To learn more about Tailwind CSS, take a look at the following resources:
 
 - [Tailwind Documentation](https://tailwindcss.com/) - learn about Tailwind CSS features and API.
 
-## ☑ Upcoming features
+## ☑ Features
 
 - [X] Add Sitemap
 - [x] Dark Mode
