@@ -10,6 +10,8 @@ So far this year has gone completely differently than I had originally planned b
 
 The end of 2019 and 2020 was a very big year for my family, as my wife and I moved to South Dakota, changed jobs (though some of this was technically at the tail end of 2019), and bought a home.
 
+# Learning
+
 I learned a lot this year, as I always try to do. Most of my focus was on engineering, in part because of my job, and also because of my interests. So here's my list of things I've learned:
 
 - More Django, JavaScript, and React in general 
@@ -23,7 +25,9 @@ Learning all of these new things was mostly painful but also extremely fun. It t
 ![That's a lot of commits!](2021-commit-count.png)
 <p align="center" style="padding:0"><i>A visualization of my daily computering</i></p>
 
-A fun fact here is that if you compare this to 2020, you'll notice the massive jump in Pull Requests (PRs), but I digress.
+A fun fact here is that if you compare this to 2020, you'll notice the massive jump in Pull Requests (PRs), which is a fun aside.
+
+# Career
 
 I joined [Fast](https://www.fast.co) last March and it's been an absolutely wild ride, which has been both intellectually fulfilling and exciting, which is a challenging combination to sustain. 
 
@@ -33,13 +37,17 @@ I've learned so much working at an extremely fast growing startup over the last 
 
 I've gotten to the place where I feel confident in saying that I am full stack, which means I need to figure out what I would like to learn next. 
 
+# Next Year
+
 In 2022, I hope to tackle a few big areas:
 
-1. I hope to continue learning from the amazing people I work with 
-2. I hope to continue building on my side projects and making more enhancements to my web and mobile apps
+1. I still have much to learn as a software engineer, so I hope to continue learning from the amazing people I work with
+2. I want to continue improving things I've alreaddy built, specificaly on my web and mobile app
 3. I hope to start learning more hardware as it's an area I have limited knowledge but lots of curiousity
 
-Let's hope I make some progress on those in 2022 and don't abandon (3). 
+Let's hope I make some progress on those in 2022 and don't abandon (3). Overall I'm very grateful for this past year and I feel lucky to have spent it with the best person a guy could ask for.
+
+Wishing you and your loved ones a Happy New Year.
 
 Cheers,
 Francisco
