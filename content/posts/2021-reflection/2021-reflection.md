@@ -50,5 +50,4 @@ Let's hope I make some progress on those in 2022 and don't abandon (4). Overall 
 
 Wishing you and your loved ones a Happy New Year.
 
-Cheers,
-Francisco
+-Francisco
