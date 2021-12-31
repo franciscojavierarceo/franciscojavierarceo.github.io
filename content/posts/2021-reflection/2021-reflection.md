@@ -8,7 +8,7 @@ I wrote a little bit about my year in my [last blog post](https://franciscojavie
 
 So far this year has gone completely differently than I had originally planned but I am very grateful for it. I started this past year [writing about 2020](https://franciscojavierarceo.github.io/post/learning-new-things) and what I learned, so I thought I would do the same as it closed.
 
-The end of 2019 and 2020 was a very big year for my family, as my wife and I moved to South Dakota, changed jobs, and bought a home. So quite a lot happend in the latest trip around the moon.
+The end of 2019 and 2020 was a very big year for my family, as my wife and I moved to South Dakota, changed jobs, and bought a home. So quite a lot happend in the latest trip around the sun.
 
 # Learning
 
