@@ -43,7 +43,7 @@ In 2022, I hope to tackle a few big areas professionally:
 
 1. I still have much to learn as a software engineer, so I hope to continue learning from my amazing colleagues
 2. I think we built some really awesome products during my time @ Fast, but there's still so much left so I hope to continue to build and ship impactful products
-3. I want to continue iterating on things I've alreaddy built, specificaly on my web and mobile app for [Unidos](www.getunidos.com)
+3. I want to continue iterating on things I've alreaddy built, specificaly on my web and mobile app for [Unidos](https://www.getunidos.com)
 4. I hope to start learning more hardware as it's an area I have somewhat limited knowledge but lots of curiousity
 
 Let's hope I make some progress on those in 2022 and don't abandon (4). Overall I'm very grateful for this past year and I feel lucky to have spent it with the best person a guy could ask for.
