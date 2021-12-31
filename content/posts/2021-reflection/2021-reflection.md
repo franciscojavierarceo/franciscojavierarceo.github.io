@@ -29,23 +29,24 @@ A fun fact here is that if you compare this to 2020, you'll notice the massive j
 
 # Career
 
-I joined [Fast](https://www.fast.co) last March and it's been an absolutely wild ride, which has been both intellectually fulfilling and exciting, which is a challenging combination to sustain. 
+I joined [Fast](https://www.fast.co) last March and it's been an absolutely wild ride, which has been both intellectually fulfilling and exciting, which is a challenging combination to sustain in my experience. 
 
-I have to say that of all of the organizations that I have worked for, Fast has been the most fun, which is unexpected since I work from home in South Dakota. I thought that not being in an office would have had a bigger influence on my perception of my enjoyment of my job but as it turns out, while I do miss working in an office, the work that I *actually do* is more important to me than being physically next to people that I'm doing the work with (it's not lost on me that this should be obvious but I'm often surprised how irrational or illogical my brain is about things of this nature). 
+I have to say that of all of the organizations that I have worked for, Fast has been the most fun, which is unexpected since I work from home in South Dakota. By which I mean that I thought that not being in a physicaloffice would have had a bigger influence on my perception of my enjoyment of my job but as it turns out, while I do miss working in an office, the work that I *actually do* is more important to me than being physically next to people that I'm doing the work with (it's not lost on me that this should be obvious but I'm often surprised how irrational or illogical my brain is about things of this nature). More than anything else, I think it's the people that really do make it great. The people that build the software and services, who are the same people that are kind and fun to work with.
 
-I've learned so much working at an extremely fast growing startup over the last 10 months and I really think it's unlikely I'll ever return to banking after working at an organization that values engineering as much as we do.
+I've learned so much working at an extremely fast (pun intended) growing startup over the last 10 months and I really think it's unlikely I'll ever return to banking after working at an organization that values engineering as much as we do.
 
-I've gotten to the place where I feel confident in saying that I am full stack, which means I need to figure out what I would like to learn next. 
+I've gotten to the place where I feel confident in saying that I am a full stack engineer, which means I need to figure out what new things I'd like to learn next. 
 
 # Next Year
 
-In 2022, I hope to tackle a few big areas:
+In 2022, I hope to tackle a few big areas professionally:
 
-1. I still have much to learn as a software engineer, so I hope to continue learning from the amazing people I work with
-2. I want to continue improving things I've alreaddy built, specificaly on my web and mobile app
-3. I hope to start learning more hardware as it's an area I have limited knowledge but lots of curiousity
+1. I still have much to learn as a software engineer, so I hope to continue learning from my amazing colleagues
+2. I think we built some really awesome products during my time @ Fast, but there's still so much left so I hope to continue to build and ship impactful products
+3. I want to continue iterating on things I've alreaddy built, specificaly on my web and mobile app for [Unidos](www.getunidos.com)
+4. I hope to start learning more hardware as it's an area I have somewhat limited knowledge but lots of curiousity
 
-Let's hope I make some progress on those in 2022 and don't abandon (3). Overall I'm very grateful for this past year and I feel lucky to have spent it with the best person a guy could ask for.
+Let's hope I make some progress on those in 2022 and don't abandon (4). Overall I'm very grateful for this past year and I feel lucky to have spent it with the best person a guy could ask for.
 
 Wishing you and your loved ones a Happy New Year.
 
