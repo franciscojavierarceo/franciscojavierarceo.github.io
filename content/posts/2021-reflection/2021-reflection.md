@@ -8,11 +8,11 @@ I wrote a little bit about my year in my [last blog post](https://franciscojavie
 
 So far this year has gone completely differently than I had originally planned but I am very grateful for it. I started this past year [writing about 2020](https://franciscojavierarceo.github.io/post/learning-new-things) and what I learned, so I thought I would do the same as it closed.
 
-The end of 2019 and 2020 was a very big year for my family, as my wife and I moved to South Dakota, changed jobs (though some of this was technically at the tail end of 2019), and bought a home.
+The end of 2019 and 2020 was a very big year for my family, as my wife and I moved to South Dakota, changed jobs, and bought a home. So quite a lot happend in the latest trip around the moon.
 
 # Learning
 
-I learned a lot this year, as I always try to do. Most of my focus was on engineering, in part because of my job, and also because of my interests. So here's my list of things I've learned:
+I learned a lot this year, as I always try to do. Most of my focus was on software engineering, in part because of my job, and also because of my interests. So here's the list of things I've learned:
 
 - More Django, JavaScript, and React in general 
 - More of the ever-evolving AWS ecosystem (it is both the same and very different than it was back in 2014)
@@ -20,7 +20,7 @@ I learned a lot this year, as I always try to do. Most of my focus was on engine
 - The programming language Go
 - gRPC (Google Remote Procedure Call)
 
-Learning all of these new things was mostly painful but also extremely fun. It takes a lot of patience and tinkering to learn to be effective with programming and I really do find it enjoyable. I find that I'm happiest most often when tinkering to solve new (at least new to me) computer-related puzzles, so it's been a very enjoyable year for me. In fact, we can see the data in the graph below showing all of the times I committed code:
+Learning all of these things was mostly painful but also extremely fun. It takes a lot of patience and tinkering to learn to be effective with programming and I really do enjoy it. I find that I'm happiest most often when tinkering to solve new (at least new to me) computer-related puzzles, so it's been a very enjoyable year for me. In fact, we can see the data in the graph below showing all of the times I committed code:
 
 ![That's a lot of commits!](2021-commit-count.png)
 <p align="center" style="padding:0"><i>A visualization of my daily computering</i></p>
