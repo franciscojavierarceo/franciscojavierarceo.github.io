@@ -70,6 +70,24 @@ export default function AboutMe() {
       Feel free to checkout some of my past work on my{' '}<a href="https://github.com/franciscojavierarceo">GitHub</a> where you'll find some work I've done on Machine Learning, Natural Language Processing, Web Development, Cloud Computing, Data Visualization, and other random things.
     </p><br/>
     <p>
+      Occassionally, I invest in startups as an angel through{' '}<a href="https://www.thefintechfund.com/">the Fintech Fund</a>, a small syndicate of fintech operators, and independently. To date, I've invested in the following companies:
+      <ol>
+      <li>- <a href="https://public.com/">Public</a></li>
+      <li>- <a href="https://www.joindebbie.com/">Debbie</a></li>
+      <li>- <a href="https://tryeverlaunch.io/">Everlaunch</a></li>
+      <li>- <a href="https://mercury.com/">Mercury</a></li>
+      <li>- <a href="https://www.mydocspace.com/">DocSpace</a></li>
+      <li>- <a href="https://domainmoney.com/"></a>Domain</li>
+      <li>- <a href="https://www.usepower.com/"></a>Power</li>
+      <li>- <a href="https://www.trueaccord.com/">TrueAccord</a></li>
+      <li>- <a href="https://www.atomicvest.com/"></a>Atomicvest</li>
+      <li>- <a href="https://www.joindaylight.com/"></a>Daylight</li>
+      <li>- <a href="https://www.sydecar.io/"></a>Sydecar</li>
+      <li>- <a href="https://moov.io/">Moov</a></li>
+      <li>- <a href="https://argyle.com/"></a>Argyle</li>
+      </ol>
+    </p>
+    <p>
       If you'd like to get in touch, feel free to reach out to me on{' '}<a href="htps://www.twitter.com/franciscojarceo">Twitter</a> or{' '}<a href="https://www.linkedin.com/in/franciscojavierarceo/">LinkedIn</a>.
     </p><br/>
     <p>
