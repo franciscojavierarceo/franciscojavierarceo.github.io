@@ -77,14 +77,14 @@ export default function AboutMe() {
       <li>- <a href="https://tryeverlaunch.io/">Everlaunch</a></li>
       <li>- <a href="https://mercury.com/">Mercury</a></li>
       <li>- <a href="https://www.mydocspace.com/">DocSpace</a></li>
-      <li>- <a href="https://domainmoney.com/"></a>Domain</li>
-      <li>- <a href="https://www.usepower.com/"></a>Power</li>
+      <li>- <a href="https://domainmoney.com/">Domain<</a>/li>
+      <li>- <a href="https://www.usepower.com/">Power</a></li>
       <li>- <a href="https://www.trueaccord.com/">TrueAccord</a></li>
-      <li>- <a href="https://www.atomicvest.com/"></a>Atomicvest</li>
-      <li>- <a href="https://www.joindaylight.com/"></a>Daylight</li>
-      <li>- <a href="https://www.sydecar.io/"></a>Sydecar</li>
+      <li>- <a href="https://www.atomicvest.com/">Atomicvest</a></li>
+      <li>- <a href="https://www.joindaylight.com/">Daylight</a></li>
+      <li>- <a href="https://www.sydecar.io/">Sydecar</a></li>
       <li>- <a href="https://moov.io/">Moov</a></li>
-      <li>- <a href="https://argyle.com/"></a>Argyle</li>
+      <li>- <a href="https://argyle.com/">Argyle</a></li>
       </ol>
     </p>
     <p>
