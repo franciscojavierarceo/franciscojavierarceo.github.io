@@ -86,7 +86,7 @@ export default function AboutMe() {
       <li>- <a href="https://moov.io/">Moov</a></li>
       <li>- <a href="https://argyle.com/">Argyle</a></li>
       </ol>
-    </p>
+    </p><br/>
     <p>
       If you'd like to get in touch, feel free to reach out to me on{' '}<a href="htps://www.twitter.com/franciscojarceo">Twitter</a> or{' '}<a href="https://www.linkedin.com/in/franciscojavierarceo/">LinkedIn</a>.
     </p><br/>
