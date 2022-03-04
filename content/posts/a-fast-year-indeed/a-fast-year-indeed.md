@@ -1,7 +1,7 @@
 ---
 title: A Fast Year Indeed
 description: 365 days @ Fast 
-date: 2022-03-05
+date: 2022-03-04
 ---
 
 > I don't know what's going on, and I'm probably not smart enough to understand if somebody was to explain it to me. All I know is we're being tested somehow, by somebody or some thing a whole lot smarter than us, and all I can do is be friendly and keep calm and try and have a nice time till it's over.
