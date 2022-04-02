@@ -1,5 +1,5 @@
 ---
-title: Binary Representation of Positive Intgers
+title: Binary Representation of Positive Integers
 description: A tutorial on converting numbers from decimal to binary...and back!
 date: 2022-04-02
 ---
