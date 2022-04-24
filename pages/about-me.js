@@ -56,7 +56,7 @@ export default function AboutMe() {
     <div style={{paddingBottom: 20,}}>
       
     <p>
-      I lead the Data and Machine Learning Platform team at{' '}<a href="https://www.fast.co">Fast</a> 🚀where we're bringing one-click checkout to the internet.
+      I'm an Engineering Manager for the Machine Learning and Data Infrastructure team at{' '}<a href="https://www.affirm.com">Affirm</a> 🚀.
     </p><br/>
     <p>I also create technology bringing financial wellness to the Latino community at{' '} <a href="https://www.getunidos.com/">Unidos</a>.
     </p><br/>
