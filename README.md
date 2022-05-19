@@ -19,6 +19,8 @@ I built this site using Next.js's tutorial <a href="https://nextjs.org/learn/bas
 
 ## 🚀 Getting Started
 
+Note this is build using node version 12.
+
 First, run the development server:
 
 ```bash

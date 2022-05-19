@@ -7,7 +7,7 @@
   </url>
 
   <url>
-    <loc>https://franciscojavierarceo.github.io/post/2021-goals</loc>
+    <loc>https://franciscojavierarceo.github.io/post/2021-reflection</loc>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
@@ -28,8 +28,28 @@
 
   <url>
     <loc
-      >https://franciscojavierarceo.github.io/post/customer-segmentation-data-science</loc
+      >https://franciscojavierarceo.github.io/post/data-science-and-fintech</loc
     >
+    <changefreq>daily</changefreq>
+    <priority>0.5</priority>
+  </url>
+
+  <url>
+    <loc>https://franciscojavierarceo.github.io/post/2021-goals</loc>
+    <changefreq>daily</changefreq>
+    <priority>0.5</priority>
+  </url>
+
+  <url>
+    <loc
+      >https://franciscojavierarceo.github.io/post/docker-github-actions-and-cron</loc
+    >
+    <changefreq>daily</changefreq>
+    <priority>0.5</priority>
+  </url>
+
+  <url>
+    <loc>https://franciscojavierarceo.github.io/post/2021-is-nearly-over</loc>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
@@ -43,13 +63,17 @@
   </url>
 
   <url>
-    <loc>https://franciscojavierarceo.github.io/post/2021-is-nearly-over</loc>
+    <loc
+      >https://franciscojavierarceo.github.io/post/customer-segmentation-data-science</loc
+    >
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
 
   <url>
-    <loc>https://franciscojavierarceo.github.io/post/2021-reflection</loc>
+    <loc
+      >https://franciscojavierarceo.github.io/post/how-to-build-a-credit-risk-model</loc
+    >
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
@@ -69,29 +93,13 @@
   </url>
 
   <url>
-    <loc
-      >https://franciscojavierarceo.github.io/post/docker-github-actions-and-cron</loc
-    >
+    <loc>https://franciscojavierarceo.github.io/post/learning-new-things</loc>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
 
   <url>
     <loc>https://franciscojavierarceo.github.io/post/i-love-code</loc>
-    <changefreq>daily</changefreq>
-    <priority>0.5</priority>
-  </url>
-
-  <url>
-    <loc
-      >https://franciscojavierarceo.github.io/post/data-science-and-fintech</loc
-    >
-    <changefreq>daily</changefreq>
-    <priority>0.5</priority>
-  </url>
-
-  <url>
-    <loc>https://franciscojavierarceo.github.io/post/learning-new-things</loc>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
@@ -104,7 +112,7 @@
 
   <url>
     <loc
-      >https://franciscojavierarceo.github.io/post/how-to-build-a-credit-risk-model</loc
+      >https://franciscojavierarceo.github.io/post/ordinary-least-squares</loc
     >
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
@@ -113,14 +121,6 @@
   <url>
     <loc
       >https://franciscojavierarceo.github.io/post/toxic-bert-and-fast-api</loc
-    >
-    <changefreq>daily</changefreq>
-    <priority>0.5</priority>
-  </url>
-
-  <url>
-    <loc
-      >https://franciscojavierarceo.github.io/post/ordinary-least-squares</loc
     >
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
