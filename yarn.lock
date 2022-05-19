@@ -1355,9 +1355,9 @@
   "version" "5.3.1"
 
 "caniuse-lite@^1.0.30001093", "caniuse-lite@^1.0.30001113", "caniuse-lite@^1.0.30001154", "caniuse-lite@^1.0.30001173":
-  "integrity" "sha512-LiMlrs1nSKZ8qkNhpUf5KD0Al1KCBE3zaT7OLOwEkagXMEDij98SiOovn9wxVGQpklk9vVC/pUSqgYmkmKOS8g=="
-  "resolved" "https://registry.npmjs.org/caniuse-lite/-/caniuse-lite-1.0.30001294.tgz"
-  "version" "1.0.30001294"
+  "integrity" "sha512-2SodVrFFtvGENGCv0ChVJIDQ0KPaS1cg7/qtfMaICgeMolDdo/Z2OD32F0Aq9yl6F4YFwGPBS5AaPqNYiW4PoA=="
+  "resolved" "https://registry.npmjs.org/caniuse-lite/-/caniuse-lite-1.0.30001341.tgz"
+  "version" "1.0.30001341"
 
 "caseless@~0.12.0":
   "integrity" "sha1-G2gcIf+EAzyCZUMJBolCDRhxUdw="
@@ -1477,7 +1477,6 @@
   dependencies:
     "anymatch" "~3.1.1"
     "braces" "~3.0.2"
-    "fsevents" "~2.1.2"
     "glob-parent" "~5.1.0"
     "is-binary-path" "~2.1.0"
     "is-glob" "~4.0.1"
@@ -4712,7 +4711,6 @@
     "resolve-url-loader" "3.1.2"
     "sass-loader" "10.0.5"
     "schema-utils" "2.7.1"
-    "sharp" "0.26.2"
     "stream-browserify" "3.0.0"
     "style-loader" "1.2.1"
     "styled-jsx" "3.3.2"
@@ -5527,8 +5525,6 @@
   "integrity" "sha512-c29LVsqOaLbBHuIbsTxaKENh1N2EQBOHaWv7gkHN4dgRbxSREqDnDbtFJYdpPauS4YCplMSNCABQ6Eeor69bAA=="
   "resolved" "https://registry.npmjs.org/prismjs/-/prismjs-1.23.0.tgz"
   "version" "1.23.0"
-  dependencies:
-    "clipboard" "^2.0.0"
   optionalDependencies:
     "clipboard" "^2.0.0"
 
@@ -7309,7 +7305,6 @@
     "chokidar" "^3.4.1"
     "graceful-fs" "^4.1.2"
     "neo-async" "^2.5.0"
-    "watchpack-chokidar2" "^2.0.1"
   optionalDependencies:
     "watchpack-chokidar2" "^2.0.1"
 
