@@ -4,9 +4,9 @@ description: A tutorial on converting numbers from decimal to binary...and back!
 date: 2022-04-02
 ---
 
-It's always fun to learn some additional tricks in math and computer science and I recently started reading about digital representation of numbers and [Swarthmore](https://www.swarthmore.edu/NatSci/echeeve1/Ref/BinaryMath/NumSys.html#:~:text=In%20summary%3A-,bit,numbers%20from%200%20to%20255.) has some truly great material on this. 
+It's always fun to learn some additional tricks in math and computer science and I recently started reading about digital representation of numbers and [Swarthmore](https://www.swarthmore.edu/NatSci/echeeve1/Ref/BinaryMath/NumSys.html#:~:text=In%20summary%3A-,bit,numbers%20from%200%20to%20255.) has some truly great material on this.
 
-I was searching around the internet on how to progmatically convert decimal numbers to binary and I found there wasn't *that* great of a resource and stackoverflow had mixed stuff so I thought I'd put it something together quickly.
+I was searching around the internet on how to programatically convert decimal numbers to binary and I found there wasn't *that* great of a resource and stackoverflow had mixed stuff so I thought I'd put it something together quickly.
 
 I'll probably add to this tutorial later but I think the code is the most important part.
 
@@ -18,7 +18,7 @@ As outlined in the tutorial above, this results in the two representations:
 
 $$86_{10} = 1*64 + 0*32 + 1*16 + 0*8 + 1*4 + 1*2 + 0*1$$
 
-and 
+and
 
 $$86_{10} = 1*2^6 + 0*2^5 + 0*2^3 + 1*2^2 + 1*2^1 + 0*2^0$$
 
@@ -74,7 +74,7 @@ def binaryToDecimal(bs: str) -> int:
 
 And that's it! If you stare at this formula for a second you'll see it's just taking each bit in the string and multiplying the $i^{th}$ binary value by $2^{n-i-1}$.
 
-We can verify that all of this works with some simple checks and comparisons: 
+We can verify that all of this works with some simple checks and comparisons:
 
 ```python
 decimalToBinary(86) == decimalToBinary2(86) # 1010110 == 1010110 --> true
