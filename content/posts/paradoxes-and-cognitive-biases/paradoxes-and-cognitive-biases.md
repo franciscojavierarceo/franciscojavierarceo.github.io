@@ -36,14 +36,14 @@ fun).
 
 I have decided to explicitly order these in the order I felt is the most important.
 This, too, is likely ridden with bias but I find that this is the order that is
-most important to me and that I've found the most useful in my life.
+most important to me and that I've found the most useful in my personal and
+professional life.
 
+## 00. The Double Standard
 ## 01. The Curse of Knowledge
-
-
 ## 02. Simpson's Paradox
 ## 03. The Sunk Cost Falacy
-## 04. Bandwagon Effect
+## 04. The Bandwagon Effect
 ## 05. Loss Aversion
 ## 06. The Gambler's Fallacy
 ## 07. Anchoring
@@ -53,6 +53,6 @@ most important to me and that I've found the most useful in my life.
 ## 11. Sample Bias
 ## 12. Assignment Bias
 ## 13. Self-Selection Bias
-## 14. Accuracy Paradox
-
+## 14. The Accuracy Paradox
+## 15. The Dunning-Kruger Effect
 
