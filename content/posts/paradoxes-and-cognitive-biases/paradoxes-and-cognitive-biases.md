@@ -22,10 +22,11 @@ behaviors and decision making. Some would say down right irrational...I certainl
 would.
 
 Much of this irrationality comes from all sorts of paradoxes and cognitive biases
-that are well known in different academic disciplines but that aren't as well known
-by most folks. So I thought I'd write briefly about them and why they're important.
+that are well known in different academic disciplines (particularly behavioral
+economics and statistics) but that aren't as well known by most folks. So I
+thought I'd write briefly about them and why they're important.
 
-It's worth noting that even if you are aware of these things, you are still quite
+It's worth emphasizing that even if you are aware of these things, you are still quite
 likely to be subject to them or make the mistakes they call out---I do all the
 time. Regardless, knowing them can help you mitigate them (to some degree) and
 help you make better decisions (though I should note my own decision making is
