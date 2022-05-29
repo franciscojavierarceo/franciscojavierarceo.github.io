@@ -139,12 +139,15 @@ reference point of our anchor, instead of seeing it objectively."
 This is often used in marketing and pricing to delude you into thinking
 something is on sale. :')
 
-## 08. Decision Fatigue
-## 09. Optimism Bias
-## 10. Response Bias
-## 11. Sample Bias
-## 12. Assignment Bias
-## 13. Self-Selection Bias
+## 08. Sample Bias
+
+## 09. Assignment Bias
+
+## 10. Self-Selection Bias
+
+## 11. Decision Fatigue
+## 12. Optimism Bias
+## 13. Response Bias
 ## 14. The Accuracy Paradox
 ## 15. The Dunning-Kruger Effect
 
