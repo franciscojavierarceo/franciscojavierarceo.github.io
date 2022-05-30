@@ -140,13 +140,37 @@ reference point of our anchor, instead of seeing it objectively."
 This is often used in marketing and pricing to delude you into thinking
 something is on sale. :')
 
-## 08. Sample Bias
+## 08. Sample/Selection Bias
+
+Sample bias originates from statistics and is a result of a flawed collection
+of an intended random sample. This is particularly common in business and twitter
+where people think their customers or twitter poll-responders are representative
+of the entire population. They're not and this can often lead to very poor
+decision making.
 
 ## 09. Assignment Bias
 
+[Assignment Bias](https://www.statisticshowto.com/assignment-bias/#:~:text=Assignment%20bias%20happens%20when%20experimental,people%20who%20are%20significantly%20smarter.)
+is similar to sample bias in that it is a bias in the sample
+but is rooted in a broken assignment system. For example, imagine an expermiental drug
+trial where the "random assignment machine" only treated the young health, while
+both pathological and extreme it highlights the issue.
+
+As it turns out, a good "random" sample is extremely hard to collect--ask the
+Census.
+
 ## 10. Self-Selection Bias
 
+[Self-Selection Bias](https://en.wikipedia.org/wiki/Self-selection_bias)
+is another form of sample bias but it's where the participants choose
+whether or not to participate in the experiment or treatment. Again, in the
+example above imagine that instead that "random assignment machine" instead
+only treated the people who wanted to be treated and not the ones that did.
+Similar to the previous case it would ruin the experiment.
+
 ## 11. Decision Fatigue
+
+
 ## 12. Optimism Bias
 ## 13. Response Bias
 ## 14. The Accuracy Paradox
