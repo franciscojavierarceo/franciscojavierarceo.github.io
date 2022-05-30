@@ -238,21 +238,36 @@ quality of things (though not always).
 
 # Managing Irrational Decision Making
 
-In short, you probably can't completely stop yourself from irrational decision
-making but you can manage it.
+You probably can't completely stop yourself from irrational decision making
+but you can *possibly* manage it.
 
-I try do this by acknowleding the biases above and the idiosyncratic ones
-I have from existing. I find that I often change my mind after some reflection.
+My approach is simple: acknowledge the biases above, the idiosyncratic ones I have
+from my life exeriences, and reflect frequently. I find that this results in me
+changing my mind often.
 
-Some find this annoying but I think that my early reaction or understanding is
-often not the optimal one so I try to spend time reflecting on my decisions so
-that I can make better informed ones.
+This can be frustrating but I think that early reactions or understandings
+are often not the optimal ones so I try to put effort into reflection so that I
+can just do better.
 
-I write things down rather frequently (typically with pen and paper, the good ol'
-fashion way). I find this also helps me to more accurately critique things and
-brings me mental clarity.
+# Some Advice (may or may not be useful)
 
+Being objective is nearly impossible when it relates to human judgement, and I'm
+not even exactly sure what "objective" *really* means outside of mathematics.
 
+But my advice on being as objective as possible is to write things down, even
+bullet points or a simple pro and con list can highlight flaws is your own
+judgement.
 
+I also find this brings me mental clarity more than anything else really, I also
+tend to write things down on paper the good ol' fashion way (maybe it's the an
+old habit grounded in problem sets).
 
+Managing cognitive biases and mitigating the adverse consequences they may hold
+is extremely challenging but a well worthy endeavor, as good decisions compound
+like great investments.
+
+Don't worry if you find yourself struggling with it, we are all human after
+all.
+
+-Francisco
 
