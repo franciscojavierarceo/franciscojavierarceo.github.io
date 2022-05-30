@@ -33,7 +33,7 @@ and help you make better decisions.
 
 I would like to over-emphasize that my own decision making is nothing to brag
 about but I decided to write this because I thought it'd be fun and I do love
-behavioral economics and statistics.
+this topic.
 
 # Paradoxes and Biases
 
