@@ -45,7 +45,7 @@ personal and professional life.
 ## 00. The Dunning-Kruger Effect
 
 [The Dunning-Kruger Effect](https://en.wikipedia.org/wiki/Dunning%E2%80%93Kruger_effect)
-is one of the most important cognitive biases that exist, probably because how
+is one of the most important cognitive biases that exist, probably because of how
 impactful it is to everyone (i.e., we all suffer from the burden of incompetent
 people and it is quite likely we, too, are someone's burden).
 
@@ -56,7 +56,7 @@ If you pay attention, you will see this occurrence often...especially from
 those without much experience in a given area of expertise (though this is not
 always true).
 
-You may see this often from people in business..run away.
+You may see this often from people in business...run away.
 
 ## 01. The Double Standard
 
@@ -70,7 +70,7 @@ principles for situations that are, in principle, the same."
 I find this to be very important professionally as people often have unrealistic
 expectations of others that they wouldn't have of themselves. I find this
 comes up when folks without domain expertise are frustrated by timelines of
-for bujilding various things.
+for building various things.
 
 Said another way, *"Why does this take so long?"*
 
@@ -83,7 +83,7 @@ More importantly, my colleagues probably find me more tolerable. :)
 ## 02. The Curse of Knowledge
 
 I say this non-ironically: something is obvious when you know it, and not
-if you don't--so too the definition of [the Curse of Knowledge](https://en.wikipedia.org/wiki/Curse_of_knowledge).
+if you don't—so too the definition of [the Curse of Knowledge](https://en.wikipedia.org/wiki/Curse_of_knowledge).
 
 This is something I experienced a lot in my career because people often forget
 all of the context they have when referencing something. Business is very
@@ -93,7 +93,7 @@ it makes it much less frustrating for the other party.
 
 Also, I find that assuming someone knows something or being surprised that
 someone *doesn't* know something can sound extremely condescending, so probably
-best to avoid that.
+it may be best to avoid that.
 
 ## 03. Simpson's Paradox
 
@@ -106,13 +106,16 @@ But how??? Time for a graph!
 ![Simpson's Paradox: Negative Correlation](simpsons_paradox_1.png)
 
 Above variables $X$ and $Y$ are negatively correlated, quite strongly too with
-a correlation coefficient of -0.74. But what if there was some known group
+a correlation coefficient of -0.74. But what if there was some other group
 variable $Z$ which represented 5 groups, we would then be able to see:
 
 ![Simpson's Paradox: Positive Correlation](simpsons_paradox_2.png)
 
-While this is useful for regression analysis and statistical inference, I find
-this paradox to be applicable to many more situations.
+Oh no! The exact opposite conclusion! It's worth knowing that in statistics and
+in life, you may never know of the existance of $Z$.
+
+So while this is useful for regression and statistical inference, I find this
+paradox to be applicable to many more situations.
 
 Simply, I may *always* be missing a single, critical piece of information that
 may flip my conclusion. So I tend to calibrate my opinions accordingly.
@@ -125,21 +128,22 @@ if we have already invested time, effort, or money into it, whether or not the
 current costs outweigh the benefits."
 
 Emotion often clutters our ability to understand the *actual* expected
-reward/value of a given thing we are putting effort into but sometimes it is
+value/reward of a given thing we are putting effort into but sometimes it is
 in our best interest to cut our losses rather than see it through.
 
 It rarely feels good but can often be the optimal decision.
 
 ## 06. Loss Aversion
 
-Loss aversion is simply the irrational and typically disproportional weight a
-person places on minimizing losses to acquire econcomic gains.
+Loss aversion is simply the disproportional weight a person often places on
+minimizing losses to acquire economic gains.
 
-For example, someone would prefer to take \$10 with 100% certainty rather than
+For example, someone may prefer to take \$10 with 100% certainty rather than
 \$20 with 90% certainty because the displeasure from that 10\% possibility
-outweighs the pleasure they'd receive from the additional \$10 (or expected \$8 = (0.9 * 20) - 10).
+outweighs the pleasure they'd receive from the additional \$10 (or expected
+\$8 = (0.9 * 20) - 10).
 
-This is not rational and puts non-disciplined investors at a mathematical
+This is extremely irrational and puts non-disciplined investors at a mathematical
 disadvantage.
 
 ## 07. The Gambler's Fallacy
