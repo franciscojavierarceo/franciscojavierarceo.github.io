@@ -7,6 +7,9 @@ date: 2022-07-05
 
 <blockquote class="twitter-tweet"><p lang="en" dir="ltr">you know, deploying machine learning models is very, very difficult</p>&mdash; Francisco Javier Arceo (@franciscojarceo) <a href="https://twitter.com/franciscojarceo/status/1544110672660807680?ref_src=twsrc%5Etfw">July 5, 2022</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 
+
+# Some Professional History
+
 I've been working in applied machine learning for nearly 10 years and it's quite exciting
 to have experienced firsthand how much machine learning infrastructure has changed.
 
@@ -33,4 +36,22 @@ some opinions, so I thought I'd share them.
 
 # Ten Lessons Learned form a decade of Deploying ML
 
+## 0. Create a container for you service
 
+## 1. Source Your Data
+
+## 2. Validate Your Feature Engineering
+
+## 3. Codify the range of your features
+
+## 4. Abstract your service logic appropriately
+
+## 5. Precompute what you can
+
+## 6. Load your model at service build time
+
+## 7. Right size your server
+
+## 8. Ensure your prediction is efficient
+
+## 9. Monitor your model and features
