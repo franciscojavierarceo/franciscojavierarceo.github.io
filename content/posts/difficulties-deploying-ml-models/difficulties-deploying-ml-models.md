@@ -36,15 +36,17 @@ some opinions, so I thought I'd share them.
 
 # Ten Lessons Learned form a decade of Deploying ML
 
-## 0. Create a container for you service
+## 0. Separate your model from your features
 
-## 1. Source Your Data
+## 1. Create a container for you service
 
-## 2. Validate Your Feature Engineering
+## 2. Source Your Data
 
-## 3. Codify the range of your features
+## 3. Validate Your Feature Engineering
 
-## 4. Abstract your service logic appropriately
+## 4. Codify the range of your features
+
+## 5. Abstract your service logic appropriately
 
 ## 5. Precompute what you can
 
