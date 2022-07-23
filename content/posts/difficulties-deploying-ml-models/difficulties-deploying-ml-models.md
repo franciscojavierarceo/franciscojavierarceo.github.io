@@ -1,6 +1,6 @@
 ---
 title: The Difficulties of Deploying a Machine Learning Model
-description: Sharing some of my goals for 2021
+description: 10 lessons from a decaade of deploying machine learning
 date: 2022-07-05
 ---
 
