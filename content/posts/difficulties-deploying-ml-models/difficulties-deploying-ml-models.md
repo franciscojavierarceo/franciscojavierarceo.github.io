@@ -23,7 +23,7 @@ Concretely, I'd build a pretty good model that suggested it would be impactful
 extraordinary effort to get it live and interacting with users/customers.
 
 This is quite well cited by the data science / MLOps space today but it was
-unknown to me back in 2012 and was very frustrating. The good news is that, for
+les obvious back in 2012 and it was very frustrating. The good news is that, for
 better or worse, I was rather relentless in getting my models over the finish line.
 
 Which, in many ways, is what led me to the career I have stumbled into today—which
@@ -31,29 +31,27 @@ I am very grateful for—as an engineering manager working at the intersection o
 machine learning, data, and engineering.
 
 All this to say that I have spent a surprising share of the last decade working on
-getting models into live product experiences. I have some lessons learned and
-some opinions, so I thought I'd share them.
+getting models into live product experiences. Since I have some lessons learned and
+some potentially useful opinions, I thought I'd write them down.
 
-# Ten Lessons Learned form a decade of Deploying ML
+# Ten Lessons Learned from a decade of Deploying ML
 
-## 0. Separate your model from your features
+## 0. Create strict contracts with the input source of your features
 
-## 1. Create a container for you service
+## 1. Test your feature engineering more than you want to
 
-## 2. Source Your Data
+## 2. Codify the range and scale of your features
 
-## 3. Validate Your Feature Engineering
+## 3. Separate your model execution from your feature engineering
 
-## 4. Codify the range of your features
+## 4. Separate matrix serialization from model execution
 
-## 5. Abstract your service logic appropriately
+## 5. Avoid mixing business logic with statistical operations
 
-## 5. Precompute what you can
+## 6. Precompute what you can
 
-## 6. Load your model at service build time
+## 7. Load your model at service build time
 
-## 7. Right size your server
+## 8. Right size your server
 
-## 8. Ensure your prediction is efficient
-
-## 9. Monitor your model and features
+## 9. Monitor your model and features 
