@@ -7,27 +7,25 @@
   </url>
 
   <url>
-    <loc>https://franciscojavierarceo.github.io/post/2021-is-nearly-over</loc>
-    <changefreq>daily</changefreq>
-    <priority>0.5</priority>
-  </url>
-
-  <url>
-    <loc>https://franciscojavierarceo.github.io/post/a-fast-year-indeed</loc>
-    <changefreq>daily</changefreq>
-    <priority>0.5</priority>
-  </url>
-
-  <url>
     <loc>https://franciscojavierarceo.github.io/post/2021-goals</loc>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
 
   <url>
-    <loc
-      >https://franciscojavierarceo.github.io/post/customer-segmentation-data-science</loc
-    >
+    <loc>https://franciscojavierarceo.github.io/post/2021-is-nearly-over</loc>
+    <changefreq>daily</changefreq>
+    <priority>0.5</priority>
+  </url>
+
+  <url>
+    <loc>https://franciscojavierarceo.github.io/post/2021-reflection</loc>
+    <changefreq>daily</changefreq>
+    <priority>0.5</priority>
+  </url>
+
+  <url>
+    <loc>https://franciscojavierarceo.github.io/post/a-fast-year-indeed</loc>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
@@ -42,35 +40,7 @@
 
   <url>
     <loc
-      >https://franciscojavierarceo.github.io/post/docker-for-data-science</loc
-    >
-    <changefreq>daily</changefreq>
-    <priority>0.5</priority>
-  </url>
-
-  <url>
-    <loc>https://franciscojavierarceo.github.io/post/2021-reflection</loc>
-    <changefreq>daily</changefreq>
-    <priority>0.5</priority>
-  </url>
-
-  <url>
-    <loc
-      >https://franciscojavierarceo.github.io/post/difficulties-deploying-ml-models</loc
-    >
-    <changefreq>daily</changefreq>
-    <priority>0.5</priority>
-  </url>
-
-  <url>
-    <loc>https://franciscojavierarceo.github.io/post/github-actions</loc>
-    <changefreq>daily</changefreq>
-    <priority>0.5</priority>
-  </url>
-
-  <url>
-    <loc
-      >https://franciscojavierarceo.github.io/post/docker-github-actions-and-cron</loc
+      >https://franciscojavierarceo.github.io/post/customer-segmentation-data-science</loc
     >
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
@@ -86,6 +56,30 @@
 
   <url>
     <loc
+      >https://franciscojavierarceo.github.io/post/difficulties-deploying-ml-models</loc
+    >
+    <changefreq>daily</changefreq>
+    <priority>0.5</priority>
+  </url>
+
+  <url>
+    <loc
+      >https://franciscojavierarceo.github.io/post/docker-for-data-science</loc
+    >
+    <changefreq>daily</changefreq>
+    <priority>0.5</priority>
+  </url>
+
+  <url>
+    <loc
+      >https://franciscojavierarceo.github.io/post/docker-github-actions-and-cron</loc
+    >
+    <changefreq>daily</changefreq>
+    <priority>0.5</priority>
+  </url>
+
+  <url>
+    <loc
       >https://franciscojavierarceo.github.io/post/function-approximation</loc
     >
     <changefreq>daily</changefreq>
@@ -93,13 +87,15 @@
   </url>
 
   <url>
-    <loc>https://franciscojavierarceo.github.io/post/next-js-blog</loc>
+    <loc>https://franciscojavierarceo.github.io/post/github-actions</loc>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
 
   <url>
-    <loc>https://franciscojavierarceo.github.io/post/learning-new-things</loc>
+    <loc
+      >https://franciscojavierarceo.github.io/post/how-to-build-a-credit-risk-model</loc
+    >
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
@@ -111,9 +107,13 @@
   </url>
 
   <url>
-    <loc
-      >https://franciscojavierarceo.github.io/post/paradoxes-and-cognitive-biases</loc
-    >
+    <loc>https://franciscojavierarceo.github.io/post/learning-new-things</loc>
+    <changefreq>daily</changefreq>
+    <priority>0.5</priority>
+  </url>
+
+  <url>
+    <loc>https://franciscojavierarceo.github.io/post/next-js-blog</loc>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
@@ -128,7 +128,7 @@
 
   <url>
     <loc
-      >https://franciscojavierarceo.github.io/post/how-to-build-a-credit-risk-model</loc
+      >https://franciscojavierarceo.github.io/post/paradoxes-and-cognitive-biases</loc
     >
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
