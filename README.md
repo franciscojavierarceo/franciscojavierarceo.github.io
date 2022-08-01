@@ -7,13 +7,14 @@ I built this site using Next.js's tutorial <a href="https://nextjs.org/learn/bas
 ## ✏ Features
 
 - Automated deployment to Github Pages
+- Automatically generate SEO friendly material (sitemap, open graph tags)
 - Streamlined styling experience with [Tailwind.css](https://tailwindcss.com/).
 - Customizable typographic defaults with [Tailwind Typography](https://github.com/tailwindlabs/tailwindcss-typography)
 - Automatic image preview and optimization with [next-optimized-images](https://github.com/cyrilwanner/next-optimized-images).
 - Lazyload images.
 - Absolute imports.
-- SEO friendly.
 - Markdown code highlighting with [react-syntax-highlighter](https://www.npmjs.com/package/react-syntax-highlighter) and [PrismJs](https://prismjs.com/).
+- LaTeX support
 - Dark Mode
 - WebP image support
 
@@ -65,3 +66,7 @@ To learn more about Tailwind CSS, take a look at the following resources:
 - [x] Add support for WebP images
 - [x] Add SEO Component
 - [x] Add Dynamic Site Metadata
+- [x] LaTeX
+- [x] Markdown code rendering
+- [x] Autodeploy to GitHub Pages
+- [x] Free
