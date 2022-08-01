@@ -9,9 +9,7 @@ jobs:
 
     steps:
       - name: Checkout 🛎️
-        uses: actions/checkout@v2 # If you're using actions/checkout@v2 you must set persist-credentials to false in most cases for the deployment to work correctly.
-        with:
-          persist-credentials: false
+        uses: actions/checkout@v3
 
       - name: Cache  💾
         uses: actions/cache@v2
@@ -31,9 +29,10 @@ jobs:
 
       - name: Update Sitemap 🕸
         uses: stefanzweifel/git-auto-commit-action@v4
+        file_pattern: public/sitemap.xml
         with:
-          commit_message: "[Bot] Updating the Sitemap!"
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          ref: ${{ github.head_ref }}
+          commit_message: Auto-updating the Sitemap!
 
       - name: Deploy 🚀
         if: github.ref == 'refs/heads/main'
