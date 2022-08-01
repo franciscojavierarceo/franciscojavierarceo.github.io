@@ -19,11 +19,6 @@ jobs:
           path: ${{ github.workspace }}/.next/cache
           key: ${{ runner.os }}-nextjs-v3-${{ hashFiles('**/package-lock.json') }}
 
-      - name: Update Sitemap 🕸
-        uses: EndBug/add-and-commit@v9
-        with:
-          default_author: github_actions
-
       - name: Install and Build 🔧
         uses: actions/setup-node@v1
         with:
@@ -33,6 +28,11 @@ jobs:
       - run: node ./scripts/generate-sitemap.js
         env:
             CI: false
+      
+      - name: Update Sitemap 🕸
+        uses: EndBug/add-and-commit@v9
+        with:
+          default_author: github_actions
 
       - name: Deploy 🚀
         if: github.ref == 'refs/heads/main'
