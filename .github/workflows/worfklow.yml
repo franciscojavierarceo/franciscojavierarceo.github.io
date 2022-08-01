@@ -35,7 +35,7 @@ jobs:
           commit_message: "[Bot] Updating the Sitemap!"
           commit_user_name: GitHub Bot
           commit_user_email: noreply@github.com
-          commit_author: GitHub Bot
+          commit_author: GitHub Bot <noreply@github.com>
 
       - name: Deploy 🚀
         if: github.ref == 'refs/heads/main'
