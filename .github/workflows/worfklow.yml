@@ -29,9 +29,9 @@ jobs:
 
       - name: Update Sitemap 🕸
         uses: stefanzweifel/git-auto-commit-action@v4
-        file_pattern: public/sitemap.xml
         with:
           ref: ${{ github.head_ref }}
+          file_pattern: 'public/sitemap.xml'
           commit_message: Auto-updating the Sitemap!
 
       - name: Deploy 🚀
