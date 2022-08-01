@@ -28,11 +28,12 @@ jobs:
       - run: node ./scripts/generate-sitemap.js
         env:
             CI: false
-      
+
       - name: Update Sitemap 🕸
         uses: stefanzweifel/git-auto-commit-action@v4
         with:
           commit_message: "[Bot] Updating the Sitemap!"
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Deploy 🚀
         if: github.ref == 'refs/heads/main'
