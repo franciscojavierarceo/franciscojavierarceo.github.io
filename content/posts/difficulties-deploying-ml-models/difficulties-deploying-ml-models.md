@@ -55,3 +55,23 @@ some potentially useful opinions, I thought I'd write them down.
 ## 8. Right size your server
 
 ## 9. Monitor your model and features 
+
+Reflecting on the list above, it's worth emphasizing that 9 of these 10 items are 
+purely focused on the engineering around deploying a model. More importantly, 
+the monitoring is the last step. 
+
+*As a brief aside, there is a significant amount of pre-work done here to build
+these models and during the model development lifecycle but I won't discuss that here
+as that's outside the scope of this blog post.*
+
+You don't *actually* have to do anything on that list to get a model in production, 
+I just recommend it. At an early stage of your service make sense to build a 
+bullet-proof system but at a bigger scale these things actually do become 
+increasingly more important as preventative and defensive measures.
+
+Lastly, I ranked these in order of importance and the most important ones are 
+all *preventative change controls*, i.e., they can all detect breaks before you
+deploy something to production (i.e. in unit tests). Defensive change controls 
+are great too but one should remember that these will always come second place 
+to preventative controls simply because you're catching a mistake after it's in 
+production. 
