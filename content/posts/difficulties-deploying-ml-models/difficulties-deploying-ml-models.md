@@ -65,8 +65,8 @@ these models and during the model development lifecycle but I won't discuss that
 as that's outside the scope of this blog post.*
 
 You don't *actually* have to do anything on that list to get a model in production, 
-I just recommend it. At an early stage of your service make sense to build a 
-bullet-proof system but at a bigger scale these things actually do become 
+I just recommend it. At an early stage of your service it may not even make sense 
+to build a bullet-proof system but at a bigger scale these things actually do become 
 increasingly more important as preventative and defensive measures.
 
 Lastly, I ranked these in order of importance and the most important ones are 
