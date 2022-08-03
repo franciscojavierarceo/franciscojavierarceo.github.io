@@ -60,6 +60,19 @@ will certainly provide you more coverage and ensure higher quality.
 
 ## 1. Test your feature engineering more than you want to
 
+Feature engineering is code.
+
+When software engineers write code for microservices we write lots of unit 
+tests to capture schema changes, validate edge cases, and make the code 
+more readable. 
+
+Unfortunately, these software design concepts don't always translate to 
+machine learning applications. This isn't always the case but often this happens
+because the skills needed to build good machine learning models is rarely
+the same as the skills needed to write good software. 
+
+So the recommendation is simple: write lots of unit tests covering all of
+the edge ases that 
 ## 2. Codify the range and scale of your features
 
 ## 3. Separate your model execution from your feature engineering
