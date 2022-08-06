@@ -72,8 +72,14 @@ because the skills needed to build good machine learning models is rarely
 the same as the skills needed to write good software. 
 
 So the recommendation is simple: write lots of unit tests covering all of
-the edge ases that 
+the edge cases that will come up with you feature engineering.
+
 ## 2. Codify the range and scale of your features
+
+Scale and range checking in practice can be rather challenging as sometimes
+it's very hard to know what the upper or lower bound will be but often you can
+create sensible heuristics. For example, you can keep rates to test between
+0 and 1 or set large but sensible extremum values.
 
 ## 3. Separate your model execution from your feature engineering
 
