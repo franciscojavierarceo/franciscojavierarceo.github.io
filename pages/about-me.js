@@ -56,12 +56,15 @@ export default function AboutMe() {
     <div style={{paddingBottom: 20,}}>
       
     <p>
-      I'm an Engineering Manager for the Machine Learning and Data Infrastructure team at{' '}<a href="https://www.affirm.com">Affirm</a> 🚀.
+      I'm Francisco, welcome to my corner of the internet! I'm an Engineering Manager for the Machine Learning and Data Infrastructure team at{' '}<a href="https://www.affirm.com">Affirm</a> 🚀.
+
+      I also write for{' '}<a href="https://chaosengineering.substack.com/">the Chaos Engineering blog</a>.
     </p><br/>
     <p>I also create technology bringing financial wellness to the Latino community at{' '} <a href="https://www.getunidos.com/">Unidos</a>.
     </p><br/>
     <p>
-      I was previously at Goldman Sachs where I worked in the Credit Risk team developing and executing
+      I was previously at Fast where I was head of the Data Platform and Machine Learning infrastructure team. 
+      Before that I was at Goldman Sachs where I worked in the Credit Risk team developing and executing
       the underwriting strategy for their Digital Retail Bank ({''}<a href="https://www.Marcus.com">Marcus, by Goldman Sachs</a>).
       Prior to that I worked at the Commonwealth Bank of Australia where I helped launch{' '}<a href="https://www.tymebank.co.za/">TymeDigital</a>,
       South Africa's first digital bank. And prior to that I was at AIG working in their{' '}<a href="https://hbr.org/2014/10/how-aig-moved-toward-evidence-based-decision-making">Science</a> team.
