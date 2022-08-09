@@ -25,7 +25,6 @@ export function Bio({ className }) {
           I'll probably write about some of those things so feel free to check back in if you're interested!
         </p><br/>
         <p>Want to get in touch? Feel free to contact me on{' '}<a href='https://twitter.com/franciscojarceo'>Twitter</a>.</p>
-        <br/>
         <p>Thanks for stopping by my little corner of the internet! &#x1f913;</p>
     </div>
     </section>
