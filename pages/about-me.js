@@ -43,7 +43,7 @@ export default function AboutMe() {
   return (
     <>
     <Layout>
-    <SEO title={siteMetadata.title} description='Francisco Javier Arceo: A little About My Random Thoughts'/>  
+    <SEO title={siteMetadata.title} description='Francisco Javier Arceo: A little About My Random Thoughts'/>
     <section style={{fontSize: '1.2rem', lineHeight: 1.5,textAlign: 'justify'}}>
     <div className={clsx(`flex items-center`, 'my-5')}>
       <img
@@ -54,7 +54,7 @@ export default function AboutMe() {
       <h2 style={{fontSize: '2.0rem', marginLeft: '2rem', textAlign: 'center'}}>Hello there! &#128075;</h2>
     </div>
     <div style={{paddingBottom: 20,}}>
-      
+
     <p>
       I'm Francisco, welcome to my corner of the internet! I'm an Engineering Manager for the Machine Learning and Data Infrastructure team at{' '}<a href="https://www.affirm.com">Affirm</a> 🚀.
       I also write for{' '}<a href="https://chaosengineering.substack.com/">the Chaos Engineering blog</a>.
@@ -62,7 +62,7 @@ export default function AboutMe() {
     <p>In a previous time, I built a financial wellness mobile app for the Latino community at{' '} <a href="https://www.getunidos.com/">Unidos</a>.
     </p><br/>
     <p>
-      Before Affirm, I worked at Fast where I was the head of the Data Platform and Machine Learning infrastructure team. 
+      Before Affirm, I worked at Fast where I was the head of the Data Platform and Machine Learning infrastructure team.
       Before that I was at Goldman Sachs where I worked in the Credit Risk team developing and executing
       the underwriting strategy for their Digital Retail Bank ({''}<a href="https://www.Marcus.com">Marcus, by Goldman Sachs</a>).
       Prior to that I worked at the Commonwealth Bank of Australia where I helped launch{' '}<a href="https://www.tymebank.co.za/">TymeDigital</a>,
@@ -88,6 +88,7 @@ export default function AboutMe() {
       <li>- <a href="https://sydecar.io/">Sydecar</a></li>
       <li>- <a href="https://moov.io/">Moov</a></li>
       <li>- <a href="https://argyle.com/">Argyle</a></li>
+      <li>- <a href="https://www.probablynothinglabs.xyz/">Probably Nothing Labs</a></li>
       </ul>
     </p><br/>
     <p>
