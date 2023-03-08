@@ -81,7 +81,7 @@ export default function AboutMe() {
       <li>- <a href="https://mercury.com/">Mercury</a></li>
       <li>- <a href="https://mydocspace.com/">DocSpace</a></li>
       <li>- <a href="https://domainmoney.com/">Domain</a></li>
-      <li>- <a href="https://usepower.com/">Power</a></li>
+      <li>- <a href="https://usepower.com/">Power</a> (exited)</li>
       <li>- <a href="https://trueaccord.com/">TrueAccord</a></li>
       <li>- <a href="https://atomicvest.com/">Atomicvest</a></li>
       <li>- <a href="https://joindaylight.com/">Daylight</a></li>
