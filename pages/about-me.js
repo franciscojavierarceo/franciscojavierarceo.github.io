@@ -56,13 +56,13 @@ export default function AboutMe() {
     <div style={{paddingBottom: 20,}}>
 
     <p>
-      I'm Francisco, welcome to my corner of the internet! I'm an Engineering Manager for the Machine Learning and Data Infrastructure team at{' '}<a href="https://www.affirm.com">Affirm</a> 🚀.
+      I'm Francisco, welcome to my corner of the internet! I'm a Senior Principal Software Engineer at Red Hat OpenShift AI.
       I also write for{' '}<a href="https://chaosengineering.substack.com/">the Chaos Engineering blog</a>.
     </p><br/>
     <p>In a previous time, I built a financial wellness mobile app for the Latino community at{' '} <a href="https://www.getunidos.com/">Unidos</a>.
     </p><br/>
     <p>
-      Before Affirm, I worked at Fast where I was the head of the Data Platform and Machine Learning infrastructure team.
+      Before Red Hat I worked at Affirm as an Engineering Manager for the Machine Learning and Data Infrastructure team. Before that, I worked at Fast where I was the head of the Data Platform and Machine Learning infrastructure team.
       Before that I was at Goldman Sachs where I worked in the Credit Risk team developing and executing
       the underwriting strategy for their Digital Retail Bank ({''}<a href="https://www.Marcus.com">Marcus, by Goldman Sachs</a>).
       Prior to that I worked at the Commonwealth Bank of Australia where I helped launch{' '}<a href="https://www.tymebank.co.za/">TymeDigital</a>,
