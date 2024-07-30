@@ -17,7 +17,7 @@ export const Footer = () => {
     {
       isRoot ? <div/> : (
         <div style={{paddingTop: 10, paddingBottom: 10}}>
-          <Link href="/">
+          <Link href="/" legacyBehavior>
             <span className="text-lg font-bold">← Back home</span>
           </Link>
         </div>
@@ -39,7 +39,7 @@ export const Footer2 = ({}) => {
       {
         router.pathname === "/" ? (
           <div style={{paddingTop: 10}}>
-            <Link href="/">
+            <Link href="/" legacyBehavior>
               <span className="text-lg font-bold">← Back home</span>
             </Link>
           </div>
@@ -141,31 +141,31 @@ const Header = () => {
 
 const LargeTitle = () => (
   <h1>
-    <Link href="/">
-      <a
-        className={clsx(
-          "text-3xl font-black leading-none text-black no-underline font-display",
-          "sm:text-4xl",
-          "dark:text-white"
-        )}
-      >
+    <Link
+      href="/"
+      className={clsx(
+        "text-3xl font-black leading-none text-black no-underline font-display",
+        "sm:text-4xl",
+        "dark:text-white"
+      )}>
+      
         Francisco Javier Arceo
-      </a>
+      
     </Link>
   </h1>
 );
 
 const SmallTitle = () => (
   <a>
-    <Link href="/">
-      <a
-        className={clsx(
-          "text-2xl font-black text-black no-underline font-display",
-          "dark:text-white"
-        )}
-      >
+    <Link
+      href="/"
+      className={clsx(
+        "text-2xl font-black text-black no-underline font-display",
+        "dark:text-white"
+      )}>
+      
         Francisco Javier Arceo
-      </a>
+      
     </Link>
   </a>
 );

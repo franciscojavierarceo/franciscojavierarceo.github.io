@@ -39,12 +39,12 @@ export default function Post({ post, frontmatter, nextPost, previousPost }) {
       </article>
       <nav className="flex justify-between mt-8">
         {previousPost && (
-          <Link href={`/post/${previousPost.slug}`}>
+          <Link href={`/post/${previousPost.slug}`} legacyBehavior>
             <span className="text-lg font-bold">← {previousPost.frontmatter.title}</span>
           </Link>
         )}
         {nextPost && (
-          <Link href={`/post/${nextPost.slug}`}>
+          <Link href={`/post/${nextPost.slug}`} legacyBehavior>
             <span className="text-lg font-bold">{nextPost.frontmatter.title} →</span>
           </Link>
         )}
