@@ -14,7 +14,11 @@
   }
 
   html.dark {
-    background-color: rgba(0, 0, 0, var(--tw-bg-opacity));
+    background-color: rgba(0, 0, 0, var(--tw-bg-opacity)) !important;
+  }
+
+  #__next-build-watcher {
+    z-index: 10; /* Lower the z-index to ensure it does not interfere with the background visibility */
   }
 }
 

@@ -17,7 +17,7 @@ export const Footer = () => {
     {
       isRoot ? <div/> : (
         <div style={{paddingTop: 10, paddingBottom: 10}}>
-          <Link href="/" legacyBehavior>
+          <Link href="/">
             <span className="text-lg font-bold">← Back home</span>
           </Link>
         </div>
@@ -163,16 +163,12 @@ const LargeTitle = () => (
 );
 
 const SmallTitle = () => (
-  <a>
-    <Link
-      href="/"
-      className={clsx(
-        "text-2xl font-black text-black no-underline font-display",
-        "dark:text-white"
-      )}>
-      
-        Francisco Javier Arceo
-      
-    </Link>
-  </a>
+  <Link
+    href="/"
+    className={clsx(
+      "text-2xl font-black text-black no-underline font-display",
+      "dark:text-white"
+    )}>
+    Francisco Javier Arceo
+  </Link>
 );
