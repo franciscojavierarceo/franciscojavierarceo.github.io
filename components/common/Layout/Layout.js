@@ -11,11 +11,17 @@ import { getSiteMetaData } from "@utils/helpers";
 
 export const Footer = () => {
   const { pathname } = useRouter();
-  const isRoot = pathname === "/";  
+  const isRoot = pathname === "/";
   return (
     <footer className="text-lg font-light">
     {
-      isRoot ? <div/>: <div style={{paddingTop: 10, paddingBottom: 10}}><Link href="/"><a className="text-lg font-bold">← Back home</a></Link></div>
+      isRoot ? <div/> : (
+        <div style={{paddingTop: 10, paddingBottom: 10}}>
+          <Link href="/">
+            <span className="text-lg font-bold">← Back home</span>
+          </Link>
+        </div>
+      )
     }
     <hr/>
     <div>
@@ -26,18 +32,27 @@ export const Footer = () => {
   );
 };
 
-export const Footer2 = ({}) => (
-  <footer className="text-lg font-light">
-    {
-      useRouter() === "/" ?  <div style={{paddingTop: 10}}><Link href="/"><a className="text-lg font-bold">← Back home</a></Link></div>: <div/>
-    }
-    <hr/>
-    <div>
-      <p>Like this blog? Check out the code on my{' '}<a href="https://github.com/franciscojavierarceo/franciscojavierarceo.github.io">GitHub</a></p>
-      <p>Built with{" "}<a href="https://nextjs.org/">Next.js</a> and &#x2615;</p>
-    </div>
-  </footer>
-);
+export const Footer2 = ({}) => {
+  const router = useRouter();
+  return (
+    <footer className="text-lg font-light">
+      {
+        router.pathname === "/" ? (
+          <div style={{paddingTop: 10}}>
+            <Link href="/">
+              <span className="text-lg font-bold">← Back home</span>
+            </Link>
+          </div>
+        ) : <div/>
+      }
+      <hr/>
+      <div>
+        <p>Like this blog? Check out the code on my{' '}<a href="https://github.com/franciscojavierarceo/franciscojavierarceo.github.io">GitHub</a></p>
+        <p>Built with{" "}<a href="https://nextjs.org/">Next.js</a> and &#x2615;</p>
+      </div>
+    </footer>
+  );
+};
   
 export function Layout({ children }) {
   return (
