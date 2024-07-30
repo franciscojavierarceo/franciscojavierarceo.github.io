@@ -1,42 +1,27 @@
 import Link from "next/link";
 import ReactMarkdown from "react-markdown/with-html";
-import MathJax from 'react-mathjax';
-import RemarkMathPlugin from 'remark-math';
+import MarkdownIt from 'markdown-it';
+import texmath from 'markdown-it-texmath';
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import style from "react-syntax-highlighter/dist/cjs/styles/prism/dracula";
 import { Layout, Footer, Image, SEO, Bio } from "@components/common";
 import { getPostBySlug, getPostsSlugs } from "@utils/posts";
+import Head from 'next/head';
+
+const md = new MarkdownIt().use(texmath);
 
 function MarkdownRender(props) {
-  const newProps = {
-    ...props,
-    plugins: [
-      RemarkMathPlugin,
-    ],
-    options: {
-      tex2jax: {
-        inlineMath: [ ['$','$'], ['\\(','\\)'] ],
-        displayMath: [ ['$$','$$'], ['\[','\]'] ]
-      }
-    },
-    renderers: {
-      ...props.renderers,
-      math: (props) =>
-        <MathJax.Node formula={props.value} />,
-      inlineMath: (props) =>
-        <MathJax.Node inline formula={props.value} />
-    }
-  };
   return (
-    <MathJax.Provider input="tex">
-      <ReactMarkdown {...newProps} />
-    </MathJax.Provider>
+    <div dangerouslySetInnerHTML={{ __html: md.render(props.source) }} />
   );
 }
 
 export default function Post({ post, frontmatter, nextPost, previousPost }) {
   return (
     <Layout>
+      <Head>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.13.11/dist/katex.min.css" integrity="sha384-Um5gpz1odJg5Z4HAmzPtgZKdTBHZdw8S29IecapCSB31ligYPhHQZMIlWLYQGVoc" crossOrigin="anonymous" />
+      </Head>
       <SEO
         title={frontmatter.title}
         description={frontmatter.description || post.excerpt}
@@ -48,16 +33,22 @@ export default function Post({ post, frontmatter, nextPost, previousPost }) {
           </h1>
           <p className="text-sm">{frontmatter.date}</p>
         </header>
-        <MarkdownRender
-          className="mb-4 prose lg:prose-lg dark:prose-dark"
-          escapeHtml={false}
-          source={post.content}
-          renderers={{ 
-            code: CodeBlock, 
-            image: MarkdownImage 
-          }}
-        />
+        <div className="mb-4 prose lg:prose-lg dark:prose-dark">
+          <MarkdownRender source={post.content} />
+        </div>
       </article>
+      <nav className="flex justify-between mt-8">
+        {previousPost && (
+          <Link href={`/post/${previousPost.slug}`}>
+            <span className="text-lg font-bold">← {previousPost.frontmatter.title}</span>
+          </Link>
+        )}
+        {nextPost && (
+          <Link href={`/post/${nextPost.slug}`}>
+            <span className="text-lg font-bold">{nextPost.frontmatter.title} →</span>
+          </Link>
+        )}
+      </nav>
     </Layout>
   );
 }
@@ -87,9 +78,9 @@ export async function getStaticProps({ params: { slug } }) {
 
 const CodeBlock = ({ language, value }) => {
   return (
-    <SyntaxHighlighter 
-        style={style} 
-        language={language} 
+    <SyntaxHighlighter
+        style={style}
+        language={language}
         showLineNumbers={true}
         useInlineStyles={true}
         >
