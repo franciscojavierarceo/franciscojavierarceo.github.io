@@ -38,6 +38,7 @@ module.exports = {
     extend: {
       colors: {
         "neon-orange": "#f92300",
+        "dark-bg": "#000000",
       },
       fontSize: {
         "7xl": "4.5rem",
@@ -66,7 +67,8 @@ module.exports = {
 
         dark: {
           css: {
-            color: theme("colors.gray.100"),
+            color: theme("colors.white"),
+            backgroundColor: theme("colors.dark-bg"),
             blockquote: {
               borderLeftColor: theme("colors.gray.300"),
             },
@@ -80,34 +82,34 @@ module.exports = {
               color: theme("colors.yellow.500"),
             },
             h1: {
-              color: theme("colors.gray.100"),
+              color: theme("colors.white"),
             },
             h2: {
-              color: theme("colors.gray.100"),
+              color: theme("colors.white"),
             },
             h3: {
-              color: theme("colors.gray.100"),
+              color: theme("colors.white"),
             },
             h4: {
-              color: theme("colors.gray.100"),
+              color: theme("colors.white"),
             },
             h5: {
-              color: theme("colors.gray.100"),
+              color: theme("colors.white"),
             },
             h6: {
-              color: theme("colors.gray.100"),
+              color: theme("colors.white"),
             },
             strong: {
-              color: theme("colors.gray.100"),
+              color: theme("colors.white"),
             },
             code: {
-              color: theme("colors.gray.100"),
+              color: theme("colors.white"),
             },
             figcaption: {
-              color: theme("colors.gray.100"),
+              color: theme("colors.white"),
             },
             blockquote: {
-              color: theme("colors.gray.100"),
+              color: theme("colors.white"),
               borderLeftColor: theme("colors.gray.200"),
             },
           },
