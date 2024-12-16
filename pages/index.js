@@ -1,3 +1,4 @@
+import React from 'react';
 import Link from "next/link";
 import { Layout, Bio, SEO } from "@components/common";
 import { getSortedPosts } from "@utils/posts";
@@ -8,7 +9,7 @@ export default function Home({ posts }) {
   return (
     <Layout>
       <Bio className="my-5" />
-      <SEO title={siteMetadata.title} description={siteMetadata.description}/>  
+      <SEO title={siteMetadata.title} description={siteMetadata.description}/>
       {posts.map(({ frontmatter: { title, description, date }, slug }) => (
         <article key={slug}>
           <header className="mb-2">

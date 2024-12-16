@@ -1,10 +1,10 @@
+import React from 'react';
 import clsx from "clsx";
-import Link from 'next/link'
-import { getSiteMetaData } from "@utils/helpers";
+import Link from 'next/link';
 import { Layout, SEO } from "@components/common";
-import { render } from 'react-dom'
-import Highcharts from 'highcharts'
-import HighchartsReact from 'highcharts-react-official'
+import { getSiteMetaData } from "@utils/helpers";
+import Highcharts from 'highcharts';
+import HighchartsReact from 'highcharts-react-official';
 
 function getRandomInt(max) {
   return Math.floor(Math.random() * Math.floor(max));

@@ -1,3 +1,4 @@
+import React from 'react';
 import Link from "next/link";
 import ReactMarkdown from "react-markdown/with-html";
 import MathJax from 'react-mathjax';
@@ -52,9 +53,9 @@ export default function Post({ post, frontmatter, nextPost, previousPost }) {
           className="mb-4 prose lg:prose-lg dark:prose-dark"
           escapeHtml={false}
           source={post.content}
-          renderers={{ 
-            code: CodeBlock, 
-            image: MarkdownImage 
+          renderers={{
+            code: CodeBlock,
+            image: MarkdownImage
           }}
         />
       </article>
@@ -65,8 +66,20 @@ export default function Post({ post, frontmatter, nextPost, previousPost }) {
 export async function getStaticPaths() {
   const paths = getPostsSlugs();
 
+  // Log the paths for debugging
+  console.log('Generated paths in getStaticPaths:', JSON.stringify(paths, null, 2));
+
+  // Ensure paths are in the correct format for Next.js
+  const formattedPaths = paths.map(path => {
+    // Ensure the slug is a string and not undefined
+    const slug = path.params?.slug || '';
+    return {
+      params: { slug }
+    };
+  });
+
   return {
-    paths,
+    paths: formattedPaths,
     fallback: false,
   };
 }
@@ -82,14 +95,20 @@ export async function getStaticProps({ params: { slug } }) {
     postData.nextPost = null;
   }
 
-  return { props: postData };
+  console.log('postData:', JSON.stringify(postData, null, 2));
+
+  return {
+    props: {
+      ...postData
+    }
+  };
 }
 
 const CodeBlock = ({ language, value }) => {
   return (
-    <SyntaxHighlighter 
-        style={style} 
-        language={language} 
+    <SyntaxHighlighter
+        style={style}
+        language={language}
         showLineNumbers={true}
         useInlineStyles={true}
         >

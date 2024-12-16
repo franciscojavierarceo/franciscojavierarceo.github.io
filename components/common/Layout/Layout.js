@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import clsx from "clsx";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -11,7 +11,7 @@ import { getSiteMetaData } from "@utils/helpers";
 
 export const Footer = () => {
   const { pathname } = useRouter();
-  const isRoot = pathname === "/";  
+  const isRoot = pathname === "/";
   return (
     <footer className="text-lg font-light">
     {
@@ -38,7 +38,7 @@ export const Footer2 = ({}) => (
     </div>
   </footer>
 );
-  
+
 export function Layout({ children }) {
   return (
     <div className="w-full min-h-screen dark:bg-gray-700 dark:text-white">
@@ -53,11 +53,11 @@ export function Layout({ children }) {
 
 const siteMetadata = getSiteMetaData();
 const name = siteMetadata.author.name;
-export const siteTitle = siteMetadata.title; 
+export const siteTitle = siteMetadata.title;
 export const siteDescription = siteMetadata.description;
 export const siteKeywords = siteMetadata.keywords;
 
-const Header = () => {  
+const Header = () => {
   const { setTheme, resolvedTheme } = useTheme();
   const { pathname } = useRouter();
   const [mounted, setMounted] = useState(false);
@@ -105,6 +105,8 @@ const Header = () => {
         <DarkModeSwitch
           checked={isDarkMode}
           onChange={toggleDarkMode}
+          size={30}
+          className="fixed top-4 right-4 z-50"
         />
       )}
       <script
