@@ -39,6 +39,7 @@ module.exports = {
       colors: {
         "neon-orange": "#f92300",
         "dark-bg": "#000000",
+        "link-blue": "#2178DD",
       },
       fontSize: {
         "7xl": "4.5rem",
