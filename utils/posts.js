@@ -16,7 +16,8 @@ export function getPostsFolders() {
 // Get day in format: Month day, Year. e.g. April 19, 2020
 function getFormattedDate(date) {
   const options = { year: "numeric", month: "long", day: "numeric" };
-  const formattedDate = date.toLocaleDateString("en-US", options);
+  const dateObj = typeof date === 'string' ? new Date(date) : date;
+  const formattedDate = dateObj.toLocaleDateString("en-US", options);
 
   return formattedDate;
 }
