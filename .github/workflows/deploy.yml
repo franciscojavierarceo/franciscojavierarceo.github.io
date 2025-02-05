@@ -22,11 +22,15 @@ jobs:
         run: |
           npm ci
           npm install -g next
+          npm list
         
       - name: Build and Export
         run: |
-          npm run build
-          cp -r public/* out/ || true
+          echo "Starting build process..."
+          npm run build || (echo "Build failed" && exit 1)
+          echo "Build completed, copying public files..."
+          mkdir -p out
+          cp -r public/* out/ || echo "No public files to copy"
         
       - name: Deploy to GitHub Pages
         if: github.ref == 'refs/heads/main'
