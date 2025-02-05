@@ -6,7 +6,7 @@ date: "2024-11-20"
 
 # Kubeflow Goals
 
-**Author:**[Francisco Javier Arceo](mailto:ArceoFrancisco@gmail.com) | **Date:**Nov 20, 2024
+**Author:**[Francisco Javier Arceo](https://www.linkedin.com/in/franciscojavierarceo/) | **Date:**Nov 20, 2024
 
 We are at a critical moment in time for AI/ML. Open-source models have taken center stage, and resilient, scalable infrastructure has become critical to the success of AI. However, infrastructure alone isn't enough—tools must inspire excitement and engagement among users.
 
