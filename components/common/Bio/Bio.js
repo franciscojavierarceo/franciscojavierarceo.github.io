@@ -19,7 +19,7 @@ export function Bio({ className }) {
       <h2 style={{fontSize: '2.0rem', marginLeft: '2rem', textAlign: 'center'}}>Hello there! &#128075;</h2>
     </div>
     <div style={{paddingBottom: 20,}}>
-        <p>I'm{' '}<Link href="/about-me">Francisco</Link> and this is my blog. 
+        <p>I'm{' '}<Link href="/about-me" legacyBehavior><a>Francisco</a></Link> and this is my blog. 
           You can find some of my other writing on{' '}<a href="https://chaosengineering.substack.com/">the Chaos Engineering blog</a>.
           I'm very passionate about data, code, technology, engineering, economics, finance, machine learning, digital products, and philanthropy.
           I'll probably write about some of those things so feel free to check back in if you're interested!

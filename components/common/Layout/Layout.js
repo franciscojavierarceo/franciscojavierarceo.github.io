@@ -125,27 +125,25 @@ const Header = () => {
 
 const LargeTitle = () => (
   <h1>
-    <Link
-      href="/"
-      className={clsx(
+    <Link href="/" legacyBehavior>
+      <a className={clsx(
         "text-3xl font-black leading-none text-black no-underline font-display",
         "sm:text-4xl",
         "dark:text-white"
-      )}
-    >
-      Francisco Javier Arceo
+      )}>
+        Francisco Javier Arceo
+      </a>
     </Link>
   </h1>
 );
 
 const SmallTitle = () => (
-  <Link
-    href="/"
-    className={clsx(
+  <Link href="/" legacyBehavior>
+    <a className={clsx(
       "text-2xl font-black text-black no-underline font-display",
       "dark:text-white"
-    )}
-  >
-    Francisco Javier Arceo
+    )}>
+      Francisco Javier Arceo
+    </a>
   </Link>
 );
