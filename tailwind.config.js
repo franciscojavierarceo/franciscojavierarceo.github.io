@@ -33,6 +33,7 @@ module.exports = {
       colors: {
         "neon-orange": "#f92300",
         "dark-bg": "#000000",
+        "link-blue": "#2178DD",
       },
       fontSize: {
         "7xl": "4.5rem",
@@ -54,7 +55,7 @@ module.exports = {
               backgroundColor: theme("colors.gray.700"),
             },
             a: {
-              color: theme("colors.neon-orange"),
+              color: theme("colors.link-blue"),
             },
           },
         },
@@ -73,7 +74,7 @@ module.exports = {
               backgroundColor: theme("colors.gray.300"),
             },
             a: {
-              color: theme("colors.yellow.500"),
+              color: theme("colors.link-blue"),
             },
             h1: {
               color: theme("colors.white"),
