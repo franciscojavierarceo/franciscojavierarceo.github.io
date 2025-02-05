@@ -10,7 +10,7 @@ export function Bio({ className }) {
     <section style={{fontSize: '1.2rem', lineHeight: 1.5, textAlign: 'justify'}}>
       <div className={clsx(`flex items-center`, className)}>
         <Image
-          src="/profile.png"
+          src="/assets/profile.png"
           width={96}
           height={96}
           style={{borderRadius: '9999px'}}
