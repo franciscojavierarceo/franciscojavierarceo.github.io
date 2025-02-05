@@ -14,7 +14,7 @@ export const Footer = () => {
   return (
     <footer className="text-lg font-light">
     {
-      isRoot ? <div/>: <div style={{paddingTop: 10, paddingBottom: 10}}><Link href="/"><a className="text-lg font-bold">← Back home</a></Link></div>
+      isRoot ? <div/>: <div style={{paddingTop: 10, paddingBottom: 10}}><Link href="/" className="text-lg font-bold">← Back home</Link></div>
     }
     <hr/>
     <div>
@@ -28,7 +28,7 @@ export const Footer = () => {
 export const Footer2 = ({}) => (
   <footer className="text-lg font-light">
     {
-      useRouter() === "/" ?  <div style={{paddingTop: 10}}><Link href="/"><a className="text-lg font-bold">← Back home</a></Link></div>: <div/>
+      useRouter() === "/" ?  <div style={{paddingTop: 10}}><Link href="/" className="text-lg font-bold">← Back home</Link></div>: <div/>
     }
     <hr/>
     <div>
@@ -40,7 +40,7 @@ export const Footer2 = ({}) => (
   
 export function Layout({ children }) {
   return (
-    <div className="w-full min-h-screen dark:bg-gray-700 dark:text-white">
+    <div className="w-full min-h-screen dark:bg-dark-bg dark:text-white">
       <div className="max-w-screen-md px-4 py-12 mx-auto antialiased font-body">
         <Header />
         <main style={{paddingBottom: 10}}>{children}</main>
@@ -125,31 +125,27 @@ const Header = () => {
 
 const LargeTitle = () => (
   <h1>
-    <Link href="/">
-      <a
-        className={clsx(
-          "text-3xl font-black leading-none text-black no-underline font-display",
-          "sm:text-4xl",
-          "dark:text-white"
-        )}
-      >
-        Francisco Javier Arceo
-      </a>
+    <Link
+      href="/"
+      className={clsx(
+        "text-3xl font-black leading-none text-black no-underline font-display",
+        "sm:text-4xl",
+        "dark:text-white"
+      )}
+    >
+      Francisco Javier Arceo
     </Link>
   </h1>
 );
 
 const SmallTitle = () => (
-  <a>
-    <Link href="/">
-      <a
-        className={clsx(
-          "text-2xl font-black text-black no-underline font-display",
-          "dark:text-white"
-        )}
-      >
-        Francisco Javier Arceo
-      </a>
-    </Link>
-  </a>
+  <Link
+    href="/"
+    className={clsx(
+      "text-2xl font-black text-black no-underline font-display",
+      "dark:text-white"
+    )}
+  >
+    Francisco Javier Arceo
+  </Link>
 );
