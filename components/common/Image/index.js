@@ -1,1 +1,1 @@
-export { CustomImage as Image } from "./Image";
+export * from "./Image";

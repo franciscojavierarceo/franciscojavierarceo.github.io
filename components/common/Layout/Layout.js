@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { DarkModeSwitch } from "react-toggle-dark-mode";
 import { useTheme } from "next-themes";
+import { Person } from "schema-dts";
 import { JsonLd } from "react-schemaorg";
 import { jsonLdScriptProps } from "react-schemaorg";
 import { getSiteMetaData } from "@utils/helpers";
@@ -14,12 +15,12 @@ export const Footer = () => {
   return (
     <footer className="text-lg font-light">
     {
-      isRoot ? <div/>: <div style={{paddingTop: 10, paddingBottom: 10}}><Link href="/" className="text-lg font-bold">← Back home</Link></div>
+      isRoot ? <div/>: <div style={{paddingTop: 10, paddingBottom: 10}}><Link href="/"><a className="text-lg font-bold">← Back home</a></Link></div>
     }
     <hr/>
     <div>
-      <p>Like this blog? Check out the code on my{' '}<a href="https://github.com/franciscojavierarceo/franciscojavierarceo.github.io" className="text-link-blue">GitHub</a>.</p>
-      <p>Built with{" "}<a href="https://nextjs.org/" className="text-link-blue">Next.js</a> and &#x2615;</p>
+      <p>Like this blog? Check out the code on my{' '}<a href="https://github.com/franciscojavierarceo/franciscojavierarceo.github.io">GitHub</a>.</p>
+      <p>Built with{" "}<a href="https://nextjs.org/">Next.js</a> and &#x2615;</p>
     </div>
   </footer>
   );
@@ -28,7 +29,7 @@ export const Footer = () => {
 export const Footer2 = ({}) => (
   <footer className="text-lg font-light">
     {
-      useRouter() === "/" ?  <div style={{paddingTop: 10}}><Link href="/" className="text-lg font-bold">← Back home</Link></div>: <div/>
+      useRouter() === "/" ?  <div style={{paddingTop: 10}}><Link href="/"><a className="text-lg font-bold">← Back home</a></Link></div>: <div/>
     }
     <hr/>
     <div>
@@ -107,7 +108,7 @@ const Header = () => {
         />
       )}
       <script
-        {...jsonLdScriptProps({
+        {...jsonLdScriptProps<Person>({
           "@context": "https://schema.org",
           "@type": "Person",
           name: name,
@@ -125,12 +126,14 @@ const Header = () => {
 
 const LargeTitle = () => (
   <h1>
-    <Link href="/" legacyBehavior>
-      <a className={clsx(
-        "text-3xl font-black leading-none text-black no-underline font-display",
-        "sm:text-4xl",
-        "dark:text-white"
-      )}>
+    <Link href="/">
+      <a
+        className={clsx(
+          "text-3xl font-black leading-none text-black no-underline font-display",
+          "sm:text-4xl",
+          "dark:text-white"
+        )}
+      >
         Francisco Javier Arceo
       </a>
     </Link>
@@ -138,12 +141,16 @@ const LargeTitle = () => (
 );
 
 const SmallTitle = () => (
-  <Link href="/" legacyBehavior>
-    <a className={clsx(
-      "text-2xl font-black text-black no-underline font-display",
-      "dark:text-white"
-    )}>
-      Francisco Javier Arceo
-    </a>
-  </Link>
+  <a>
+    <Link href="/">
+      <a
+        className={clsx(
+          "text-2xl font-black text-black no-underline font-display",
+          "dark:text-white"
+        )}
+      >
+        Francisco Javier Arceo
+      </a>
+    </Link>
+  </a>
 );
