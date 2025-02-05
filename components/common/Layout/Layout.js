@@ -41,7 +41,7 @@ export const Footer2 = ({}) => (
   
 export function Layout({ children }) {
   return (
-    <div className="w-full min-h-screen dark:bg-gray-700 dark:text-white">
+    <div className="w-full min-h-screen dark:bg-dark-bg dark:text-white">
       <div className="max-w-screen-md px-4 py-12 mx-auto antialiased font-body">
         <Header />
         <main style={{paddingBottom: 10}}>{children}</main>
