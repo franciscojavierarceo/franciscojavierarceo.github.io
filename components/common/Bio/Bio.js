@@ -1,6 +1,6 @@
 import clsx from "clsx";
 import Link from 'next/link';
-import { Image as CustomImage } from "..";
+import Image from 'next/image';
 import { getSiteMetaData } from "@utils/helpers";
 
 export function Bio({ className }) {
@@ -9,14 +9,14 @@ export function Bio({ className }) {
   return (
     <section style={{fontSize: '1.2rem', lineHeight: 1.5, textAlign: 'justify'}}>
       <div className={clsx(`flex items-center`, className)}>
-        <CustomImage
+        <Image
           src="/profile.png"
           width={96}
           height={96}
           style={{borderRadius: '9999px'}}
           alt="Francisco Javier Arceo"
-          priority
-          unoptimized
+          priority={true}
+          unoptimized={true}
         />
         <h2 style={{fontSize: '2.0rem', marginLeft: '2rem', textAlign: 'center'}}>Hello there! &#128075;</h2>
       </div>
