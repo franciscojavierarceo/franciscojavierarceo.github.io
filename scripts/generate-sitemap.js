@@ -1,8 +1,9 @@
-const fs = require('fs');
-const globby = require('globby');
-const prettier = require('prettier');
+import fs from 'fs';
+import { globby } from 'globby';
+import prettier from 'prettier';
 
-const sitemapXML = (async () => {
+// Make the entire script async
+(async () => {
   const prettierConfig = await prettier.resolveConfig('./.prettierrc.js');
 
   // Ignore Next.js specific files (e.g., _app.js) and API routes.
@@ -32,10 +33,11 @@ const sitemapXML = (async () => {
                   .replace('.md', '');
                 // console.log(page); // Use this to confirm export of the sitemap
                 const spath = path.split('/');
-                if (spath.length === 1){
-                  spathfin = spath[0]
+                let spathfin;
+                if (spath.length === 1) {
+                  spathfin = spath[0];
                 } else {
-                  spathfin = spath.slice(0, spath.length -1).join('/')
+                  spathfin = spath.slice(0, spath.length -1).join('/');
                 }                
                 const route = spathfin === '/index' ? '' : spathfin;
                 // console.log(page, route);
@@ -52,13 +54,18 @@ const sitemapXML = (async () => {
         </urlset>
     `;
 
-  // If you're not using Prettier, you can remove this.
-  const formatted = prettier.format(sitemap, {
-    ...prettierConfig,
-    parser: 'html'
-  });
-  fs.writeFileSync('public/sitemap.xml', formatted);
-  return formatted;
+  try {
+    // If you're not using Prettier, you can remove this.
+    const formatted = await prettier.format(sitemap, {
+      ...prettierConfig,
+      parser: 'html'
+    });
+    fs.writeFileSync('public/sitemap.xml', formatted);
+    return formatted;
+  } catch (error) {
+    console.error('Error generating sitemap:', error);
+    process.exit(1);
+  }
 })();
 
 
