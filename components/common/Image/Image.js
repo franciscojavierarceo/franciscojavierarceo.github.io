@@ -1,15 +1,15 @@
-import "lazysizes";
+import Image from 'next/image';
 
-export function Image({ alt, src, previewSrc, webpSrc, className }) {
+export function CustomImage({ alt, src, className }) {
   return (
-    <picture className={className}>
-      <source type="image/webp" data-srcset={webpSrc} />
-      <source type="image/png" data-srcset={src} />
-      <img
-        className={`lazyload blur ${className}`}
-        alt={alt}
-        src={previewSrc}
-      />
-    </picture>
+    <Image
+      className={className}
+      alt={alt}
+      src={src}
+      width={800}
+      height={400}
+      priority={true}
+      unoptimized={true}
+    />
   );
 }

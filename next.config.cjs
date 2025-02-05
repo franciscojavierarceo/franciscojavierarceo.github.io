@@ -3,10 +3,9 @@ const nextConfig = {
   output: 'export',
   images: {
     unoptimized: true,
+    loader: 'default',
+    domains: [],
   },
-  basePath: '',
-  assetPrefix: '',
-  trailingSlash: true,
 };
 
-module.exports = nextConfig;
+export default nextConfig;

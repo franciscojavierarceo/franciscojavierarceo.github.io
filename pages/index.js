@@ -13,8 +13,8 @@ export default function Home({ posts }) {
         <article key={slug}>
           <header className="mb-2">
             <h3 className="mb-2">
-              <Link href={"/post/[slug]"} as={`/post/${slug}`}>
-                <a className="text-4xl font-bold text-yellow-600 font-display">
+              <Link href={"/post/[slug]"} as={`/post/${slug}`} legacyBehavior>
+                <a className="text-4xl font-bold text-link-blue font-display">
                   {title}
                 </a>
               </Link>
