@@ -1,11 +1,17 @@
-/** @type {import('next').NextConfig} */
-const nextConfig = {
-  output: 'export',
-  images: {
-    unoptimized: true,
-    loader: 'default',
-    domains: [],
-  },
-};
+const optimizedImages = require("next-optimized-images");
 
-module.exports = nextConfig;
+module.exports = optimizedImages({
+    async headers() {
+        return [
+          {
+            source: '/sitemap.xml',
+            headers: [
+              {
+                key: 'Content-type',
+                value: 'application/xml',
+              }
+            ],
+          },
+        ]
+      },
+});
