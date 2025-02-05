@@ -23,17 +23,22 @@ const defaultSerif = [
 ];
 
 module.exports = {
-  content: [
-    "./components/**/*.{js,ts,jsx,tsx,css}",
-    "./pages/**/*.{js,ts,jsx,tsx}",
-  ],
+  purge: {
+    mode: "all",
+    content: [
+      "./components/**/*.{js,ts,jsx,tsx,css}",
+      "./pages/**/*.{js,ts,jsx,tsx}",
+    ],
+    options: {
+      safelist: { deep: [/blur$/] },
+    },
+  },
   darkMode: "class",
   theme: {
     extend: {
       colors: {
         "neon-orange": "#f92300",
         "dark-bg": "#000000",
-        "link-blue": "#2178DD",
       },
       fontSize: {
         "7xl": "4.5rem",
@@ -55,7 +60,7 @@ module.exports = {
               backgroundColor: theme("colors.gray.700"),
             },
             a: {
-              color: theme("colors.link-blue"),
+              color: theme("colors.neon-orange"),
             },
           },
         },
@@ -74,7 +79,7 @@ module.exports = {
               backgroundColor: theme("colors.gray.300"),
             },
             a: {
-              color: theme("colors.link-blue"),
+              color: theme("colors.yellow.500"),
             },
             h1: {
               color: theme("colors.white"),
