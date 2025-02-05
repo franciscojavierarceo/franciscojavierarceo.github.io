@@ -18,8 +18,8 @@ export const Footer = () => {
     }
     <hr/>
     <div>
-      <p>Like this blog? Check out the code on my{' '}<a href="https://github.com/franciscojavierarceo/franciscojavierarceo.github.io">GitHub</a>.</p>
-      <p>Built with{" "}<a href="https://nextjs.org/">Next.js</a> and &#x2615;</p>
+      <p>Like this blog? Check out the code on my{' '}<a href="https://github.com/franciscojavierarceo/franciscojavierarceo.github.io" className="text-link-blue">GitHub</a>.</p>
+      <p>Built with{" "}<a href="https://nextjs.org/" className="text-link-blue">Next.js</a> and &#x2615;</p>
     </div>
   </footer>
   );
