@@ -4,7 +4,7 @@ import { MathJaxContext, MathJax } from 'better-react-mathjax';
 import remarkMath from 'remark-math';
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import style from "react-syntax-highlighter/dist/cjs/styles/prism/dracula";
-import { Layout, Footer, Image, SEO, Bio } from "@components/common";
+import { Layout, Footer, Image as CustomImage, SEO, Bio } from "@components/common";
 import { getPostBySlug, getPostsSlugs } from "@utils/posts";
 
 function MarkdownRender(props) {
@@ -88,11 +88,13 @@ const CodeBlock = ({ language, value }) => {
 };
 
 const MarkdownImage = ({ alt, src }) => (
-  <Image
+  <CustomImage
     alt={alt}
-    src={require(`../../content/assets/${src}`)}
-    webpSrc={require(`../../content/assets/${src}?webp`)}
-    previewSrc={require(`../../content/assets/${src}?lqip`)}
+    src={`/assets/${src}`}
+    width={800}
+    height={400}
     className="w-full"
+    priority
+    unoptimized
   />
 );
