@@ -1,7 +1,7 @@
 ---
 title: "Kubeflow Goals"
 description: "Goals and vision for Kubeflow's future as a steering committee member"
-date: "2024-11-20"
+date: 2024-11-20
 ---
 
 # Kubeflow Goals
