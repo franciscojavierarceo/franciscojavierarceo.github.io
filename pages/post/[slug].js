@@ -1,36 +1,25 @@
 import Link from "next/link";
-import ReactMarkdown from "react-markdown/with-html";
-import MathJax from 'react-mathjax';
-import RemarkMathPlugin from 'remark-math';
+import ReactMarkdown from "react-markdown";
+import { MathJaxContext, MathJax } from 'better-react-mathjax';
+import remarkMath from 'remark-math';
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import style from "react-syntax-highlighter/dist/cjs/styles/prism/dracula";
 import { Layout, Footer, Image, SEO, Bio } from "@components/common";
 import { getPostBySlug, getPostsSlugs } from "@utils/posts";
 
 function MarkdownRender(props) {
-  const newProps = {
-    ...props,
-    plugins: [
-      RemarkMathPlugin,
-    ],
-    options: {
-      tex2jax: {
-        inlineMath: [ ['$','$'], ['\\(','\\)'] ],
-        displayMath: [ ['$$','$$'], ['\[','\]'] ]
-      }
-    },
-    renderers: {
-      ...props.renderers,
-      math: (props) =>
-        <MathJax.Node formula={props.value} />,
-      inlineMath: (props) =>
-        <MathJax.Node inline formula={props.value} />
-    }
-  };
   return (
-    <MathJax.Provider input="tex">
-      <ReactMarkdown {...newProps} />
-    </MathJax.Provider>
+    <MathJaxContext>
+      <ReactMarkdown 
+        {...props}
+        remarkPlugins={[remarkMath]}
+        components={{
+          ...props.components,
+          math: ({value}) => <MathJax inline={false}>{value}</MathJax>,
+          inlineMath: ({value}) => <MathJax inline>{value}</MathJax>
+        }}
+      />
+    </MathJaxContext>
   );
 }
 
@@ -50,13 +39,13 @@ export default function Post({ post, frontmatter, nextPost, previousPost }) {
         </header>
         <MarkdownRender
           className="mb-4 prose lg:prose-lg dark:prose-dark"
-          escapeHtml={false}
-          source={post.content}
-          renderers={{ 
-            code: CodeBlock, 
-            image: MarkdownImage 
+          components={{
+            code: CodeBlock,
+            img: MarkdownImage
           }}
-        />
+        >
+          {post.content}
+        </MarkdownRender>
       </article>
     </Layout>
   );
@@ -87,9 +76,9 @@ export async function getStaticProps({ params: { slug } }) {
 
 const CodeBlock = ({ language, value }) => {
   return (
-    <SyntaxHighlighter 
-        style={style} 
-        language={language} 
+    <SyntaxHighlighter
+        style={style}
+        language={language}
         showLineNumbers={true}
         useInlineStyles={true}
         >

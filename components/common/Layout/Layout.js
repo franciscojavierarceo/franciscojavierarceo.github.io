@@ -4,7 +4,6 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { DarkModeSwitch } from "react-toggle-dark-mode";
 import { useTheme } from "next-themes";
-import { Person } from "schema-dts";
 import { JsonLd } from "react-schemaorg";
 import { jsonLdScriptProps } from "react-schemaorg";
 import { getSiteMetaData } from "@utils/helpers";
@@ -108,7 +107,7 @@ const Header = () => {
         />
       )}
       <script
-        {...jsonLdScriptProps<Person>({
+        {...jsonLdScriptProps({
           "@context": "https://schema.org",
           "@type": "Person",
           name: name,
