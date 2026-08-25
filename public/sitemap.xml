@@ -25,6 +25,12 @@
   </url>
 
   <url>
+    <loc>https://franciscojavierarceo.github.io/post/a-fast-year-indeed</loc>
+    <changefreq>daily</changefreq>
+    <priority>0.5</priority>
+  </url>
+
+  <url>
     <loc
       >https://franciscojavierarceo.github.io/post/binary-representation-of-positive-integers</loc
     >
@@ -33,14 +39,8 @@
   </url>
 
   <url>
-    <loc>https://franciscojavierarceo.github.io/post/a-fast-year-indeed</loc>
-    <changefreq>daily</changefreq>
-    <priority>0.5</priority>
-  </url>
-
-  <url>
     <loc
-      >https://franciscojavierarceo.github.io/post/customer-segmentation-data-science</loc
+      >https://franciscojavierarceo.github.io/post/data-science-and-fintech</loc
     >
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
@@ -48,7 +48,7 @@
 
   <url>
     <loc
-      >https://franciscojavierarceo.github.io/post/data-science-and-fintech</loc
+      >https://franciscojavierarceo.github.io/post/customer-segmentation-data-science</loc
     >
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
@@ -80,14 +80,6 @@
 
   <url>
     <loc
-      >https://franciscojavierarceo.github.io/post/how-to-build-a-credit-risk-model</loc
-    >
-    <changefreq>daily</changefreq>
-    <priority>0.5</priority>
-  </url>
-
-  <url>
-    <loc
       >https://franciscojavierarceo.github.io/post/function-approximation</loc
     >
     <changefreq>daily</changefreq>
@@ -96,6 +88,14 @@
 
   <url>
     <loc>https://franciscojavierarceo.github.io/post/github-actions</loc>
+    <changefreq>daily</changefreq>
+    <priority>0.5</priority>
+  </url>
+
+  <url>
+    <loc
+      >https://franciscojavierarceo.github.io/post/how-to-build-a-credit-risk-model</loc
+    >
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
@@ -121,15 +121,15 @@
   </url>
 
   <url>
-    <loc
-      >https://franciscojavierarceo.github.io/post/ordinary-least-squares</loc
-    >
+    <loc>https://franciscojavierarceo.github.io/post/next-js-blog</loc>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
 
   <url>
-    <loc>https://franciscojavierarceo.github.io/post/next-js-blog</loc>
+    <loc
+      >https://franciscojavierarceo.github.io/post/ordinary-least-squares</loc
+    >
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
