@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build && next export && node ./scripts/generate-sitemap.js",
+    "test:presentation": "node tests/presentation-publishing.test.js",
     "start": "next start"
   },
   "dependencies": {

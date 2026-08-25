@@ -1,0 +1,732 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#0b0b0f">
+  <title>Open agents on distributed inference</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      color-scheme: dark;
+      --ink: #f3f3f3;
+      --muted: #a5a5af;
+      --dim: #676772;
+      --canvas: #0b0b0f;
+      --panel: #141419;
+      --line: rgba(255,255,255,.16);
+      --llmd: #7f317f;
+      --llmd-bright: #e783a7;
+      --llmd-soft: #ca77ca;
+      --vllm-blue: #30a2ff;
+      --vllm-gold: #fdb515;
+      --good: #70e1b3;
+      --space-1: clamp(.35rem, .5vw, .55rem);
+      --space-2: clamp(.65rem, .9vw, .95rem);
+      --space-3: clamp(1rem, 1.5vw, 1.5rem);
+      --space-4: clamp(1.5rem, 2.2vw, 2.3rem);
+      --space-5: clamp(2.2rem, 3.5vw, 4.25rem);
+      --edge: clamp(1.25rem, 4vw, 4.8rem);
+      --radius: 18px;
+      --shadow: 0 24px 90px rgba(0,0,0,.35);
+      font-family: "Space Grotesk", system-ui, sans-serif;
+      background: var(--canvas);
+    }
+
+    * { box-sizing: border-box; }
+    html, body { width: 100%; height: 100%; margin: 0; overflow: hidden; }
+    body {
+      color: var(--ink);
+      background:
+        linear-gradient(90deg, rgba(48,162,255,.035) 1px, transparent 1px) 0 0 / 72px 72px,
+        linear-gradient(rgba(202,119,202,.025) 1px, transparent 1px) 0 0 / 72px 72px,
+        var(--canvas);
+    }
+    button, a { font: inherit; }
+    button { color: inherit; }
+    a { color: var(--vllm-blue); text-underline-offset: .18em; }
+    :focus-visible { outline: 3px solid var(--vllm-gold); outline-offset: 4px; }
+    [contenteditable="true"] { border-radius: 4px; }
+    [contenteditable="true"]:focus { outline: 1px dashed var(--llmd-bright); outline-offset: 6px; }
+
+    .deck { position: relative; width: 100%; height: 100%; isolation: isolate; }
+    .deck::before {
+      content: "";
+      position: fixed;
+      inset: -25%;
+      z-index: -1;
+      pointer-events: none;
+      background:
+        radial-gradient(circle at 18% 18%, rgba(127,49,127,.18), transparent 25%),
+        radial-gradient(circle at 85% 76%, rgba(48,162,255,.12), transparent 26%);
+      filter: blur(22px);
+    }
+
+    .topbar {
+      position: fixed;
+      z-index: 20;
+      top: 0;
+      left: 0;
+      right: 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      min-height: 64px;
+      padding: 14px var(--edge);
+      border-bottom: 1px solid rgba(255,255,255,.08);
+      background: linear-gradient(to bottom, rgba(11,11,15,.92), rgba(11,11,15,.45));
+      backdrop-filter: blur(16px);
+    }
+    .brand-lockup { display: flex; align-items: center; gap: 14px; font-weight: 700; letter-spacing: -.04em; }
+    .brand { display: inline-flex; align-items: center; gap: 8px; white-space: nowrap; }
+    .brand::before { content: ""; width: 11px; height: 22px; transform: skew(-15deg); }
+    .brand.vllm::before { background: linear-gradient(160deg, var(--vllm-gold) 0 49%, var(--vllm-blue) 50%); }
+    .brand.llmd::before { background: linear-gradient(160deg, var(--llmd-bright) 0 49%, var(--llmd) 50%); }
+    .brand.agentic { font-weight: 500; color: var(--vllm-blue); letter-spacing: -.02em; }
+    .plus { color: var(--dim); font-family: "IBM Plex Mono", monospace; font-weight: 400; }
+    .top-hint { color: var(--muted); font: 500 12px/1 "IBM Plex Mono", monospace; letter-spacing: .08em; text-transform: uppercase; }
+
+    .slide {
+      position: absolute;
+      inset: 0;
+      display: grid;
+      align-content: center;
+      gap: var(--space-4);
+      padding: max(86px, 8vh) var(--edge) max(86px, 9vh);
+      opacity: 0;
+      visibility: hidden;
+      transform: translate3d(5vw, 0, 0) scale(.985);
+      transition: opacity .42s ease, transform .52s cubic-bezier(.2,.75,.2,1), visibility 0s .52s;
+      overflow: hidden;
+    }
+    .slide.active {
+      opacity: 1;
+      visibility: visible;
+      transform: translate3d(0,0,0) scale(1);
+      transition-delay: 0s;
+    }
+    .slide.exit-left { transform: translate3d(-5vw, 0, 0) scale(.985); }
+    .slide-inner { width: min(1540px, 100%); margin: 0 auto; }
+    .eyebrow {
+      margin: 0 0 var(--space-3);
+      color: var(--llmd-bright);
+      font: 600 clamp(12px, 1vw, 15px)/1.2 "IBM Plex Mono", monospace;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+    }
+    h1, h2, h3, p { margin-top: 0; }
+    h1 {
+      max-width: 13ch;
+      margin-bottom: var(--space-3);
+      font-size: clamp(3.2rem, 7.4vw, 8.5rem);
+      line-height: .89;
+      letter-spacing: -.075em;
+    }
+    h2 {
+      max-width: 15ch;
+      margin-bottom: var(--space-4);
+      font-size: clamp(2.5rem, 5.5vw, 6.2rem);
+      line-height: .94;
+      letter-spacing: -.065em;
+    }
+    h3 { font-size: clamp(1.2rem, 1.8vw, 2rem); line-height: 1.05; letter-spacing: -.04em; }
+    .lede { max-width: 62ch; color: #d4d4dc; font-size: clamp(1.15rem, 1.8vw, 2rem); line-height: 1.35; letter-spacing: -.025em; }
+    .mono { font-family: "IBM Plex Mono", monospace; }
+    .accent-vllm { color: var(--vllm-gold); }
+    .accent-blue { color: var(--vllm-blue); }
+    .accent-llmd { color: var(--llmd-bright); }
+    .accent-good { color: var(--good); }
+    .slash { color: var(--dim); }
+    .kicker-row { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 18px; margin-top: var(--space-4); }
+    .kicker { padding: 8px 12px; border-left: 3px solid var(--vllm-blue); background: rgba(255,255,255,.045); color: #d8d8df; font: 500 clamp(11px, 1vw, 14px)/1.3 "IBM Plex Mono", monospace; }
+    .kicker:nth-child(2) { border-color: var(--llmd-bright); }
+    .hero-proof { margin-top: var(--space-5); font: 500 clamp(12px, 1.1vw, 16px)/1.4 "IBM Plex Mono", monospace; color: var(--muted); }
+    .hero-proof strong { color: var(--good); font-weight: 600; }
+    .presenter { margin: var(--space-3) 0 0; padding-left: 14px; border-left: 2px solid var(--vllm-blue); font: 500 clamp(11px, 1vw, 14px)/1.45 "IBM Plex Mono", monospace; color: var(--muted); }
+    .presenter strong { display: block; color: var(--ink); font-size: clamp(13px, 1.15vw, 17px); font-weight: 600; }
+
+    .stack-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0,1fr));
+      gap: 1px;
+      background: var(--line);
+      border: 1px solid var(--line);
+    }
+    .stack-item { min-height: 280px; padding: clamp(1.2rem,2.6vw,3rem); background: rgba(14,14,19,.94); }
+    .stack-index { color: var(--dim); font: 500 13px/1 "IBM Plex Mono", monospace; }
+    .stack-item h3 { margin: clamp(2rem,4vw,4rem) 0 1rem; }
+    .stack-item p { max-width: 32ch; margin: 0; color: var(--muted); font-size: clamp(.98rem,1.25vw,1.35rem); line-height: 1.42; }
+    .stack-item:nth-child(1) h3 { color: var(--vllm-blue); }
+    .stack-item:nth-child(2) h3 { color: var(--llmd-bright); }
+    .stack-item:nth-child(3) h3 { color: var(--vllm-gold); }
+    .neutrality { display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 24px; margin-top: var(--space-4); padding-top: var(--space-3); border-top: 1px solid var(--line); }
+    .neutrality p { margin: 0; color: #d8d8df; font-size: clamp(1rem,1.45vw,1.55rem); }
+    .neutrality .tag { color: var(--vllm-blue); font: 600 12px/1.2 "IBM Plex Mono", monospace; text-transform: uppercase; letter-spacing: .12em; }
+
+    .why-layout { display: grid; grid-template-columns: minmax(360px,.78fr) minmax(560px,1.22fr); gap: clamp(2rem,4vw,5rem); align-items: center; }
+    .why-copy h2 { max-width: 10ch; margin-bottom: var(--space-4); font-size: clamp(2.7rem,4.8vw,5.5rem); }
+    .why-points { border-top: 1px solid var(--line); }
+    .why-point { display: grid; grid-template-columns: 34px 1fr; gap: 12px; padding: 13px 0; border-bottom: 1px solid var(--line); }
+    .why-point > span { padding-top: 4px; color: var(--vllm-blue); font: 600 11px/1 "IBM Plex Mono", monospace; }
+    .why-point h3 { margin: 0 0 5px; font-size: clamp(1.05rem,1.35vw,1.35rem); color: var(--ink); letter-spacing: -.025em; }
+    .why-point p { margin: 0; color: var(--muted); font-size: clamp(.88rem,1vw,1.02rem); line-height: 1.4; }
+    .paper-figure { margin: 0; padding: 10px 10px 8px; border: 1px solid rgba(48,162,255,.45); background: #f7f7f4; box-shadow: var(--shadow); }
+    .paper-figure img { display: block; width: 100%; max-height: min(61vh,610px); object-fit: contain; }
+    .paper-figure figcaption { display: flex; justify-content: space-between; gap: 16px; margin-top: 7px; padding: 0 4px; color: #34343a; font: 600 10px/1.35 "IBM Plex Mono", monospace; letter-spacing: .035em; text-transform: uppercase; }
+    .paper-figure figcaption span:last-child { color: #126cac; }
+
+    .architecture { display: grid; grid-template-columns: 1.1fr .25fr 1.25fr .25fr .8fr .25fr .85fr; align-items: stretch; gap: clamp(8px,1vw,16px); }
+    .node { display: flex; flex-direction: column; justify-content: space-between; min-height: 238px; padding: clamp(1rem,1.8vw,1.8rem); border: 1px solid var(--line); background: rgba(18,18,24,.88); }
+    .node .node-label { font: 600 11px/1.2 "IBM Plex Mono", monospace; color: var(--dim); letter-spacing: .12em; text-transform: uppercase; }
+    .node h3 { margin: 2.4rem 0 .5rem; }
+    .node p { margin: 0; color: var(--muted); font-size: clamp(.85rem,1vw,1rem); line-height: 1.4; }
+    .node.harness { border-top: 3px solid var(--llmd-bright); }
+    .node.agentic { border-top: 3px solid var(--vllm-blue); }
+    .node.llmd-node { border-top: 3px solid var(--llmd-soft); }
+    .node.vllm-node { border-top: 3px solid var(--vllm-gold); }
+    .arrow { align-self: center; position: relative; height: 1px; background: var(--dim); }
+    .arrow::after { content: ""; position: absolute; right: -1px; top: -4px; border-left: 7px solid var(--dim); border-top: 4px solid transparent; border-bottom: 4px solid transparent; }
+    .tool-loop { display: flex; align-items: center; justify-content: space-between; gap: 18px; margin-top: 18px; padding: 14px 18px; border: 1px solid rgba(112,225,179,.35); background: rgba(112,225,179,.05); color: #cceadd; }
+    .tool-loop span:first-child { font: 600 12px/1.2 "IBM Plex Mono", monospace; text-transform: uppercase; letter-spacing: .1em; color: var(--good); }
+    .tool-loop span:last-child { color: var(--muted); font-size: clamp(.9rem,1.15vw,1.1rem); }
+
+    .arch-head { display: grid; grid-template-columns: minmax(0,.82fr) minmax(360px,1.18fr); gap: clamp(2rem,5vw,6rem); align-items: end; }
+    .arch-head h2 { max-width: 10ch; margin-bottom: 12px; font-size: clamp(2.45rem,4.15vw,4.7rem); }
+    .arch-head p { max-width: 56ch; margin: 0 0 16px; color: var(--muted); font-size: clamp(.95rem,1.25vw,1.25rem); line-height: 1.45; }
+    .arch-system { display: grid; grid-template-columns: .62fr 34px 1.48fr 76px 1.08fr; gap: 12px; align-items: stretch; }
+    .arch-zone { min-height: 332px; padding: clamp(1rem,1.55vw,1.6rem); border: 1px solid var(--line); background: rgba(16,16,22,.9); }
+    .arch-zone-title { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 14px; color: var(--muted); font: 600 11px/1.2 "IBM Plex Mono", monospace; letter-spacing: .11em; text-transform: uppercase; }
+    .arch-zone-title b { color: var(--ink); font-weight: 600; }
+    .arch-clients { display: grid; align-content: center; gap: 12px; border-top: 3px solid var(--llmd-bright); }
+    .arch-client { padding: 14px; border: 1px solid var(--line); background: rgba(127,49,127,.08); }
+    .arch-client strong { display: block; margin-bottom: 5px; font-size: clamp(1rem,1.35vw,1.35rem); }
+    .arch-client span { color: var(--muted); font: 500 10px/1.35 "IBM Plex Mono", monospace; }
+    .arch-arrow { position: relative; align-self: center; height: 1px; background: var(--dim); }
+    .arch-arrow::before { content: attr(data-step); position: absolute; left: 50%; bottom: 10px; transform: translateX(-50%); color: var(--vllm-blue); font: 600 11px/1 "IBM Plex Mono", monospace; }
+    .arch-arrow::after { content: ""; position: absolute; right: -1px; top: -4px; border-left: 7px solid var(--dim); border-top: 4px solid transparent; border-bottom: 4px solid transparent; }
+    .arch-agent { border-top: 3px solid var(--vllm-blue); }
+    .arch-agent-grid { display: grid; grid-template-columns: 1.15fr .85fr; gap: 10px; }
+    .arch-core { grid-row: span 2; display: flex; flex-direction: column; justify-content: space-between; padding: 16px; border: 1px solid rgba(48,162,255,.5); background: rgba(48,162,255,.07); }
+    .arch-core strong { color: var(--vllm-blue); font-size: clamp(1.35rem,2vw,2rem); letter-spacing: -.04em; }
+    .arch-core p { margin: 10px 0 0; color: #cfcfd7; font-size: clamp(.82rem,1vw,1rem); line-height: 1.42; }
+    .arch-subnode { padding: 13px 14px; border: 1px solid var(--line); background: rgba(255,255,255,.025); }
+    .arch-subnode strong { display: block; margin-bottom: 6px; color: var(--ink); font-size: clamp(.88rem,1.08vw,1.08rem); }
+    .arch-subnode span { color: var(--muted); font: 500 10px/1.45 "IBM Plex Mono", monospace; }
+    .arch-seam { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 8px; color: var(--vllm-gold); }
+    .arch-seam::before, .arch-seam::after { content: ""; height: 1px; background: linear-gradient(90deg,var(--dim),var(--vllm-gold)); }
+    .arch-seam::after { background: linear-gradient(90deg,var(--vllm-gold),var(--dim)); }
+    .arch-seam span { writing-mode: vertical-rl; transform: rotate(180deg); font: 600 9px/1.25 "IBM Plex Mono", monospace; letter-spacing: .09em; text-transform: uppercase; }
+    .arch-inference { border-top: 3px solid var(--vllm-gold); }
+    .arch-service { padding: 13px 14px; border: 1px solid rgba(48,162,255,.5); background: rgba(48,162,255,.07); }
+    .arch-service strong { display: block; color: var(--vllm-blue); font-size: clamp(1.05rem,1.45vw,1.45rem); }
+    .arch-service span { color: var(--muted); font: 500 10px/1.35 "IBM Plex Mono", monospace; }
+    .arch-down { position: relative; width: 1px; height: 22px; margin: 7px auto; background: var(--dim); }
+    .arch-down::after { content: ""; position: absolute; bottom: -1px; left: -4px; border-top: 7px solid var(--dim); border-left: 4px solid transparent; border-right: 4px solid transparent; }
+    .worker-label { margin-bottom: 7px; color: var(--dim); font: 600 10px/1 "IBM Plex Mono", monospace; letter-spacing: .1em; text-transform: uppercase; }
+    .arch-workers { display: grid; grid-template-columns: repeat(3,1fr); gap: 7px; }
+    .arch-workers.single { grid-template-columns: 1fr; }
+    .arch-worker { min-height: 74px; padding: 10px 7px; border: 1px solid rgba(253,181,21,.4); background: rgba(253,181,21,.05); text-align: center; }
+    .arch-workers.single .arch-worker { display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 14px; min-height: 84px; padding-inline: 14px; text-align: left; }
+    .arch-workers.single .arch-worker span { text-align: right; }
+    .arch-worker strong { display: block; color: var(--vllm-gold); font-size: .9rem; }
+    .arch-worker span { color: var(--muted); font: 500 9px/1.25 "IBM Plex Mono", monospace; }
+    .arch-loop { display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 16px; margin-top: 12px; padding: 11px 16px; border: 1px solid rgba(112,225,179,.35); background: rgba(112,225,179,.045); }
+    .arch-loop b { color: var(--good); font: 600 11px/1 "IBM Plex Mono", monospace; letter-spacing: .1em; }
+    .arch-loop i { height: 1px; background: linear-gradient(90deg,var(--good),var(--vllm-blue)); }
+    .arch-loop span { color: #cfd8d4; font-size: clamp(.85rem,1vw,1rem); }
+
+    .demo-layout { display: grid; grid-template-columns: minmax(0,1.05fr) minmax(390px,.95fr); gap: clamp(2rem,5vw,7rem); align-items: center; }
+    .demo-layout h2 { max-width: 12ch; margin-bottom: var(--space-3); font-size: clamp(2.35rem, 4.25vw, 4.8rem); }
+    .steps { display: grid; gap: 0; border-top: 1px solid var(--line); }
+    .step { display: grid; grid-template-columns: 56px 1fr; gap: 16px; padding: 11px 0; border-bottom: 1px solid var(--line); }
+    .step-num { color: var(--llmd-bright); font: 600 13px/1.6 "IBM Plex Mono", monospace; }
+    .step p { margin: 0; color: #d5d5dc; font-size: clamp(.95rem,1.35vw,1.35rem); line-height: 1.45; }
+    .terminal { border: 1px solid rgba(255,255,255,.2); background: #101015; box-shadow: var(--shadow); transform: rotate(.5deg); }
+    .terminal-bar { display: flex; align-items: center; justify-content: space-between; padding: 11px 14px; border-bottom: 1px solid var(--line); color: var(--dim); font: 500 11px/1 "IBM Plex Mono", monospace; }
+    .terminal-dots { display: flex; gap: 6px; }
+    .terminal-dots i { display: block; width: 7px; height: 7px; border-radius: 50%; background: #41414a; }
+    .terminal-body { min-height: 320px; padding: clamp(1.2rem,2vw,2rem); font: 500 clamp(.76rem,1vw,1.05rem)/1.6 "IBM Plex Mono", monospace; }
+    .prompt { color: var(--vllm-blue); }
+    .terminal .tool { color: var(--good); }
+    .terminal .result { color: #dddde4; }
+    .cursor { display: inline-block; width: .6em; height: 1.1em; vertical-align: -.15em; background: var(--vllm-gold); animation: blink 1.1s steps(2,end) infinite; }
+    .video-frame { margin: 0; border: 1px solid rgba(48,162,255,.45); background: #050507; box-shadow: var(--shadow); }
+    .demo-video { display: block; width: 100%; aspect-ratio: 16 / 10; max-height: 465px; object-fit: contain; background: #000; }
+    .video-frame figcaption { display: flex; justify-content: space-between; gap: 16px; padding: 11px 14px; border-top: 1px solid var(--line); color: var(--muted); font: 500 10px/1.35 "IBM Plex Mono", monospace; }
+    .video-frame figcaption strong { color: var(--vllm-blue); }
+    @keyframes blink { 50% { opacity: 0; } }
+
+    .proof-grid { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(1.2rem,2.2vw,2.4rem); }
+    .proof-card { min-height: 315px; padding: clamp(1.4rem,2.8vw,3.2rem); border: 1px solid var(--line); background: rgba(16,16,22,.83); }
+    .proof-card:first-child { border-left: 4px solid var(--vllm-blue); }
+    .proof-card:nth-child(2) { border-left: 4px solid var(--llmd-bright); }
+    .proof-card .place { color: var(--dim); font: 600 12px/1 "IBM Plex Mono", monospace; text-transform: uppercase; letter-spacing: .13em; }
+    .proof-card h3 { margin: clamp(2.2rem,4vw,4.2rem) 0 1.2rem; font-size: clamp(1.7rem,3vw,3.3rem); }
+    .proof-card ul { margin: 0; padding: 0; list-style: none; color: var(--muted); font-size: clamp(.95rem,1.25vw,1.25rem); line-height: 1.55; }
+    .proof-card ul.hardware { font-size: clamp(.8rem,1vw,1.02rem); line-height: 1.42; }
+    .proof-card ul.hardware li { margin-bottom: .3rem; }
+    .proof-card li::before { content: "+"; margin-right: .7em; color: var(--good); font-family: "IBM Plex Mono", monospace; }
+    .database-line { margin-top: var(--space-4); display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--line); border: 1px solid var(--line); }
+    .database-line div { padding: 14px 18px; background: rgba(11,11,15,.94); color: var(--muted); font: 500 clamp(.82rem,1vw,1rem)/1.45 "IBM Plex Mono", monospace; }
+    .database-line strong { color: var(--ink); }
+
+    .disagg-layout { display: grid; grid-template-columns: minmax(0,1fr) minmax(420px,.9fr); gap: clamp(2.2rem,5vw,7rem); align-items: center; }
+    .big-statement { max-width: 11ch; margin: 0; font-size: clamp(2.6rem,5.6vw,6.2rem); line-height: .94; letter-spacing: -.065em; }
+    .disagg-map { position: relative; display: grid; gap: 12px; padding-left: 42px; }
+    .disagg-map::before { content: ""; position: absolute; left: 14px; top: 12%; bottom: 12%; width: 2px; background: linear-gradient(var(--llmd-bright), var(--vllm-blue), var(--vllm-gold)); }
+    .plane { padding: 18px 20px; border: 1px solid var(--line); background: rgba(18,18,24,.9); }
+    .plane::before { content: ""; position: absolute; left: 8px; width: 14px; height: 14px; margin-top: 4px; border-radius: 50%; background: var(--llmd-bright); box-shadow: 0 0 0 6px rgba(127,49,127,.18); }
+    .plane:nth-child(2)::before { background: var(--vllm-blue); box-shadow: 0 0 0 6px rgba(48,162,255,.15); }
+    .plane:nth-child(3)::before { background: var(--vllm-gold); box-shadow: 0 0 0 6px rgba(253,181,21,.14); }
+    .plane h3 { margin: 0 0 6px; font-size: clamp(1rem,1.4vw,1.35rem); }
+    .plane p { margin: 0; color: var(--muted); font-size: clamp(.82rem,1vw,1rem); line-height: 1.4; }
+    .future-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 18px; }
+    .future-tags span { padding: 7px 9px; border: 1px solid var(--line); color: #cdccd5; font: 500 11px/1.2 "IBM Plex Mono", monospace; }
+
+    .cta-layout { display: grid; grid-template-columns: minmax(0,1.1fr) minmax(390px,.9fr); gap: clamp(2rem,6vw,8rem); align-items: end; }
+    .cta-list { border-top: 1px solid var(--line); }
+    .cta-row { display: grid; grid-template-columns: 34px 1fr; gap: 12px; padding: 14px 0; border-bottom: 1px solid var(--line); color: #d8d8df; font-size: clamp(1rem,1.35vw,1.35rem); }
+    .cta-row span:first-child { color: var(--vllm-blue); font-family: "IBM Plex Mono", monospace; }
+    .cta-foot { margin-top: var(--space-4); padding: 18px 0; border-top: 4px solid var(--llmd); color: var(--muted); font: 500 clamp(.82rem,1vw,1rem)/1.55 "IBM Plex Mono", monospace; }
+    .cta-foot strong { color: var(--good); }
+    .repo-link { display: inline-block; margin-top: 12px; color: var(--vllm-gold); font-weight: 600; }
+
+    .speaker-notes { display: none; }
+    .notes-panel, .sources-panel {
+      position: fixed;
+      z-index: 50;
+      top: 78px;
+      right: var(--edge);
+      width: min(520px, calc(100vw - 2 * var(--edge)));
+      max-height: calc(100vh - 160px);
+      overflow: auto;
+      padding: 24px;
+      border: 1px solid var(--line);
+      background: rgba(14,14,19,.98);
+      box-shadow: var(--shadow);
+      transform: translateX(calc(100% + var(--edge) + 20px));
+      transition: transform .28s ease;
+    }
+    .notes-panel.open, .sources-panel.open { transform: translateX(0); }
+    .notes-panel h3, .sources-panel h3 { margin: 0 0 16px; color: var(--vllm-gold); }
+    .notes-content, .sources-panel { color: #cfcfd7; font-size: 15px; line-height: 1.55; }
+    .sources-panel ul { padding-left: 18px; }
+    .sources-panel li { margin-bottom: 12px; }
+
+    .controls { position: fixed; z-index: 30; right: var(--edge); bottom: 24px; display: flex; align-items: center; gap: 8px; }
+    .control {
+      width: 42px;
+      height: 42px;
+      border: 1px solid var(--line);
+      background: rgba(20,20,25,.82);
+      cursor: pointer;
+      transition: background .18s ease, border-color .18s ease, transform .18s ease;
+    }
+    .control:hover { background: #23232b; border-color: rgba(255,255,255,.35); transform: translateY(-2px); }
+    .control.wide { width: auto; padding: 0 14px; font: 600 11px/1 "IBM Plex Mono", monospace; letter-spacing: .08em; }
+    .progress-shell { position: fixed; z-index: 25; left: var(--edge); right: var(--edge); bottom: 36px; display: flex; align-items: center; gap: 16px; pointer-events: none; }
+    .counter { min-width: 48px; color: var(--muted); font: 500 12px/1 "IBM Plex Mono", monospace; }
+    .progress { width: min(34vw, 420px); height: 2px; background: var(--line); }
+    .progress-fill { width: 14.285%; height: 100%; background: linear-gradient(90deg, var(--llmd-bright), var(--vllm-blue), var(--vllm-gold)); transition: width .35s ease; }
+    .sr-status { position: fixed; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+    .deck.overview { overflow: auto; padding: 80px 30px 120px; display: grid; grid-template-columns: repeat(auto-fit,minmax(360px,1fr)); gap: 20px; align-content: start; }
+    .deck.overview .topbar, .deck.overview .controls, .deck.overview .progress-shell { position: fixed; }
+    .deck.overview .slide { position: relative; inset: auto; min-height: 54vh; padding: 70px 34px; opacity: 1; visibility: visible; transform: none; border: 1px solid var(--line); cursor: pointer; overflow: hidden; }
+    .deck.overview .slide:hover { border-color: var(--vllm-blue); }
+    .deck.overview .slide h1, .deck.overview .slide h2 { font-size: clamp(2.1rem,3.8vw,4rem); }
+    .deck.overview .slide .architecture { grid-template-columns: 1fr 1fr; }
+    .deck.overview .slide .arrow { display: none; }
+    .deck.overview .slide .node { min-height: 160px; }
+
+    @media (max-width: 1024px) {
+      .arch-system { grid-template-columns: .58fr 24px 1.4fr 58px 1.08fr; gap: 8px; }
+      .arch-zone { padding: 1rem; }
+      .arch-agent-grid { grid-template-columns: 1fr; }
+      .arch-core { grid-row: auto; }
+      .architecture { grid-template-columns: 1fr 22px 1fr; }
+      .architecture .node:nth-of-type(n+3) { margin-top: 10px; }
+      .architecture .node { min-height: 160px; }
+      .architecture .arrow:nth-of-type(n+3) { display: none; }
+      .why-layout { grid-template-columns: minmax(320px,.72fr) minmax(460px,1.28fr); gap: 2rem; }
+      .demo-layout, .disagg-layout, .cta-layout { grid-template-columns: 1fr 1fr; gap: 2rem; }
+      .terminal-body { min-height: 280px; }
+    }
+    @media (max-width: 768px) {
+      html, body { overflow: auto; }
+      .topbar { min-height: 54px; padding-block: 10px; }
+      .top-hint, .brand.agentic, .plus:nth-of-type(2) { display: none; }
+      .slide { position: relative; min-height: 100svh; padding-top: 82px; padding-bottom: 100px; opacity: 1; visibility: visible; transform: none; border-bottom: 1px solid var(--line); }
+      .slide:not(.active) { display: none; }
+      h1 { font-size: clamp(3rem,14vw,5rem); }
+      h2 { font-size: clamp(2.5rem,11vw,4rem); }
+      .stack-grid, .proof-grid, .why-layout, .demo-layout, .disagg-layout, .cta-layout { grid-template-columns: 1fr; }
+      .paper-figure img { max-height: 45vh; }
+      .arch-head { grid-template-columns: 1fr; gap: 0; }
+      .arch-system { grid-template-columns: 1fr; }
+      .arch-zone { min-height: auto; }
+      .arch-arrow { width: 1px; height: 28px; justify-self: center; }
+      .arch-arrow::before { left: 14px; bottom: 9px; transform: none; }
+      .arch-arrow::after { right: -4px; top: 21px; transform: rotate(90deg); }
+      .arch-seam { grid-template-columns: 1fr auto 1fr; min-height: 30px; }
+      .arch-seam span { writing-mode: horizontal-tb; transform: none; }
+      .arch-loop { grid-template-columns: 1fr; }
+      .arch-loop i { display: none; }
+      .stack-item { min-height: 210px; }
+      .architecture { grid-template-columns: 1fr; }
+      .architecture .arrow { width: 1px; height: 22px; justify-self: center; }
+      .architecture .arrow::after { right: -4px; top: 16px; transform: rotate(90deg); }
+      .node { min-height: 140px; }
+      .tool-loop { align-items: flex-start; flex-direction: column; }
+      .terminal { transform: none; }
+      .database-line { grid-template-columns: 1fr; }
+      .controls { right: var(--edge); bottom: 16px; }
+      .controls .wide { display: none; }
+      .progress-shell { bottom: 29px; right: 150px; }
+      .progress { width: 100%; }
+    }
+    @media (max-width: 430px) {
+      :root { --edge: 1.1rem; }
+      .brand-lockup { gap: 8px; font-size: 14px; }
+      .brand::before { width: 8px; height: 17px; }
+      .slide { gap: 1rem; }
+      .kicker-row { gap: 7px; }
+      .stack-item, .proof-card { padding: 1.25rem; }
+      .terminal-body { min-height: 250px; }
+      .progress-shell { display: none; }
+    }
+    @media (prefers-color-scheme: light) {
+      :root { color-scheme: dark; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation-duration: .001ms !important; animation-iteration-count: 1 !important; transition-duration: .001ms !important; scroll-behavior: auto !important; }
+    }
+    @media print {
+      html, body { overflow: visible; background: #0b0b0f; }
+      .topbar, .controls, .progress-shell, .notes-panel, .sources-panel { display: none !important; }
+      .slide { position: relative; display: grid !important; opacity: 1; visibility: visible; transform: none; width: 13.333in; height: 7.5in; break-after: page; }
+    }
+  </style>
+</head>
+<body>
+  <main class="deck" id="deck" aria-label="llm-d, vLLM, and Agentic API community demo presentation">
+    <header class="topbar">
+      <div class="brand-lockup" aria-label="vLLM plus llm-d plus Agentic API">
+        <span class="brand vllm">vLLM</span><span class="plus">+</span>
+        <span class="brand llmd">llm-d</span><span class="plus">+</span>
+        <span class="brand agentic">Agentic API</span>
+      </div>
+      <div class="top-hint">arrows navigate · n notes · o overview</div>
+    </header>
+
+    <section class="slide active" data-title="Open agents" aria-hidden="false">
+      <div class="slide-inner">
+        <p class="eyebrow" contenteditable="true" data-pretext>llm-d community demo</p>
+        <h1 contenteditable="true" data-pretext>Open agents.<br><span class="accent-blue">Distributed</span> inference.<br>One stack.</h1>
+        <p class="lede" contenteditable="true" data-pretext>Claude Code and Codex running on <span class="accent-vllm">vLLM</span> through <span class="accent-llmd">llm-d</span> and the <span class="accent-blue">vLLM Agentic API</span>.</p>
+        <div class="kicker-row">
+          <span class="kicker">COREWEAVE · KUBERNETES</span>
+          <span class="kicker">DGX SPARK · KIND</span>
+        </div>
+        <p class="hero-proof"><strong>● WORKING DEMO</strong> <span class="slash">/</span> Responses + Messages <span class="slash">/</span> server-side web search</p>
+        <p class="presenter"><strong>Francisco Javier Arceo</strong>Senior Principal Software Engineer · Red Hat AI</p>
+      </div>
+      <aside class="speaker-notes">Open with the result, not the architecture. We ran two mainstream coding harnesses against open models on a distributed inference stack. The web-search tool executed inside Agentic API, then the model continued the same response.</aside>
+    </section>
+
+    <section class="slide" data-title="The stack" aria-hidden="true">
+      <div class="slide-inner">
+        <p class="eyebrow" contenteditable="true" data-pretext>Three projects · one agentic path</p>
+        <div class="stack-grid">
+          <article class="stack-item"><span class="stack-index">01 / AGENT LOOP</span><h3 contenteditable="true" data-pretext>vLLM Agentic API</h3><p contenteditable="true" data-pretext>Responses and Messages protocols, state, streaming, and gateway-owned tool execution.</p></article>
+          <article class="stack-item"><span class="stack-index">02 / SERVING PLANE</span><h3 contenteditable="true" data-pretext>llm-d</h3><p contenteditable="true" data-pretext>Kubernetes-native routing and distributed inference orchestration above model servers.</p></article>
+          <article class="stack-item"><span class="stack-index">03 / MODEL RUNTIME</span><h3 contenteditable="true" data-pretext>vLLM</h3><p contenteditable="true" data-pretext>High-throughput inference and the model-facing OpenAI-compatible contract.</p></article>
+        </div>
+        <div class="neutrality"><p contenteditable="true" data-pretext>The seam stays <strong>inference-provider neutral</strong>: harness behavior and tools do not need to move with the model backend. One API—from a single local node to distributed Kubernetes.</p><span class="tag">PROJECT GOAL</span></div>
+      </div>
+      <aside class="speaker-notes">Clarify the boundaries. Agentic API does not replace vLLM or llm-d. It adds the stateful API and tool loop coding harnesses expect. The project goal is one API that works on a single local node and scales to distributed Kubernetes. llm-d remains the serving and routing layer; vLLM remains the inference engine.</aside>
+    </section>
+
+    <section class="slide" data-title="Why Agentic API" aria-hidden="true">
+      <div class="slide-inner why-layout">
+        <div class="why-copy">
+          <p class="eyebrow" contenteditable="true" data-pretext>Why Agentic API?</p>
+          <h2 contenteditable="true" data-pretext>Agentic APIs are becoming <span class="accent-blue">server-side runtimes.</span></h2>
+          <div class="why-points">
+            <div class="why-point"><span>01</span><div><h3 contenteditable="true" data-pretext>Stateful by default</h3><p contenteditable="true" data-pretext>Conversations, reasoning, and tool state persist across turns.</p></div></div>
+            <div class="why-point"><span>02</span><div><h3 contenteditable="true" data-pretext>Tools execute above inference</h3><p contenteditable="true" data-pretext>Web search, MCP, and other tools re-enter the same response loop.</p></div></div>
+            <div class="why-point"><span>03</span><div><h3 contenteditable="true" data-pretext>Decouple responsibilities</h3><p contenteditable="true" data-pretext>State CRUD and tool execution belong in the Agentic API; vLLM remains focused on token generation.</p></div></div>
+          </div>
+        </div>
+        <figure class="paper-figure">
+          <img src="cais-responses-api-diagram.png" alt="CAIS paper diagram showing the Responses API coordinating conversation state, files, vector stores, search, and server-side tools across provider boundaries">
+          <figcaption><span>CAIS 2026 · API and provider details</span><span>Responses is a system, not one endpoint</span></figcaption>
+        </figure>
+      </div>
+      <aside class="speaker-notes">OpenAI describes Responses as stateful by default, with conversations and tool state tracked automatically. The point for an open stack is architectural: response CRUD and tool execution should not be fused to token generation. The CAIS figure shows why the API surface naturally spans state, retrieval, providers, and tools. vLLM's GPT-OSS recipe already exposes the Responses API and tool use, while also calling out the remaining implementation surface. [Sources] OpenAI, Why we built the Responses API, https://developers.openai.com/blog/responses-api; vLLM, GPT-OSS recipe, https://github.com/vllm-project/recipes/blob/main/OpenAI/GPT-OSS.md; Arceo and Narsing, Securing the Agent, CAIS 2026, https://www.alphaxiv.org/pdf/2605.05287</aside>
+    </section>
+
+    <section class="slide arch-slide" data-title="Architecture" aria-hidden="true">
+      <div class="slide-inner">
+        <div class="arch-head">
+          <div><p class="eyebrow" contenteditable="true" data-pretext>Demo architecture</p><h2 contenteditable="true" data-pretext>One agent loop.<br><span class="accent-blue">Direct inference.</span></h2></div>
+          <p contenteditable="true" data-pretext>Both harnesses called Agentic API. On CoreWeave, Agentic API called one vLLM pod through a direct in-cluster Service.</p>
+        </div>
+        <div role="img" aria-label="Demo architecture: Claude Code and Codex call Agentic API, which owns SQLite state and web search, then calls one Qwen3-8B vLLM pod through a direct Kubernetes ClusterIP Service">
+          <div class="arch-system">
+            <section class="arch-zone arch-clients">
+              <div class="arch-zone-title"><b>Harnesses</b><span>outside cluster</span></div>
+              <div class="arch-client"><strong>Claude Code</strong><span>ANTHROPIC MESSAGES</span></div>
+              <div class="arch-client"><strong>Codex</strong><span>OPENAI RESPONSES</span></div>
+            </section>
+            <div class="arch-arrow" data-step="01" aria-hidden="true"></div>
+            <section class="arch-zone arch-agent">
+              <div class="arch-zone-title"><b>Agent execution plane</b><span>Agentic API</span></div>
+              <div class="arch-agent-grid">
+                <div class="arch-core"><strong>Agentic API</strong><p>Protocol translation<br>response orchestration<br>streaming + continuation</p></div>
+                <div class="arch-subnode"><strong>State store</strong><span>SQLITE · DEMO</span></div>
+                <div class="arch-subnode"><strong>Gateway-owned tools</strong><span>WEB SEARCH · SERVER-SIDE</span></div>
+              </div>
+            </section>
+            <div class="arch-seam"><span>Provider-neutral inference seam</span></div>
+            <section class="arch-zone arch-inference">
+              <div class="arch-zone-title"><b>CoreWeave Kubernetes</b><span>1 NODE · 1 GPU</span></div>
+              <div class="arch-service"><strong>Direct Kubernetes Service</strong><span>CLUSTERIP · vLLM:8000</span></div>
+              <div class="arch-down" aria-hidden="true"></div>
+              <div class="worker-label">Single vLLM pod</div>
+              <div class="arch-workers single"><div class="arch-worker"><strong>Qwen/Qwen3-8B</strong><span>1 × H100<br>32,768 TOKENS</span></div></div>
+            </section>
+          </div>
+          <div class="arch-loop"><b>02 · TOOL LOOP</b><i></i><span>Web search result resumes the same response → Agentic API calls the same vLLM Service again.</span></div>
+        </div>
+      </div>
+      <aside class="speaker-notes">This is the path we actually ran. Claude Code and Codex spoke different public protocols but entered the same Agentic API. Agentic API owned SQLite state, streaming, and server-side web search. On CoreWeave it called the vLLM ClusterIP Service directly, which reached one Qwen3-8B pod on one H100. The local KinD setup used the same direct shape with vLLM exposed on port 5050. There was no routing layer between Agentic API and vLLM in this demo.</aside>
+    </section>
+
+    <section class="slide" data-title="Live demo" aria-hidden="true">
+      <div class="slide-inner demo-layout">
+        <div>
+          <p class="eyebrow" contenteditable="true" data-pretext>Live demo</p>
+          <h2 contenteditable="true" data-pretext>Watch the loop,<br>not just the answer.</h2>
+          <div class="steps">
+            <div class="step"><span class="step-num">01</span><p contenteditable="true" data-pretext>Ask for a coding task that needs current web research.</p></div>
+            <div class="step"><span class="step-num">02</span><p contenteditable="true" data-pretext>The model selects the <strong>web search</strong> tool mid-response.</p></div>
+            <div class="step"><span class="step-num">03</span><p contenteditable="true" data-pretext>Agentic API executes it and continues inference through llm-d.</p></div>
+            <div class="step"><span class="step-num">04</span><p contenteditable="true" data-pretext>Switch from Claude Code to Codex. The stack stays put.</p></div>
+          </div>
+        </div>
+        <figure class="video-frame">
+          <video class="demo-video" controls preload="metadata" playsinline aria-label="Recorded Codex walkthrough using Agentic API, llm-d, vLLM, and web search"><source src="codex-agentic-api-demo.mp4" type="video/mp4">Your browser does not support embedded MP4 video.</video>
+          <figcaption><strong>RECORDED CODEX WALKTHROUGH</strong><span>Responses API → llm-d → vLLM</span></figcaption>
+        </figure>
+      </div>
+      <aside class="speaker-notes">Play the recorded Codex walkthrough. Ask the audience to watch for the server-side web-search event and the continued response. The architecture on the prior slide explains why the harness never has to own that gateway tool loop.</aside>
+    </section>
+
+    <section class="slide" data-title="Validated" aria-hidden="true">
+      <div class="slide-inner">
+        <p class="eyebrow" contenteditable="true" data-pretext>What we actually ran</p>
+        <h2 contenteditable="true" data-pretext>One open stack.<br><span class="accent-good">Two hardware targets.</span></h2>
+        <div class="proof-grid">
+          <article class="proof-card"><span class="place">Local reproduction · 1 node</span><h3 contenteditable="true" data-pretext>KinD on DGX Spark</h3><ul class="hardware"><li>1 × NVIDIA DGX Spark</li><li>NVIDIA GB10 Grace Blackwell Superchip</li><li>128 GB unified memory</li><li>KinD local Kubernetes control plane</li></ul></article>
+          <article class="proof-card"><span class="place">CoreWeave cluster · node g7269d8</span><h3 contenteditable="true" data-pretext>CoreWeave Kubernetes</h3><ul class="hardware"><li>1 × H100 NVLink · 80 GB (1 of 8 on node)</li><li>Qwen/Qwen3-8B · 32,768-token context</li><li>CPU · 4 requested / 8 limit</li><li>Memory · 24 GiB requested / 48 GiB limit</li><li>Node g7269d8 · driver 580.126.09</li><li>Hermes tool parser · tool calling enabled</li></ul></article>
+        </div>
+        <div class="database-line"><div><strong>DEMO:</strong> SQLite for a simple, single-instance deployment.</div><div><strong>SUPPORTED:</strong> PostgreSQL for shared, multi-worker deployments.</div></div>
+      </div>
+      <aside class="speaker-notes">Start left with the one-node DGX Spark reproduction, then move right to the CoreWeave cluster configuration. The CoreWeave workload requested one of the node's eight H100s. Be precise about persistence: the demo used SQLite; PostgreSQL is supported for shared state and multiple workers.</aside>
+    </section>
+
+    <section class="slide" data-title="Disaggregated future" aria-hidden="true">
+      <div class="slide-inner disagg-layout">
+        <div>
+          <p class="eyebrow" contenteditable="true" data-pretext>Next: disaggregated Responses</p>
+          <p class="big-statement" contenteditable="true" data-pretext>The response lifecycle becomes its own <span class="accent-blue">scalable system.</span></p>
+          <div class="future-tags"><span>INFERENCE-PROVIDER NEUTRAL</span><span>INDEPENDENT SCALING</span><span>OPEN PROTOCOLS</span></div>
+        </div>
+        <div class="disagg-map" role="img" aria-label="Disaggregated response execution separates state and tools, inference routing, and evaluation or reinforcement learning environments">
+          <article class="plane"><h3>Response execution plane</h3><p>State, memory, streaming, tool loops, approvals, continuation.</p></article>
+          <article class="plane"><h3>Inference plane</h3><p>llm-d routes across vLLM today, with a neutral seam for other providers.</p></article>
+          <article class="plane"><h3>Learning plane</h3><p>Replayable trajectories, evaluations, and eventually RL environments.</p></article>
+        </div>
+      </div>
+      <aside class="speaker-notes">Disaggregated Responses means separating response execution from model inference. State and tools can scale on their own cadence; llm-d and the inference backend can optimize model serving; future evaluation and RL systems can consume the response trajectory.</aside>
+    </section>
+
+    <section class="slide" data-title="Call to action" aria-hidden="true">
+      <div class="slide-inner cta-layout">
+        <div>
+          <p class="eyebrow" contenteditable="true" data-pretext>Come build the missing surface</p>
+          <h2 contenteditable="true" data-pretext>Help build the<br><span class="accent-blue">open agent runtime.</span></h2>
+          <p class="lede" contenteditable="true" data-pretext>Keep the harness, agent loop, and tools <strong>inference-provider neutral</strong>. Make open models a first-class target for real agentic workloads.</p>
+        </div>
+        <div>
+          <div class="cta-list">
+            <div class="cta-row"><span>01</span><span><strong>Memory</strong> and long-running response state</span></div>
+            <div class="cta-row"><span>02</span><span><strong>MCP enhancements</strong>, resources, approvals, and richer execution</span></div>
+            <div class="cta-row"><span>03</span><span><strong>More harnesses</strong> beyond Claude Code and Codex</span></div>
+            <div class="cta-row"><span>04</span><span><strong>RL environments</strong> built from open, replayable agent trajectories</span></div>
+          </div>
+          <div class="cta-foot"><strong>START ANYWHERE:</strong> an issue, a protocol fixture, a model integration, a deployment recipe, or a benchmark.<br><a class="repo-link" href="https://github.com/vllm-project/agentic-api">github.com/vllm-project/agentic-api</a></div>
+        </div>
+      </div>
+      <aside class="speaker-notes">End with concrete contribution surfaces. The opportunity is much larger than web search: memory, the rest of Responses and Messages, richer MCP behavior, more harnesses, disaggregated execution, and eventually RL environments. Invite the llm-d community to shape the boundary with us.</aside>
+    </section>
+
+    <div class="notes-panel" id="notesPanel" aria-hidden="true"><h3>Presenter notes</h3><div class="notes-content" id="notesContent"></div></div>
+    <aside class="sources-panel" id="sourcesPanel" aria-hidden="true">
+      <h3>Sources &amp; framing</h3>
+      <p>Demo facts were supplied by the presenter and cross-checked against the local Agentic API documentation.</p>
+      <ul>
+        <li><a href="https://github.com/vllm-project/agentic-api">vLLM Agentic API repository</a>: Responses, Messages, harness, storage, and tool support.</li>
+        <li><a href="https://developers.openai.com/blog/responses-api">Why OpenAI built the Responses API</a>: stateful-by-default agent loops and server-side hosted tools.</li>
+        <li><a href="https://github.com/vllm-project/recipes/blob/main/OpenAI/GPT-OSS.md">vLLM GPT-OSS recipe</a>: Responses API, tool use, and current implementation boundaries.</li>
+        <li><a href="https://www.alphaxiv.org/pdf/2605.05287">CAIS paper: Securing the Agent</a>: the API and provider topology used on the “Why Agentic API?” slide.</li>
+        <li><a href="https://github.com/llm-d/llm-d">llm-d repository</a>: Kubernetes-native distributed inference serving.</li>
+        <li><a href="https://github.com/llm-d">llm-d organization</a>: modular routing, KV-cache work, and disaggregated serving.</li>
+        <li><a href="https://github.com/vllm-project/vllm">vLLM repository</a>: high-throughput model inference and serving.</li>
+        <li><a href="https://github.com/vllm-project/media-kit/blob/main/vLLM-Full-Dark-Mode-Logo.svg">Official vLLM brand asset</a> and <a href="https://github.com/llm-d/llm-d.github.io/blob/main/static/img/llm-d-logotype-and-icon-dark.svg">official llm-d brand asset</a> informed the palette.</li>
+      </ul>
+      <p class="mono">Official brand asset sources · vLLM #fdb515 / #30a2ff · llm-d #7f317f / #e783a7</p>
+    </aside>
+
+    <div class="progress-shell" aria-hidden="true"><span class="counter" id="counter">01 / 07</span><div class="progress"><div class="progress-fill" id="progressFill"></div></div></div>
+    <nav class="controls" aria-label="Presentation controls">
+      <button class="control wide" data-action="overview" aria-label="Toggle overview">OVERVIEW</button>
+      <button class="control" data-action="fullscreen" aria-label="Toggle fullscreen">⛶</button>
+      <button class="control" data-action="prev" aria-label="Previous slide">←</button>
+      <button class="control" data-action="next" aria-label="Next slide">→</button>
+    </nav>
+    <div class="sr-status" id="status" aria-live="polite"></div>
+  </main>
+
+  <script type="module">
+var x0=["BN","BN","BN","BN","BN","BN","BN","BN","BN","S","B","S","WS","B","BN","BN","BN","BN","BN","BN","BN","BN","BN","BN","BN","BN","BN","BN","B","B","B","S","WS","ON","ON","ET","ET","ET","ON","ON","ON","ON","ON","ON","CS","ON","CS","ON","EN","EN","EN","EN","EN","EN","EN","EN","EN","EN","ON","ON","ON","ON","ON","ON","ON","L","L","L","L","L","L","L","L","L","L","L","L","L","L","L","L","L","L","L","L","L","L","L","L","L","L","ON","ON","ON","ON","ON","ON","L","L","L","L","L","L","L","L","L","L","L","L","L","L","L","L","L","L","L","L","L","L","L","L","L","L","ON","ON","ON","ON","BN","BN","BN","BN","BN","BN","B","BN","BN","BN","BN","BN","BN","BN","BN","BN","BN","BN","BN","BN","BN","BN","BN","BN","BN","BN","BN","BN","BN","BN","BN","BN","BN","CS","ON","ET","ET","ET","ET","ON","ON","ON","ON","L","ON","ON","ON","ON","ON","ET","ET","EN","EN","ON","L","ON","ON","ON","EN","L","ON","ON","ON","ON","ON","L","L","L","L","L","L","L","L","L","L","L","L","L","L","L","L","L","L","L","L","L","L","L","ON","L","L","L","L","L","L","L","L","L","L","L","L","L","L","L","L","L","L","L","L","L","L","L","L","L","L","L","L","L","L","L","ON","L","L","L","L","L","L","L","L"],g0=["AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","CS","AL","ON","ON","NSM","NSM","NSM","NSM","NSM","NSM","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","NSM","NSM","NSM","NSM","NSM","NSM","NSM","NSM","NSM","NSM","NSM","NSM","NSM","NSM","AL","AL","AL","AL","AL","AL","AL","AN","AN","AN","AN","AN","AN","AN","AN","AN","AN","ET","AN","AN","AL","AL","AL","NSM","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","NSM","NSM","NSM","NSM","NSM","NSM","NSM","NSM","NSM","NSM","NSM","NSM","NSM","NSM","NSM","NSM","NSM","NSM","NSM","ON","NSM","NSM","NSM","NSM","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL","AL"];function m0(O){if(O<=255)return x0[O];if(1424<=O&&O<=1524)return"R";if(1536<=O&&O<=1791)return g0[O&255];if(1792<=O&&O<=2220)return"AL";return"L"}function r0(O){let _=O.length;if(_===0)return null;let J=Array(_),Y=0;for(let V=0;V<_;V++){let $=m0(O.charCodeAt(V));if($==="R"||$==="AL"||$==="AN")Y++;J[V]=$}if(Y===0)return null;let X=_/Y<0.3?0:1,R=new Int8Array(_);for(let V=0;V<_;V++)R[V]=X;let Z=X&1?"R":"L",Q=Z,f=Q;for(let V=0;V<_;V++)if(J[V]==="NSM")J[V]=f;else f=J[V];f=Q;for(let V=0;V<_;V++){let $=J[V];if($==="EN")J[V]=f==="AL"?"AN":"EN";else if($==="R"||$==="L"||$==="AL")f=$}for(let V=0;V<_;V++)if(J[V]==="AL")J[V]="R";for(let V=1;V<_-1;V++){if(J[V]==="ES"&&J[V-1]==="EN"&&J[V+1]==="EN")J[V]="EN";if(J[V]==="CS"&&(J[V-1]==="EN"||J[V-1]==="AN")&&J[V+1]===J[V-1])J[V]=J[V-1]}for(let V=0;V<_;V++){if(J[V]!=="EN")continue;let $;for($=V-1;$>=0&&J[$]==="ET";$--)J[$]="EN";for($=V+1;$<_&&J[$]==="ET";$++)J[$]="EN"}for(let V=0;V<_;V++){let $=J[V];if($==="WS"||$==="ES"||$==="ET"||$==="CS")J[V]="ON"}f=Q;for(let V=0;V<_;V++){let $=J[V];if($==="EN")J[V]=f==="L"?"L":"EN";else if($==="R"||$==="L")f=$}for(let V=0;V<_;V++){if(J[V]!=="ON")continue;let $=V+1;while($<_&&J[$]==="ON")$++;let u=V>0?J[V-1]:Q,q=$<_?J[$]:Q,D=u!=="L"?"R":"L";if(D===(q!=="L"?"R":"L"))for(let K=V;K<$;K++)J[K]=D;V=$-1}for(let V=0;V<_;V++)if(J[V]==="ON")J[V]=Z;for(let V=0;V<_;V++){let $=J[V];if((R[V]&1)===0){if($==="R")R[V]++;else if($==="AN"||$==="EN")R[V]+=2}else if($==="L"||$==="AN"||$==="EN")R[V]++}return R}function u0(O,_){let J=r0(O);if(J===null)return null;let Y=new Int8Array(_.length);for(let X=0;X<_.length;X++)Y[X]=J[_[X]];return Y}var a0=/[ \t\n\r\f]+/g,s0=/[\t\n\r\f]| {2,}|^ | $/;function d0(O){let _=O??"normal";return _==="pre-wrap"?{mode:_,preserveOrdinarySpaces:!0,preserveHardBreaks:!0}:{mode:_,preserveOrdinarySpaces:!1,preserveHardBreaks:!1}}function i0(O){if(!s0.test(O))return O;let _=O.replace(a0," ");if(_.charCodeAt(0)===32)_=_.slice(1);if(_.length>0&&_.charCodeAt(_.length-1)===32)_=_.slice(0,-1);return _}function t0(O){if(!/[\r\f]/.test(O))return O.replace(/\r\n/g,`
+`);return O.replace(/\r\n/g,`
+`).replace(/[\r\f]/g,`
+`)}var d=null,V0;function n0(){if(d===null)d=new Intl.Segmenter(V0,{granularity:"word"});return d}function z0(){d=null}function j0(O){let _=O&&O.length>0?O:void 0;if(V0===_)return;V0=_,d=null}var e0=/\p{Script=Arabic}/u,O0=/\p{M}/u,b0=/\p{Nd}/u;function X0(O){return e0.test(O)}function p(O){for(let _ of O){let J=_.codePointAt(0);if(J>=19968&&J<=40959||J>=13312&&J<=19903||J>=131072&&J<=173791||J>=173824&&J<=177983||J>=177984&&J<=178207||J>=178208&&J<=183983||J>=183984&&J<=191471||J>=196608&&J<=201551||J>=63744&&J<=64255||J>=194560&&J<=195103||J>=12288&&J<=12351||J>=12352&&J<=12447||J>=12448&&J<=12543||J>=44032&&J<=55215||J>=65280&&J<=65519)return!0}return!1}var $0=new Set(["，","．","！","：","；","？","、","。","・","）","〕","〉","》","」","』","】","〗","〙","〛","ー","々","〻","ゝ","ゞ","ヽ","ヾ"]),i=new Set(['"',"(","[","{","“","‘","«","‹","（","〔","〈","《","「","『","【","〖","〘","〚"]),Q0=new Set(["'","’"]),r=new Set([".",",","!","?",":",";","،","؛","؟","।","॥","၊","။","၌","၍","၏",")","]","}","%",'"',"”","’","»","›","…"]),OO=new Set([":",".","،","؛"]),_O=new Set(["၏"]),JO=new Set(["”","’","»","›","」","』","】","》","〉","〕","）"]);function RO(O){if(q0(O))return!0;let _=!1;for(let J of O){if(r.has(J)){_=!0;continue}if(_&&O0.test(J))continue;return!1}return _}function VO(O){for(let _ of O)if(!$0.has(_)&&!r.has(_))return!1;return O.length>0}function XO(O){if(q0(O))return!0;for(let _ of O)if(!i.has(_)&&!Q0.has(_)&&!O0.test(_))return!1;return O.length>0}function q0(O){let _=!1;for(let J of O){if(J==="\\"||O0.test(J))continue;if(i.has(J)||r.has(J)||Q0.has(J)){_=!0;continue}return!1}return _}function YO(O){let _=Array.from(O),J=_.length;while(J>0){let Y=_[J-1];if(O0.test(Y)){J--;continue}if(i.has(Y)||Q0.has(Y)){J--;continue}break}if(J<=0||J===_.length)return null;return{head:_.slice(0,J).join(""),tail:_.slice(J).join("")}}function ZO(O,_){if(O.length===0)return!1;for(let J of O)if(J!==_)return!1;return!0}function $O(O){if(!X0(O)||O.length===0)return!1;return OO.has(O[O.length-1])}function QO(O){if(O.length===0)return!1;return _O.has(O[O.length-1])}function qO(O){if(O.length<2||O[0]!==" ")return null;let _=O.slice(1);if(/^\p{M}+$/u.test(_))return{space:" ",marks:_};return null}function D0(O){for(let _=O.length-1;_>=0;_--){let J=O[_];if(JO.has(J))return!0;if(!r.has(J))return!1}return!1}function DO(O,_){if(_.preserveOrdinarySpaces||_.preserveHardBreaks){if(O===" ")return"preserved-space";if(O==="\t")return"tab";if(_.preserveHardBreaks&&O===`
+`)return"hard-break"}if(O===" ")return"space";if(O===" "||O===" "||O==="⁠"||O==="\uFEFF")return"glue";if(O==="​")return"zero-width-break";if(O==="­")return"soft-hyphen";return"text"}function NO(O,_,J,Y){let X=[],R=null,Z="",Q=J,f=!1,V=0;for(let $ of O){let u=DO($,Y),q=u==="text"&&_;if(R!==null&&u===R&&q===f){Z+=$,V+=$.length;continue}if(R!==null)X.push({text:Z,isWordLike:f,kind:R,start:Q});R=u,Z=$,Q=J+V,f=q,V+=$.length}if(R!==null)X.push({text:Z,isWordLike:f,kind:R,start:Q});return X}function Y0(O){return O==="space"||O==="preserved-space"||O==="zero-width-break"||O==="hard-break"}var fO=/^[A-Za-z][A-Za-z0-9+.-]*:$/;function HO(O,_){let J=O.texts[_];if(J.startsWith("www."))return!0;return fO.test(J)&&_+1<O.len&&O.kinds[_+1]==="text"&&O.texts[_+1]==="//"}function UO(O){return O.includes("?")&&(O.includes("://")||O.startsWith("www."))}function MO(O){let _=O.texts.slice(),J=O.isWordLike.slice(),Y=O.kinds.slice(),X=O.starts.slice();for(let Z=0;Z<O.len;Z++){if(Y[Z]!=="text"||!HO(O,Z))continue;let Q=Z+1;while(Q<O.len&&!Y0(Y[Q])){_[Z]+=_[Q],J[Z]=!0;let f=_[Q].includes("?");if(Y[Q]="text",_[Q]="",Q++,f)break}}let R=0;for(let Z=0;Z<_.length;Z++){let Q=_[Z];if(Q.length===0)continue;if(R!==Z)_[R]=Q,J[R]=J[Z],Y[R]=Y[Z],X[R]=X[Z];R++}return _.length=R,J.length=R,Y.length=R,X.length=R,{len:R,texts:_,isWordLike:J,kinds:Y,starts:X}}function CO(O){let _=[],J=[],Y=[],X=[];for(let R=0;R<O.len;R++){let Z=O.texts[R];if(_.push(Z),J.push(O.isWordLike[R]),Y.push(O.kinds[R]),X.push(O.starts[R]),!UO(Z))continue;let Q=R+1;if(Q>=O.len||Y0(O.kinds[Q]))continue;let f="",V=O.starts[Q],$=Q;while($<O.len&&!Y0(O.kinds[$]))f+=O.texts[$],$++;if(f.length>0)_.push(f),J.push(!0),Y.push("text"),X.push(V),R=$-1}return{len:_.length,texts:_,isWordLike:J,kinds:Y,starts:X}}var FO=new Set([":","-","/","×",",",".","+","–","—"]),K0=/^[A-Za-z0-9_]+[,:;]*$/,vO=/[,:;]+$/;function E0(O){for(let _ of O)if(b0.test(_))return!0;return!1}function Z0(O){if(O.length===0)return!1;for(let _ of O){if(b0.test(_)||FO.has(_))continue;return!1}return!0}function uO(O){let _=[],J=[],Y=[],X=[];for(let R=0;R<O.len;R++){let Z=O.texts[R],Q=O.kinds[R];if(Q==="text"&&Z0(Z)&&E0(Z)){let f=Z,V=R+1;while(V<O.len&&O.kinds[V]==="text"&&Z0(O.texts[V]))f+=O.texts[V],V++;_.push(f),J.push(!0),Y.push("text"),X.push(O.starts[R]),R=V-1;continue}_.push(Z),J.push(O.isWordLike[R]),Y.push(Q),X.push(O.starts[R])}return{len:_.length,texts:_,isWordLike:J,kinds:Y,starts:X}}function KO(O){let _=[],J=[],Y=[],X=[];for(let R=0;R<O.len;R++){let Z=O.texts[R],Q=O.kinds[R],f=O.isWordLike[R];if(Q==="text"&&f&&K0.test(Z)){let V=Z,$=R+1;while(vO.test(V)&&$<O.len&&O.kinds[$]==="text"&&O.isWordLike[$]&&K0.test(O.texts[$]))V+=O.texts[$],$++;_.push(V),J.push(!0),Y.push("text"),X.push(O.starts[R]),R=$-1;continue}_.push(Z),J.push(f),Y.push(Q),X.push(O.starts[R])}return{len:_.length,texts:_,isWordLike:J,kinds:Y,starts:X}}function zO(O){let _=[],J=[],Y=[],X=[];for(let R=0;R<O.len;R++){let Z=O.texts[R];if(O.kinds[R]==="text"&&Z.includes("-")){let Q=Z.split("-"),f=Q.length>1;for(let V=0;V<Q.length;V++){let $=Q[V];if(!f)break;if($.length===0||!E0($)||!Z0($))f=!1}if(f){let V=0;for(let $=0;$<Q.length;$++){let u=Q[$],q=$<Q.length-1?`${u}-`:u;_.push(q),J.push(!0),Y.push("text"),X.push(O.starts[R]+V),V+=q.length}continue}}_.push(Z),J.push(O.isWordLike[R]),Y.push(O.kinds[R]),X.push(O.starts[R])}return{len:_.length,texts:_,isWordLike:J,kinds:Y,starts:X}}function jO(O){let _=[],J=[],Y=[],X=[],R=0;while(R<O.len){let Z=O.texts[R],Q=O.isWordLike[R],f=O.kinds[R],V=O.starts[R];if(f==="glue"){let $=Z,u=V;R++;while(R<O.len&&O.kinds[R]==="glue")$+=O.texts[R],R++;if(R<O.len&&O.kinds[R]==="text")Z=$+O.texts[R],Q=O.isWordLike[R],f="text",V=u,R++;else{_.push($),J.push(!1),Y.push("glue"),X.push(u);continue}}else R++;if(f==="text")while(R<O.len&&O.kinds[R]==="glue"){let $="";while(R<O.len&&O.kinds[R]==="glue")$+=O.texts[R],R++;if(R<O.len&&O.kinds[R]==="text"){Z+=$+O.texts[R],Q=Q||O.isWordLike[R],R++;continue}Z+=$}_.push(Z),J.push(Q),Y.push(f),X.push(V)}return{len:_.length,texts:_,isWordLike:J,kinds:Y,starts:X}}function bO(O){let _=O.texts.slice(),J=O.isWordLike.slice(),Y=O.kinds.slice(),X=O.starts.slice();for(let R=0;R<_.length-1;R++){if(Y[R]!=="text"||Y[R+1]!=="text")continue;if(!p(_[R])||!p(_[R+1]))continue;let Z=YO(_[R]);if(Z===null)continue;_[R]=Z.head,_[R+1]=Z.tail+_[R+1],X[R+1]=X[R]+Z.head.length}return{len:_.length,texts:_,isWordLike:J,kinds:Y,starts:X}}function EO(O,_,J){let Y=n0(),X=0,R=[],Z=[],Q=[],f=[];for(let q of Y.segment(O))for(let D of NO(q.segment,q.isWordLike??!1,q.index,J)){let b=D.kind==="text";if(_.carryCJKAfterClosingQuote&&b&&X>0&&Q[X-1]==="text"&&p(D.text)&&p(R[X-1])&&D0(R[X-1]))R[X-1]+=D.text,Z[X-1]=Z[X-1]||D.isWordLike;else if(b&&X>0&&Q[X-1]==="text"&&VO(D.text)&&p(R[X-1]))R[X-1]+=D.text,Z[X-1]=Z[X-1]||D.isWordLike;else if(b&&X>0&&Q[X-1]==="text"&&QO(R[X-1]))R[X-1]+=D.text,Z[X-1]=Z[X-1]||D.isWordLike;else if(b&&X>0&&Q[X-1]==="text"&&D.isWordLike&&X0(D.text)&&$O(R[X-1]))R[X-1]+=D.text,Z[X-1]=!0;else if(b&&!D.isWordLike&&X>0&&Q[X-1]==="text"&&D.text.length===1&&D.text!=="-"&&D.text!=="—"&&ZO(R[X-1],D.text))R[X-1]+=D.text;else if(b&&!D.isWordLike&&X>0&&Q[X-1]==="text"&&(RO(D.text)||D.text==="-"&&Z[X-1]))R[X-1]+=D.text;else R[X]=D.text,Z[X]=D.isWordLike,Q[X]=D.kind,f[X]=D.start,X++}for(let q=1;q<X;q++)if(Q[q]==="text"&&!Z[q]&&q0(R[q])&&Q[q-1]==="text")R[q-1]+=R[q],Z[q-1]=Z[q-1]||Z[q],R[q]="";for(let q=X-2;q>=0;q--)if(Q[q]==="text"&&!Z[q]&&XO(R[q])){let D=q+1;while(D<X&&R[D]==="")D++;if(D<X&&Q[D]==="text")R[D]=R[q]+R[D],f[D]=f[q],R[q]=""}let V=0;for(let q=0;q<X;q++){let D=R[q];if(D.length===0)continue;if(V!==q)R[V]=D,Z[V]=Z[q],Q[V]=Q[q],f[V]=f[q];V++}R.length=V,Z.length=V,Q.length=V,f.length=V;let $=jO({len:V,texts:R,isWordLike:Z,kinds:Q,starts:f}),u=bO(KO(zO(uO(CO(MO($))))));for(let q=0;q<u.len-1;q++){let D=qO(u.texts[q]);if(D===null)continue;if(u.kinds[q]!=="space"&&u.kinds[q]!=="preserved-space"||u.kinds[q+1]!=="text"||!X0(u.texts[q+1]))continue;u.texts[q]=D.space,u.isWordLike[q]=!1,u.kinds[q]=u.kinds[q]==="preserved-space"?"preserved-space":"space",u.texts[q+1]=D.marks+u.texts[q+1],u.starts[q+1]=u.starts[q]+D.space.length}return u}function GO(O,_){if(O.len===0)return[];if(!_.preserveHardBreaks)return[{startSegmentIndex:0,endSegmentIndex:O.len,consumedEndSegmentIndex:O.len}];let J=[],Y=0;for(let X=0;X<O.len;X++){if(O.kinds[X]!=="hard-break")continue;J.push({startSegmentIndex:Y,endSegmentIndex:X,consumedEndSegmentIndex:X+1}),Y=X+1}if(Y<O.len)J.push({startSegmentIndex:Y,endSegmentIndex:O.len,consumedEndSegmentIndex:O.len});return J}function N0(O,_,J="normal"){let Y=d0(J),X=Y.mode==="pre-wrap"?t0(O):i0(O);if(X.length===0)return{normalized:X,chunks:[],len:0,texts:[],isWordLike:[],kinds:[],starts:[]};let R=EO(X,_,Y);return{normalized:X,chunks:GO(R,Y),...R}}var a=null,f0=new Map,s=null,PO=/\p{Emoji_Presentation}/u,AO=/[\p{Emoji_Presentation}\p{Extended_Pictographic}\p{Regional_Indicator}\uFE0F\u20E3]/u,_0=null,H0=new Map;function U0(){if(a!==null)return a;if(typeof OffscreenCanvas<"u")return a=new OffscreenCanvas(1,1).getContext("2d"),a;if(typeof document<"u")return a=document.createElement("canvas").getContext("2d"),a;throw Error("Text measurement requires OffscreenCanvas or a DOM canvas context.")}function BO(O){let _=f0.get(O);if(!_)_=new Map,f0.set(O,_);return _}function x(O,_){let J=_.get(O);if(J===void 0)J={width:U0().measureText(O).width,containsCJK:p(O)},_.set(O,J);return J}function h(){if(s!==null)return s;if(typeof navigator>"u")return s={lineFitEpsilon:0.005,carryCJKAfterClosingQuote:!1,preferPrefixWidthsForBreakableRuns:!1,preferEarlySoftHyphenBreak:!1},s;let O=navigator.userAgent,J=navigator.vendor==="Apple Computer, Inc."&&O.includes("Safari/")&&!O.includes("Chrome/")&&!O.includes("Chromium/")&&!O.includes("CriOS/")&&!O.includes("FxiOS/")&&!O.includes("EdgiOS/"),Y=O.includes("Chrome/")||O.includes("Chromium/")||O.includes("CriOS/")||O.includes("Edg/");return s={lineFitEpsilon:J?0.015625:0.005,carryCJKAfterClosingQuote:Y,preferPrefixWidthsForBreakableRuns:J,preferEarlySoftHyphenBreak:J},s}function TO(O){let _=O.match(/(\d+(?:\.\d+)?)\s*px/);return _?parseFloat(_[1]):16}function M0(){if(_0===null)_0=new Intl.Segmenter(void 0,{granularity:"grapheme"});return _0}function wO(O){return PO.test(O)||O.includes("️")}function G0(O){return AO.test(O)}function yO(O,_){let J=H0.get(O);if(J!==void 0)return J;let Y=U0();Y.font=O;let X=Y.measureText("\uD83D\uDE00").width;if(J=0,X>_+0.5&&typeof document<"u"&&document.body!==null){let R=document.createElement("span");R.style.font=O,R.style.display="inline-block",R.style.visibility="hidden",R.style.position="absolute",R.textContent="\uD83D\uDE00",document.body.appendChild(R);let Z=R.getBoundingClientRect().width;if(document.body.removeChild(R),X-Z>0.5)J=X-Z}return H0.set(O,J),J}function LO(O){let _=0,J=M0();for(let Y of J.segment(O))if(wO(Y.segment))_++;return _}function WO(O,_){if(_.emojiCount===void 0)_.emojiCount=LO(O);return _.emojiCount}function g(O,_,J){if(J===0)return _.width;return _.width-WO(O,_)*J}function P0(O,_,J,Y){if(_.graphemeWidths!==void 0)return _.graphemeWidths;let X=[],R=M0();for(let Z of R.segment(O)){let Q=x(Z.segment,J);X.push(g(Z.segment,Q,Y))}return _.graphemeWidths=X.length>1?X:null,_.graphemeWidths}function A0(O,_,J,Y){if(_.graphemePrefixWidths!==void 0)return _.graphemePrefixWidths;let X=[],R=M0(),Z="";for(let Q of R.segment(O)){Z+=Q.segment;let f=x(Z,J);X.push(g(Z,f,Y))}return _.graphemePrefixWidths=X.length>1?X:null,_.graphemePrefixWidths}function B0(O,_){let J=U0();J.font=O;let Y=BO(O),X=TO(O),R=_?yO(O,X):0;return{cache:Y,fontSize:X,emojiCorrection:R}}function T0(){f0.clear(),H0.clear(),_0=null}function m(O){return O==="space"||O==="preserved-space"||O==="tab"||O==="zero-width-break"||O==="soft-hyphen"}function SO(O){return O==="space"}function w0(O,_){if(_<=0)return 0;let J=O%_;if(Math.abs(J)<=0.000001)return _;return _-J}function t(O,_,J,Y){if(!Y||_===null)return O[J];return _[J]-(J>0?_[J-1]:0)}function y0(O,_,J,Y,X,R){let Z=0,Q=_;while(Z<O.length){let f=R?_+O[Z]:Q+O[Z];if((Z+1<O.length?f+X:f)>J+Y)break;Q=f,Z++}return{fitCount:Z,fittedWidth:Q}}function L0(O,_){for(let J=0;J<O.chunks.length;J++){let Y=O.chunks[J];if(_<Y.consumedEndSegmentIndex)return J}return-1}function kO(O,_){let{segmentIndex:J,graphemeIndex:Y}=_;if(J>=O.widths.length)return null;if(Y>0)return _;let X=L0(O,J);if(X<0)return null;let R=O.chunks[X];if(R.startSegmentIndex===R.endSegmentIndex&&J===R.startSegmentIndex)return{segmentIndex:J,graphemeIndex:0};if(J<R.startSegmentIndex)J=R.startSegmentIndex;while(J<R.endSegmentIndex){let Z=O.kinds[J];if(Z!=="space"&&Z!=="zero-width-break"&&Z!=="soft-hyphen")return{segmentIndex:J,graphemeIndex:0};J++}if(R.consumedEndSegmentIndex>=O.widths.length)return null;return{segmentIndex:R.consumedEndSegmentIndex,graphemeIndex:0}}function W0(O,_){if(O.simpleLineWalkFastPath)return IO(O,_);return J0(O,_)}function IO(O,_){let{widths:J,kinds:Y,breakableWidths:X,breakablePrefixWidths:R}=O;if(J.length===0)return 0;let Z=h(),Q=Z.lineFitEpsilon,f=0,V=0,$=!1;function u(q){let D=J[q];if(D>_&&X[q]!==null){let b=X[q],K=R[q]??null;V=0;for(let j=0;j<b.length;j++){let B=t(b,K,j,Z.preferPrefixWidthsForBreakableRuns);if(V>0&&V+B>_+Q)f++,V=B;else{if(V===0)f++;V+=B}}}else V=D,f++;$=!0}for(let q=0;q<J.length;q++){let D=J[q],b=Y[q];if(!$){u(q);continue}let K=V+D;if(K>_+Q){if(SO(b))continue;V=0,$=!1,u(q);continue}V=K}if(!$)return f+1;return f}function cO(O,_,J){let{widths:Y,kinds:X,breakableWidths:R,breakablePrefixWidths:Z}=O;if(Y.length===0)return 0;let Q=h(),f=Q.lineFitEpsilon,V=0,$=0,u=!1,q=0,D=0,b=0,K=0,j=-1,B=0;function k(){j=-1,B=0}function y(H=b,z=K,W=$){V++,J?.({startSegmentIndex:q,startGraphemeIndex:D,endSegmentIndex:H,endGraphemeIndex:z,width:W}),$=0,u=!1,k()}function A(H,z){u=!0,q=H,D=0,b=H+1,K=0,$=z}function T(H,z,W){u=!0,q=H,D=z,b=H,K=z+1,$=W}function L(H,z){if(!u){A(H,z);return}$+=z,b=H+1,K=0}function C(H,z){if(!m(X[H]))return;j=H+1,B=$-z}function F(H){P(H,0)}function P(H,z){let W=R[H],c=Z[H]??null;for(let I=z;I<W.length;I++){let o=t(W,c,I,Q.preferPrefixWidthsForBreakableRuns);if(!u){T(H,I,o);continue}if($+o>_+f)y(),T(H,I,o);else $+=o,b=H,K=I+1}if(u&&b===H&&K===W.length)b=H+1,K=0}let E=0;while(E<Y.length){let H=Y[E],z=X[E];if(!u){if(H>_&&R[E]!==null)F(E);else A(E,H);C(E,H),E++;continue}if($+H>_+f){if(m(z)){L(E,H),y(E+1,0,$-H),E++;continue}if(j>=0){y(j,0,B);continue}if(H>_&&R[E]!==null){y(),F(E),E++;continue}y();continue}L(E,H),C(E,H),E++}if(u)y();return V}function J0(O,_,J){if(O.simpleLineWalkFastPath)return cO(O,_,J);let{widths:Y,lineEndFitAdvances:X,lineEndPaintAdvances:R,kinds:Z,breakableWidths:Q,breakablePrefixWidths:f,discretionaryHyphenWidth:V,tabStopAdvance:$,chunks:u}=O;if(Y.length===0||u.length===0)return 0;let q=h(),D=q.lineFitEpsilon,b=0,K=0,j=!1,B=0,k=0,y=0,A=0,T=-1,L=0,C=0,F=null;function P(){T=-1,L=0,C=0,F=null}function E(N=y,M=A,v=K){b++,J?.({startSegmentIndex:B,startGraphemeIndex:k,endSegmentIndex:N,endGraphemeIndex:M,width:v}),K=0,j=!1,P()}function H(N,M){j=!0,B=N,k=0,y=N+1,A=0,K=M}function z(N,M,v){j=!0,B=N,k=M,y=N,A=M+1,K=v}function W(N,M){if(!j){H(N,M);return}K+=M,y=N+1,A=0}function c(N,M){if(!m(Z[N]))return;let v=Z[N]==="tab"?0:X[N],w=Z[N]==="tab"?M:R[N];T=N+1,L=K-M+v,C=K-M+w,F=Z[N]}function I(N){o(N,0)}function o(N,M){let v=Q[N],w=f[N]??null;for(let G=M;G<v.length;G++){let l=t(v,w,G,q.preferPrefixWidthsForBreakableRuns);if(!j){z(N,G,l);continue}if(K+l>_+D)E(),z(N,G,l);else K+=l,y=N,A=G+1}if(j&&y===N&&A===v.length)y=N+1,A=0}function S(N){if(F!=="soft-hyphen")return!1;let M=Q[N];if(M===null)return!1;let v=q.preferPrefixWidthsForBreakableRuns?f[N]??M:M,w=v!==M,{fitCount:G,fittedWidth:l}=y0(v,K,_,D,V,w);if(G===0)return!1;if(K=l,y=N,A=G,P(),G===M.length)return y=N+1,A=0,!0;return E(N,G,l+V),o(N,G),!0}function U(N){b++,J?.({startSegmentIndex:N.startSegmentIndex,startGraphemeIndex:0,endSegmentIndex:N.consumedEndSegmentIndex,endGraphemeIndex:0,width:0}),P()}for(let N=0;N<u.length;N++){let M=u[N];if(M.startSegmentIndex===M.endSegmentIndex){U(M);continue}j=!1,K=0,B=M.startSegmentIndex,k=0,y=M.startSegmentIndex,A=0,P();let v=M.startSegmentIndex;while(v<M.endSegmentIndex){let w=Z[v],G=w==="tab"?w0(K,$):Y[v];if(w==="soft-hyphen"){if(j)y=v+1,A=0,T=v+1,L=K+V,C=K+V,F=w;v++;continue}if(!j){if(G>_&&Q[v]!==null)I(v);else H(v,G);c(v,G),v++;continue}if(K+G>_+D){let n=K+(w==="tab"?0:X[v]),e=K+(w==="tab"?G:R[v]);if(F==="soft-hyphen"&&q.preferEarlySoftHyphenBreak&&L<=_+D){E(T,0,C);continue}if(F==="soft-hyphen"&&S(v)){v++;continue}if(m(w)&&n<=_+D){W(v,G),E(v+1,0,e),v++;continue}if(T>=0&&L<=_+D){E(T,0,C);continue}if(G>_&&Q[v]!==null){E(),I(v),v++;continue}E();continue}W(v,G),c(v,G),v++}if(j){let w=T===M.consumedEndSegmentIndex?C:K;E(M.consumedEndSegmentIndex,0,w)}}return b}function S0(O,_,J){let Y=kO(O,_);if(Y===null)return null;if(O.simpleLineWalkFastPath)return oO(O,Y,J);let X=L0(O,Y.segmentIndex);if(X<0)return null;let R=O.chunks[X];if(R.startSegmentIndex===R.endSegmentIndex)return{startSegmentIndex:R.startSegmentIndex,startGraphemeIndex:0,endSegmentIndex:R.consumedEndSegmentIndex,endGraphemeIndex:0,width:0};let{widths:Z,lineEndFitAdvances:Q,lineEndPaintAdvances:f,kinds:V,breakableWidths:$,breakablePrefixWidths:u,discretionaryHyphenWidth:q,tabStopAdvance:D}=O,b=h(),K=b.lineFitEpsilon,j=0,B=!1,k=Y.segmentIndex,y=Y.graphemeIndex,A=k,T=y,L=-1,C=0,F=0,P=null;function E(){L=-1,C=0,F=0,P=null}function H(U=A,N=T,M=j){if(!B)return null;return{startSegmentIndex:k,startGraphemeIndex:y,endSegmentIndex:U,endGraphemeIndex:N,width:M}}function z(U,N){B=!0,A=U+1,T=0,j=N}function W(U,N,M){B=!0,A=U,T=N+1,j=M}function c(U,N){if(!B){z(U,N);return}j+=N,A=U+1,T=0}function I(U,N){if(!m(V[U]))return;let M=V[U]==="tab"?0:Q[U],v=V[U]==="tab"?N:f[U];L=U+1,C=j-N+M,F=j-N+v,P=V[U]}function o(U,N){let M=$[U],v=u[U]??null;for(let w=N;w<M.length;w++){let G=t(M,v,w,b.preferPrefixWidthsForBreakableRuns);if(!B){W(U,w,G);continue}if(j+G>J+K)return H();j+=G,A=U,T=w+1}if(B&&A===U&&T===M.length)A=U+1,T=0;return null}function S(U){if(P!=="soft-hyphen"||L<0)return null;let N=$[U]??null;if(N!==null){let M=b.preferPrefixWidthsForBreakableRuns?u[U]??N:N,v=M!==N,{fitCount:w,fittedWidth:G}=y0(M,j,J,K,q,v);if(w===N.length)return j=G,A=U+1,T=0,E(),null;if(w>0)return H(U,w,G+q)}if(C<=J+K)return H(L,0,F);return null}for(let U=Y.segmentIndex;U<R.endSegmentIndex;U++){let N=V[U],M=U===Y.segmentIndex?Y.graphemeIndex:0,v=N==="tab"?w0(j,D):Z[U];if(N==="soft-hyphen"&&M===0){if(B)A=U+1,T=0,L=U+1,C=j+q,F=j+q,P=N;continue}if(!B){if(M>0){let G=o(U,M);if(G!==null)return G}else if(v>J&&$[U]!==null){let G=o(U,0);if(G!==null)return G}else z(U,v);I(U,v);continue}if(j+v>J+K){let G=j+(N==="tab"?0:Q[U]),l=j+(N==="tab"?v:f[U]);if(P==="soft-hyphen"&&b.preferEarlySoftHyphenBreak&&C<=J+K)return H(L,0,F);let n=S(U);if(n!==null)return n;if(m(N)&&G<=J+K)return c(U,v),H(U+1,0,l);if(L>=0&&C<=J+K)return H(L,0,F);if(v>J&&$[U]!==null){let e=H();if(e!==null)return e;let v0=o(U,0);if(v0!==null)return v0}return H()}c(U,v),I(U,v)}if(L===R.consumedEndSegmentIndex&&T===0)return H(R.consumedEndSegmentIndex,0,F);return H(R.consumedEndSegmentIndex,0,j)}function oO(O,_,J){let{widths:Y,kinds:X,breakableWidths:R,breakablePrefixWidths:Z}=O,Q=h(),f=Q.lineFitEpsilon,V=0,$=!1,u=_.segmentIndex,q=_.graphemeIndex,D=u,b=q,K=-1,j=0;function B(C=D,F=b,P=V){if(!$)return null;return{startSegmentIndex:u,startGraphemeIndex:q,endSegmentIndex:C,endGraphemeIndex:F,width:P}}function k(C,F){$=!0,D=C+1,b=0,V=F}function y(C,F,P){$=!0,D=C,b=F+1,V=P}function A(C,F){if(!$){k(C,F);return}V+=F,D=C+1,b=0}function T(C,F){if(!m(X[C]))return;K=C+1,j=V-F}function L(C,F){let P=R[C],E=Z[C]??null;for(let H=F;H<P.length;H++){let z=t(P,E,H,Q.preferPrefixWidthsForBreakableRuns);if(!$){y(C,H,z);continue}if(V+z>J+f)return B();V+=z,D=C,b=H+1}if($&&D===C&&b===P.length)D=C+1,b=0;return null}for(let C=_.segmentIndex;C<Y.length;C++){let F=Y[C],P=X[C],E=C===_.segmentIndex?_.graphemeIndex:0;if(!$){if(E>0){let z=L(C,E);if(z!==null)return z}else if(F>J&&R[C]!==null){let z=L(C,0);if(z!==null)return z}else k(C,F);T(C,F);continue}if(V+F>J+f){if(m(P))return A(C,F),B(C+1,0,V-F);if(K>=0)return B(K,0,j);if(F>J&&R[C]!==null){let z=B();if(z!==null)return z;let W=L(C,0);if(W!==null)return W}return B()}A(C,F),T(C,F)}return B()}var R0=null,C0=new WeakMap;function I0(){if(R0===null)R0=new Intl.Segmenter(void 0,{granularity:"grapheme"});return R0}function lO(O){if(O)return{widths:[],lineEndFitAdvances:[],lineEndPaintAdvances:[],kinds:[],simpleLineWalkFastPath:!0,segLevels:null,breakableWidths:[],breakablePrefixWidths:[],discretionaryHyphenWidth:0,tabStopAdvance:0,chunks:[],segments:[]};return{widths:[],lineEndFitAdvances:[],lineEndPaintAdvances:[],kinds:[],simpleLineWalkFastPath:!0,segLevels:null,breakableWidths:[],breakablePrefixWidths:[],discretionaryHyphenWidth:0,tabStopAdvance:0,chunks:[]}}function c0(O,_,J){let Y=I0(),X=h(),{cache:R,emojiCorrection:Z}=B0(_,G0(O.normalized)),Q=g("-",x("-",R),Z),V=g(" ",x(" ",R),Z)*8;if(O.len===0)return lO(J);let $=[],u=[],q=[],D=[],b=O.chunks.length<=1,K=J?[]:null,j=[],B=[],k=J?[]:null,y=Array.from({length:O.len}),A=Array.from({length:O.len});function T(F,P,E,H,z,W,c,I){if(z!=="text"&&z!=="space"&&z!=="zero-width-break")b=!1;if($.push(P),u.push(E),q.push(H),D.push(z),K?.push(W),j.push(c),B.push(I),k!==null)k.push(F)}for(let F=0;F<O.len;F++){y[F]=$.length;let P=O.texts[F],E=O.isWordLike[F],H=O.kinds[F],z=O.starts[F];if(H==="soft-hyphen"){T(P,0,Q,Q,H,z,null,null),A[F]=$.length;continue}if(H==="hard-break"){T(P,0,0,0,H,z,null,null),A[F]=$.length;continue}if(H==="tab"){T(P,0,0,0,H,z,null,null),A[F]=$.length;continue}let W=x(P,R);if(H==="text"&&W.containsCJK){let S="",U=0;for(let N of Y.segment(P)){let M=N.segment;if(S.length===0){S=M,U=N.index;continue}if(i.has(S)||$0.has(M)||r.has(M)||X.carryCJKAfterClosingQuote&&p(M)&&D0(S)){S+=M;continue}let v=x(S,R),w=g(S,v,Z);T(S,w,w,w,"text",z+U,null,null),S=M,U=N.index}if(S.length>0){let N=x(S,R),M=g(S,N,Z);T(S,M,M,M,"text",z+U,null,null)}A[F]=$.length;continue}let c=g(P,W,Z),I=H==="space"||H==="preserved-space"||H==="zero-width-break"?0:c,o=H==="space"||H==="zero-width-break"?0:c;if(E&&P.length>1){let S=P0(P,W,R,Z),U=X.preferPrefixWidthsForBreakableRuns?A0(P,W,R,Z):null;T(P,c,I,o,H,z,S,U)}else T(P,c,I,o,H,z,null,null);A[F]=$.length}let L=hO(O.chunks,y,A),C=K===null?null:u0(O.normalized,K);if(k!==null)return{widths:$,lineEndFitAdvances:u,lineEndPaintAdvances:q,kinds:D,simpleLineWalkFastPath:b,segLevels:C,breakableWidths:j,breakablePrefixWidths:B,discretionaryHyphenWidth:Q,tabStopAdvance:V,chunks:L,segments:k};return{widths:$,lineEndFitAdvances:u,lineEndPaintAdvances:q,kinds:D,simpleLineWalkFastPath:b,segLevels:C,breakableWidths:j,breakablePrefixWidths:B,discretionaryHyphenWidth:Q,tabStopAdvance:V,chunks:L}}function hO(O,_,J){let Y=[];for(let X=0;X<O.length;X++){let R=O[X],Z=R.startSegmentIndex<_.length?_[R.startSegmentIndex]:J[J.length-1]??0,Q=R.endSegmentIndex<_.length?_[R.endSegmentIndex]:J[J.length-1]??0,f=R.consumedEndSegmentIndex<_.length?_[R.consumedEndSegmentIndex]:J[J.length-1]??0;Y.push({startSegmentIndex:Z,endSegmentIndex:Q,consumedEndSegmentIndex:f})}return Y}function o0(O,_,J,Y){let X=N0(O,h(),Y?.whiteSpace);return c0(X,_,J)}function V1(O,_,J){let Y=performance.now(),X=N0(O,h(),J?.whiteSpace),R=performance.now(),Z=c0(X,_,!1),Q=performance.now(),f=0;for(let V of Z.breakableWidths)if(V!==null)f++;return{analysisMs:R-Y,measureMs:Q-R,totalMs:Q-Y,analysisSegments:X.len,preparedSegments:Z.widths.length,breakableSegments:f}}function X1(O,_,J){return o0(O,_,!1,J)}function Y1(O,_,J){return o0(O,_,!0,J)}function F0(O){return O}function Z1(O,_,J){let Y=W0(F0(O),_);return{lineCount:Y,height:Y*J}}function k0(O,_,J){let Y=J.get(O);if(Y!==void 0)return Y;Y=[];let X=I0();for(let R of X.segment(_[O]))Y.push(R.segment);return J.set(O,Y),Y}function l0(O){let _=C0.get(O);if(_!==void 0)return _;return _=new Map,C0.set(O,_),_}function pO(O,_,J,Y){return Y>0&&O[Y-1]==="soft-hyphen"&&!(_===Y&&J>0)}function xO(O,_,J,Y,X,R,Z){let Q="",f=pO(_,Y,X,R);for(let V=Y;V<R;V++){if(_[V]==="soft-hyphen"||_[V]==="hard-break")continue;if(V===Y&&X>0)Q+=k0(V,O,J).slice(X).join("");else Q+=O[V]}if(Z>0){if(f)Q+="-";Q+=k0(R,O,J).slice(Y===R?X:0,Z).join("")}else if(f)Q+="-";return Q}function h0(O,_,J,Y,X,R,Z){return{text:xO(O.segments,O.kinds,_,Y,X,R,Z),width:J,start:{segmentIndex:Y,graphemeIndex:X},end:{segmentIndex:R,graphemeIndex:Z}}}function gO(O,_,J){return h0(O,_,J.width,J.startSegmentIndex,J.startGraphemeIndex,J.endSegmentIndex,J.endGraphemeIndex)}function p0(O){return{width:O.width,start:{segmentIndex:O.startSegmentIndex,graphemeIndex:O.startGraphemeIndex},end:{segmentIndex:O.endSegmentIndex,graphemeIndex:O.endGraphemeIndex}}}function mO(O,_,J){let Y=S0(O,_,J);if(Y===null)return null;return p0(Y)}function rO(O,_){return h0(O,l0(O),_.width,_.start.segmentIndex,_.start.graphemeIndex,_.end.segmentIndex,_.end.graphemeIndex)}function $1(O,_,J){if(O.widths.length===0)return 0;return J0(F0(O),_,(Y)=>{J(p0(Y))})}function Q1(O,_,J){let Y=mO(O,_,J);if(Y===null)return null;return rO(O,Y)}function q1(O,_,J){let Y=[];if(O.widths.length===0)return{lineCount:0,height:0,lines:Y};let X=l0(O),R=J0(F0(O),_,(Z)=>{Y.push(gO(O,X,Z))});return{lineCount:R,height:R*J,lines:Y}}function aO(){z0(),R0=null,C0=new WeakMap,T0()}function D1(O){j0(O),aO()}export{$1 as walkLineRanges,D1 as setLocale,V1 as profilePrepare,Y1 as prepareWithSegments,X1 as prepare,q1 as layoutWithLines,Q1 as layoutNextLine,Z1 as layout,aO as clearCache};
+
+window.Pretext = { prepare: X1, layout: Z1, prepareWithSegments: Y1, layoutWithLines: q1, layoutNextLine: Q1, walkLineRanges: $1 };
+
+const deck = document.getElementById("deck");
+const slides = Array.from(document.querySelectorAll(".slide"));
+const counter = document.getElementById("counter");
+const progressFill = document.getElementById("progressFill");
+const status = document.getElementById("status");
+const notesPanel = document.getElementById("notesPanel");
+const notesContent = document.getElementById("notesContent");
+const sourcesPanel = document.getElementById("sourcesPanel");
+let current = Math.max(0, Math.min(slides.length - 1, Number(location.hash.slice(1)) - 1 || 0));
+let touchStartX = 0;
+
+function pad(value) { return String(value).padStart(2, "0"); }
+
+function render(next, announce = true) {
+  const target = Math.max(0, Math.min(slides.length - 1, next));
+  slides.forEach((slide, index) => {
+    slide.classList.toggle("active", index === target);
+    slide.classList.toggle("exit-left", index < target);
+    slide.setAttribute("aria-hidden", index === target ? "false" : "true");
+  });
+  current = target;
+  counter.textContent = pad(current + 1) + " / " + pad(slides.length);
+  progressFill.style.width = ((current + 1) / slides.length * 100) + "%";
+  history.replaceState(null, "", "#" + (current + 1));
+  notesContent.textContent = slides[current].querySelector(".speaker-notes")?.textContent || "";
+  if (announce) status.textContent = "Slide " + (current + 1) + " of " + slides.length + ": " + slides[current].dataset.title;
+}
+
+function togglePanel(panel) {
+  const opening = !panel.classList.contains("open");
+  notesPanel.classList.remove("open");
+  sourcesPanel.classList.remove("open");
+  notesPanel.setAttribute("aria-hidden", "true");
+  sourcesPanel.setAttribute("aria-hidden", "true");
+  if (opening) {
+    panel.classList.add("open");
+    panel.setAttribute("aria-hidden", "false");
+  }
+}
+
+function toggleOverview() {
+  deck.classList.toggle("overview");
+  document.documentElement.style.overflow = deck.classList.contains("overview") ? "auto" : "hidden";
+  status.textContent = deck.classList.contains("overview") ? "Overview opened" : "Overview closed";
+}
+
+async function toggleFullscreen() {
+  if (!document.fullscreenElement) await document.documentElement.requestFullscreen?.();
+  else await document.exitFullscreen?.();
+}
+
+document.addEventListener("keydown", (event) => {
+  if (event.target?.isContentEditable && !["Escape"].includes(event.key)) return;
+  const nextKeys = ["ArrowRight", "ArrowDown", "PageDown", " "];
+  const prevKeys = ["ArrowLeft", "ArrowUp", "PageUp"];
+  if (nextKeys.includes(event.key)) { event.preventDefault(); render(current + 1); }
+  else if (prevKeys.includes(event.key)) { event.preventDefault(); render(current - 1); }
+  else if (event.key === "Home") render(0);
+  else if (event.key === "End") render(slides.length - 1);
+  else if (event.key.toLowerCase() === "o") toggleOverview();
+  else if (event.key.toLowerCase() === "n") togglePanel(notesPanel);
+  else if (event.key.toLowerCase() === "s") togglePanel(sourcesPanel);
+  else if (event.key.toLowerCase() === "f") toggleFullscreen();
+  else if (event.key === "Escape") { notesPanel.classList.remove("open"); sourcesPanel.classList.remove("open"); }
+});
+
+document.querySelector(".controls").addEventListener("click", (event) => {
+  const action = event.target.closest("[data-action]")?.dataset.action;
+  if (action === "next") render(current + 1);
+  if (action === "prev") render(current - 1);
+  if (action === "overview") toggleOverview();
+  if (action === "fullscreen") toggleFullscreen();
+});
+
+slides.forEach((slide, index) => slide.addEventListener("click", () => {
+  if (!deck.classList.contains("overview")) return;
+  toggleOverview();
+  render(index);
+}));
+
+document.addEventListener("touchstart", (event) => { touchStartX = event.changedTouches[0].screenX; }, { passive: true });
+document.addEventListener("touchend", (event) => {
+  const delta = event.changedTouches[0].screenX - touchStartX;
+  if (Math.abs(delta) > 55) render(current + (delta < 0 ? 1 : -1));
+}, { passive: true });
+
+await document.fonts.ready;
+const prepared = new Map();
+const measured = document.querySelectorAll("[data-pretext]");
+
+function prepareElement(element) {
+  const style = getComputedStyle(element);
+  const text = element.innerText;
+  if (!text.trim()) return;
+  prepared.set(element, window.Pretext.prepare(text, style.font));
+}
+
+function relayout() {
+  for (const [element, handle] of prepared) {
+    if (!element.clientWidth) continue;
+    const style = getComputedStyle(element);
+    const lineHeight = Number.parseFloat(style.lineHeight) || Number.parseFloat(style.fontSize) * 1.2;
+    const result = window.Pretext.layout(handle, element.clientWidth, lineHeight);
+    if (Number.isFinite(result.height) && result.height > 0) element.style.minHeight = result.height + "px";
+  }
+}
+
+measured.forEach((element) => {
+  prepareElement(element);
+  if (element.contentEditable === "true") {
+    new MutationObserver(() => { prepareElement(element); relayout(); }).observe(element, { characterData: true, subtree: true, childList: true });
+  }
+});
+
+new ResizeObserver(relayout).observe(document.body);
+relayout();
+render(current, false);
+  </script>
+</body>
+</html>

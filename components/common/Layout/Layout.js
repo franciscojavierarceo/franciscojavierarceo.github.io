@@ -76,7 +76,7 @@ const Header = () => {
 
   return (
     <header
-      className={clsx("flex items-center justify-between ", {
+      className={clsx("flex flex-col sm:flex-row sm:items-center sm:justify-between", {
         "mb-8": isRoot,
         "mb-2": !isRoot,
       })}
@@ -101,12 +101,17 @@ const Header = () => {
     <div className={"max-w-md"}>
       {isRoot ? <LargeTitle /> : <SmallTitle />}
       </div>
-      {mounted && (
-        <DarkModeSwitch
-          checked={isDarkMode}
-          onChange={toggleDarkMode}
-        />
-      )}
+      <div className="flex items-center mt-4 sm:mt-0">
+        <Link href="/presentations">
+          <a className="mr-4 text-base font-semibold">Presentations</a>
+        </Link>
+        {mounted && (
+          <DarkModeSwitch
+            checked={isDarkMode}
+            onChange={toggleDarkMode}
+          />
+        )}
+      </div>
       <script
         {...jsonLdScriptProps<Person>({
           "@context": "https://schema.org",
