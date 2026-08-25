@@ -20,6 +20,7 @@
     currentSlide.textContent = String(index + 1);
     progress.style.width = `${((index + 1) / slides.length) * 100}%`;
     notesText.textContent = slides[index].dataset.notes ?? "";
+    window.linkifyAgenticApi?.(notesText);
     document.title = `${slides[index].querySelector("h1, h2").textContent.trim()} — vLLM Agentic API`;
     if (updateHash) history.replaceState(null, "", `#${index + 1}`);
   }
