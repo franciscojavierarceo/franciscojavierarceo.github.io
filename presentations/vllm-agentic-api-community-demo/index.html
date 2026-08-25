@@ -1,0 +1,346 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="color-scheme" content="dark" />
+    <title>vLLM Agentic API</title>
+    <meta
+      name="description"
+      content="A short community presentation about vLLM Agentic API, vLLM core, and llm-d."
+    />
+    <link rel="stylesheet" href="slides.css" />
+  </head>
+  <body>
+    <main class="deck" aria-live="polite">
+      <div class="progress" aria-hidden="true"><span></span></div>
+
+      <section
+        class="slide slide--presenters is-active"
+        id="slide-1"
+        aria-label="Slide 1 of 6"
+        data-notes="Welcome. Francisco Javier Arceo from Red Hat AI and Tun Jian Tan from Embedded LLM will show how Codex and Claude Code can run against open models served by vLLM through the Agentic API runtime."
+      >
+        <header class="eyebrow">
+          <span class="bolt" aria-hidden="true">⚡</span>
+          <span>vLLM Agentic API</span>
+          <span class="eyebrow__rule"></span>
+          <span>Demo</span>
+        </header>
+
+        <div class="presenter-intro">
+          <p class="kicker">Open Models. Open Inference. Open Agents.</p>
+          <h1>Running Codex and Claude Code CLIs with vLLM and Open Models</h1>
+
+          <div class="presenter-grid" aria-label="Presenters">
+            <article class="presenter-card">
+              <img src="assets/francisco-javier-arceo.png" alt="Francisco Javier Arceo" />
+              <div>
+                <h2>Francisco Javier Arceo</h2>
+                <p>Sr. Principal Software Engineer</p>
+                <strong>Red Hat AI</strong>
+              </div>
+            </article>
+
+            <article class="presenter-card">
+              <img src="assets/tun-jian-tan.png" alt="Tun Jian Tan" />
+              <div>
+                <h2>Tun Jian Tan</h2>
+                <p>Principal Engineer</p>
+                <strong>Embedded LLM</strong>
+              </div>
+            </article>
+          </div>
+        </div>
+
+        <footer class="slide-footer">
+          <span>Codex · Claude Code · Agentic API · vLLM</span>
+          <span class="slide-number">01</span>
+        </footer>
+      </section>
+
+      <section
+        class="slide slide--opening"
+        id="slide-2"
+        aria-label="Slide 2 of 6"
+        data-notes="Open models are getting better fast, and vLLM is one of the best ways to serve them. But agentic clients need more than token streaming. Agentic API supplies that layer as a high-performance Rust runtime: state management, tool execution, tool orchestration, and integrations with tool and database providers. You.com and PostgreSQL are supported today, with more providers expected. [Sources] https://github.com/vllm-project/vllm/issues/52567"
+      >
+        <header class="eyebrow">
+          <span class="bolt" aria-hidden="true">⚡</span>
+          <span>vLLM Agentic API</span>
+          <span class="eyebrow__rule"></span>
+          <span>Community update</span>
+        </header>
+
+        <div class="opening-grid">
+          <div>
+            <p class="kicker">Open-source agentic inference</p>
+            <h1>Agentic workloads need more than token generation</h1>
+            <p class="lede">
+              Agentic API is a high-performance Rust runtime for state, tools, and client compatibility around vLLM.
+            </p>
+          </div>
+
+          <div class="runtime-stack" aria-label="Agent runtime capabilities">
+            <div><span>01</span><strong>State management</strong><small>continuation · persistence</small></div>
+            <div><span>02</span><strong>Tool execution</strong><small>invoke external tools</small></div>
+            <div><span>03</span><strong>Tool orchestration</strong><small>coordinate multi-round loops</small></div>
+            <div><span>04</span><strong>Provider integrations</strong><small>You.com · PostgreSQL · more coming</small></div>
+          </div>
+        </div>
+
+        <footer class="slide-footer">
+          <span>Infrastructure you control</span>
+          <span class="slide-number">02</span>
+        </footer>
+      </section>
+
+      <section
+        class="slide slide--boundary"
+        id="slide-3"
+        aria-label="Slide 3 of 6"
+        data-notes="The boundary is intentional. vLLM core generates the tokens and stays focused on model execution, scheduling, batching, tokenization, rendering, parsing, and structured decoding. Agentic API owns state management, tool execution and orchestration, tool and database provider integrations, and client compatibility. They are complementary layers, not competing servers."
+      >
+        <header class="eyebrow">
+          <span class="bolt" aria-hidden="true">⚡</span>
+          <span>Complementary by design</span>
+        </header>
+
+        <div class="boundary-heading">
+          <h2><span class="vllm-text">vLLM core</span> generates the tokens.</h2>
+          <h2><span class="agentic-text">Agentic API</span> runs the agent loop.</h2>
+        </div>
+
+        <div class="system-flow" role="img" aria-label="Clients connect to Agentic API, which uses vLLM core for inference">
+          <article class="flow-stage flow-stage--clients">
+            <p class="stage-label">Clients</p>
+            <h3>Codex · Claude Code<br />SDKs · applications</h3>
+            <p>Agent-facing protocols</p>
+          </article>
+
+          <div class="flow-arrow" aria-hidden="true"><span>request</span><b>→</b></div>
+
+          <article class="flow-stage flow-stage--agentic">
+            <p class="stage-label">vLLM Agentic API</p>
+            <h3>State management<br />tool execution + orchestration<br />tool + database providers</h3>
+            <p>Compatibility across agent protocols</p>
+          </article>
+
+          <div class="flow-arrow" aria-hidden="true"><span>inference</span><b>→</b></div>
+
+          <article class="flow-stage flow-stage--vllm">
+            <p class="stage-label">vLLM core</p>
+            <h3>Execution · scheduling<br />batching · tokenization</h3>
+            <p>High-throughput model serving</p>
+          </article>
+        </div>
+
+        <footer class="slide-footer">
+          <span>Clear responsibilities. Tighter integration.</span>
+          <span class="slide-number">03</span>
+        </footer>
+      </section>
+
+      <section
+        class="slide slide--mvp"
+        id="slide-4"
+        aria-label="Slide 4 of 6"
+        data-notes="This is not just an architecture diagram. The Rust MVP is working today with Codex and Claude Code using vLLM for inference. It manages state with continuation and PostgreSQL persistence, executes and orchestrates tools including web search and MCP, and integrates providers such as You.com. More tool and database providers are expected. The demo will show the same separation end to end."
+      >
+        <header class="eyebrow">
+          <span class="bolt" aria-hidden="true">⚡</span>
+          <span>Agentic API MVP</span>
+        </header>
+
+        <div class="mvp-grid">
+          <div class="mvp-statement">
+            <p class="status-line"><span></span>MVP shipped</p>
+            <h2>The MVP is working today</h2>
+            <p>
+              Codex and Claude Code can use open-weight models served by vLLM—with the agent runtime outside the
+              inference engine.
+            </p>
+          </div>
+
+          <div class="capability-list" aria-label="MVP capabilities">
+            <div><span>01</span><strong>State management</strong><small>continuation · PostgreSQL persistence</small></div>
+            <div><span>02</span><strong>Tool runtime</strong><small>execution · orchestration · MCP</small></div>
+            <div><span>03</span><strong>Provider ecosystem</strong><small>You.com today · more tool and database providers next</small></div>
+          </div>
+        </div>
+
+        <div class="proof-strip" aria-label="Validated clients and implementation">
+          <span>RUST RUNTIME</span>
+          <span>CODEX</span>
+          <span>CLAUDE CODE</span>
+          <span>OPEN-WEIGHT MODELS</span>
+        </div>
+
+        <footer class="slide-footer">
+          <span>From prototype to a first-class serving experience</span>
+          <span class="slide-number">04</span>
+        </footer>
+      </section>
+
+      <section
+        class="slide slide--future"
+        id="slide-5"
+        aria-label="Slide 5 of 6"
+        data-notes="llm-d is a Kubernetes-native distributed inference serving stack. Its router schedules inference requests across model-serving pods using signals such as load, model metadata, and KV-cache locality. This slide shows the proposed enterprise fleet role for a tighter Agentic API integration: Agentic API manages each agent loop, vLLM runs inference, and llm-d routes and scales workloads across the fleet. [Sources] https://github.com/llm-d/llm-d https://github.com/llm-d/llm-d-router/blob/main/docs/architecture.md"
+      >
+        <header class="eyebrow">
+          <span class="bolt" aria-hidden="true">⚡</span>
+          <span>Enterprise scale with llm-d</span>
+        </header>
+
+        <div class="fleet-layout">
+          <div class="fleet-copy">
+            <p class="kicker">Kubernetes-native distributed inference</p>
+            <h2><span class="llmd-text">llm-d</span> turns one runtime into a Kubernetes fleet</h2>
+            <p class="fleet-lede">
+              Agentic API manages each agent loop. vLLM runs inference. llm-d routes and scales workloads across the
+              cluster.
+            </p>
+
+            <div class="fleet-callouts" aria-label="Enterprise fleet capabilities">
+              <div><span>01</span><strong>Fleet routing</strong><small>place requests across model-serving pods</small></div>
+              <div><span>02</span><strong>Elastic scale</strong><small>expand serving pools across accelerators</small></div>
+              <div><span>03</span><strong>Kubernetes operations</strong><small>deploy, observe, and tune production inference</small></div>
+            </div>
+          </div>
+
+          <figure class="fleet-visual">
+            <img
+              src="assets/llmd-kubernetes-fleet.png"
+              alt="Abstract Kubernetes inference fleet managed by llm-d"
+            />
+            <div class="fleet-visual-badge"><span>Fleet layer</span><strong>llm-d</strong></div>
+            <figcaption><span>Kubernetes cluster</span><strong>Agentic API + vLLM fleet</strong></figcaption>
+          </figure>
+        </div>
+
+        <footer class="slide-footer">
+          <span>One runtime in the demo. A fleet in production.</span>
+          <span class="slide-number">05</span>
+        </footer>
+      </section>
+
+      <section
+        class="slide slide--demo"
+        id="slide-6"
+        aria-label="Slide 6 of 6"
+        data-notes="Read the lifecycle left to right and back. Claude Code or Codex sends one request. Agentic API asks vLLM for inference; vLLM emits a tool call; Agentic API executes You.com; then it resumes vLLM with the result and streams the final answer back. Play the prerecorded Claude Code walkthrough. The exact same runtime path supports Codex."
+      >
+        <header class="eyebrow">
+          <span class="bolt" aria-hidden="true">⚡</span>
+          <span>Recorded end-to-end demo</span>
+        </header>
+
+        <div class="demo-layout">
+          <div class="demo-explainer">
+            <p class="kicker">Agentic tool loop</p>
+            <h2>One request. Two inference rounds.</h2>
+            <p>Claude Code and Codex use the same tool-aware runtime path.</p>
+
+            <div class="lifecycle-diagram">
+              <svg
+                viewBox="0 0 480 420"
+                role="img"
+                aria-label="Eight-step request lifecycle across Claude Code or Codex, Agentic API Server, vLLM Server, and You.com"
+              >
+                <defs>
+                  <marker id="arrow-cyan" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                    <path d="M 0 0 L 10 5 L 0 10 z" />
+                  </marker>
+                  <marker id="arrow-orange" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                    <path d="M 0 0 L 10 5 L 0 10 z" />
+                  </marker>
+                  <marker id="arrow-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                    <path d="M 0 0 L 10 5 L 0 10 z" />
+                  </marker>
+                </defs>
+
+                <g class="sequence-lifelines" aria-hidden="true">
+                  <line class="sequence-lifeline sequence-lifeline--client" x1="62" y1="58" x2="62" y2="404" />
+                  <line class="sequence-lifeline sequence-lifeline--agentic" x1="180" y1="58" x2="180" y2="404" />
+                  <line class="sequence-lifeline sequence-lifeline--vllm" x1="298" y1="58" x2="298" y2="404" />
+                  <line class="sequence-lifeline sequence-lifeline--search" x1="416" y1="58" x2="416" y2="404" />
+                </g>
+
+                <g class="sequence-nodes">
+                  <rect class="sequence-node sequence-node--client" x="8" y="6" width="108" height="50" rx="8" />
+                  <rect class="sequence-node sequence-node--agentic" x="126" y="6" width="108" height="50" rx="8" />
+                  <rect class="sequence-node sequence-node--vllm" x="244" y="6" width="108" height="50" rx="8" />
+                  <rect class="sequence-node sequence-node--search" x="362" y="6" width="108" height="50" rx="8" />
+                  <text x="62" y="24"><tspan x="62">Codex /</tspan><tspan x="62" dy="16">Claude Code</tspan></text>
+                  <text x="180" y="24"><tspan x="180">Agentic API</tspan><tspan x="180" dy="16">Server</tspan></text>
+                  <text x="298" y="34">vLLM Server</text>
+                  <text x="416" y="34">You.com</text>
+                </g>
+
+                <g class="sequence-arrows sequence-arrows--inference">
+                  <line x1="66" y1="96" x2="174" y2="96" marker-end="url(#arrow-cyan)" />
+                  <line x1="186" y1="136" x2="292" y2="136" marker-end="url(#arrow-cyan)" />
+                  <line x1="292" y1="176" x2="186" y2="176" marker-end="url(#arrow-cyan)" />
+                </g>
+                <g class="sequence-arrows sequence-arrows--tool">
+                  <line x1="186" y1="216" x2="410" y2="216" marker-end="url(#arrow-orange)" />
+                  <line x1="410" y1="256" x2="186" y2="256" marker-end="url(#arrow-orange)" />
+                </g>
+                <g class="sequence-arrows sequence-arrows--response">
+                  <line x1="186" y1="296" x2="292" y2="296" marker-end="url(#arrow-green)" />
+                  <line x1="292" y1="336" x2="186" y2="336" marker-end="url(#arrow-green)" />
+                  <line x1="174" y1="376" x2="68" y2="376" marker-end="url(#arrow-green)" />
+                </g>
+
+                <g class="sequence-labels">
+                  <text x="123" y="88"><tspan>01</tspan> Request</text>
+                  <text x="239" y="128"><tspan>02</tspan> First inference</text>
+                  <text x="239" y="168"><tspan>03</tspan> Tool-call tokens</text>
+                  <text x="297" y="208"><tspan>04</tspan> Web Search execution</text>
+                  <text x="297" y="248"><tspan>05</tspan> Web Search results</text>
+                  <text x="239" y="288"><tspan>06</tspan> Resume inference</text>
+                  <text x="239" y="328"><tspan>07</tspan> Final tokens</text>
+                  <text x="123" y="368"><tspan>08</tspan> Streamed response</text>
+                </g>
+              </svg>
+            </div>
+          </div>
+
+          <div class="demo-video-frame">
+            <video
+              class="demo-video"
+              controls
+              preload="metadata"
+              playsinline
+              aria-label="Claude Code using Agentic API with a model served by vLLM; the same path also supports Codex"
+            >
+              <source src="agentic-api-claude-gpt56-demo-tight.mp4" type="video/mp4" />
+              Your browser does not support embedded MP4 video.
+            </video>
+          </div>
+        </div>
+
+        <footer class="slide-footer">
+          <span>Agentic inference on infrastructure you control</span>
+          <span class="slide-number">06</span>
+        </footer>
+      </section>
+
+      <aside class="notes-panel" aria-live="polite" aria-label="Speaker notes">
+        <span>Speaker notes</span>
+        <p></p>
+      </aside>
+
+      <nav class="controls" aria-label="Slide controls">
+        <button type="button" data-action="previous" aria-label="Previous slide">←</button>
+        <span><b class="current-slide">1</b> / 6</span>
+        <button type="button" data-action="next" aria-label="Next slide">→</button>
+        <button type="button" data-action="notes" aria-label="Toggle speaker notes">N</button>
+        <button type="button" data-action="fullscreen" aria-label="Toggle fullscreen">F</button>
+      </nav>
+    </main>
+
+    <script src="slides.js"></script>
+  </body>
+</html>
