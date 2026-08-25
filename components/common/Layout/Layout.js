@@ -102,9 +102,14 @@ const Header = () => {
       {isRoot ? <LargeTitle /> : <SmallTitle />}
       </div>
       <div className="flex items-center mt-4 sm:mt-0">
-        <Link href="/presentations">
-          <a className="mr-4 text-base font-semibold">Presentations</a>
-        </Link>
+        <nav className="flex items-center" aria-label="Primary navigation">
+          <Link href="/about-me">
+            <a className="mr-4 text-base font-semibold">About</a>
+          </Link>
+          <Link href="/presentations">
+            <a className="mr-4 text-base font-semibold">Presentations</a>
+          </Link>
+        </nav>
         {mounted && (
           <DarkModeSwitch
             checked={isDarkMode}

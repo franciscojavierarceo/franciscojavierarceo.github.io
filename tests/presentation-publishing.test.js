@@ -75,6 +75,18 @@ function renderedTags(article) {
   );
 }
 
+function sectionById(html, id) {
+  const headingIndex = html.indexOf(`id="${id}"`);
+  assert(headingIndex >= 0, `production page must include #${id}`);
+  const sectionStart = html.lastIndexOf("<section", headingIndex);
+  const sectionEnd = html.indexOf("</section>", headingIndex);
+  assert(
+    sectionStart >= 0 && sectionEnd >= 0,
+    `#${id} must belong to a semantic section`
+  );
+  return html.slice(sectionStart, sectionEnd + "</section>".length);
+}
+
 function run() {
   const home = readOutput("index.html");
   const listing = readOutput("presentations.html");
@@ -102,6 +114,47 @@ function run() {
   assert(
     home.includes('href="/presentations"'),
     "the production homepage must link to the presentations page"
+  );
+  const primaryNavigation = home.match(
+    /<nav[^>]*aria-label="Primary navigation"[^>]*>([\s\S]*?)<\/nav>/
+  );
+  assert(primaryNavigation, "the production homepage must expose primary navigation");
+  assert(
+    primaryNavigation[1].includes('href="/about-me"') &&
+      primaryNavigation[1].includes('href="/presentations"'),
+    "primary navigation must link to About and Presentations"
+  );
+  const featuredPresentations = sectionById(home, "featured-presentations");
+  assert(
+    featuredPresentations.includes(
+      "Open Agents. Distributed Inference. One Stack."
+    ) &&
+      featuredPresentations.includes(
+        "Running Codex and Claude Code CLIs with vLLM and Open Models"
+      ) &&
+      featuredPresentations.includes(
+        'href="/presentations/llm-d-agentic-api-demo/"'
+      ) &&
+      featuredPresentations.includes(
+        'href="/presentations/vllm-agentic-api-community-demo/"'
+    ),
+    "the homepage must feature both standalone presentation links"
+  );
+  [
+    "/presentations/llm-d-agentic-api-demo/",
+    "/presentations/vllm-agentic-api-community-demo/",
+  ].forEach((url) => {
+    const featuredArticle = listingArticle(featuredPresentations, url);
+    assert(
+      featuredArticle.includes('target="_blank"') &&
+        featuredArticle.includes('rel="noopener noreferrer"') &&
+        featuredArticle.includes("opens in a new tab"),
+      `featured presentation ${url} must announce and safely open a new tab`
+    );
+  });
+  assert(
+    home.includes('id="writing"') && home.includes(">Writing</h2>"),
+    "the homepage must distinguish the writing section"
   );
   assert(
     listing.includes("Open Agents. Distributed Inference. One Stack."),
