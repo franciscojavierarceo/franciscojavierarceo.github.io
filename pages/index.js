@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Layout, Bio, SEO } from "@components/common";
+import { AgenticApiLink, Layout, Bio, SEO } from "@components/common";
 import { getSortedPosts } from "@utils/posts";
 import { getSiteMetaData } from "@utils/helpers";
 import { presentations } from "content/presentations";
@@ -49,7 +49,7 @@ export default function Home({ posts }) {
               </a>
             </h3>
             <p className="mb-3 text-base leading-relaxed">
-              {presentation.description}
+              <AgenticApiLink>{presentation.description}</AgenticApiLink>
             </p>
             <a
               className="font-semibold"

@@ -14,8 +14,6 @@ const communityPresentationRoot = path.join(
   "presentations",
   "vllm-agentic-api-community-demo"
 );
-const description =
-  "A community demo of vLLM Agentic API, vLLM, agent harnesses, server-side web search, and the path toward llm-d integration and disaggregated Responses.";
 const requestedTags = [
   "vLLM",
   "llm-d",
@@ -24,8 +22,6 @@ const requestedTags = [
   "Codex",
   "Claude Code",
 ];
-const communityDescription =
-  "A community presentation and recorded demo of the vLLM Agentic API runtime, open-model inference, tool orchestration, and the path toward llm-d integration.";
 const communityTags = [
   "vLLM",
   "Agentic API",
@@ -34,6 +30,8 @@ const communityTags = [
   "llm-d",
   "Kubernetes",
 ];
+const agenticApiLink =
+  '<a href="https://github.com/vllm-project/agentic-api" target="_blank" rel="noopener noreferrer">Agentic API</a>';
 
 function readOutput(...segments) {
   const filePath = path.join(outputRoot, ...segments);
@@ -70,8 +68,8 @@ function renderedTags(article) {
   );
   assert(tagList, "each production listing must expose an accessible tag list");
   return Array.from(
-    tagList[1].matchAll(/<li[^>]*>([^<]+)<\/li>/g),
-    (match) => match[1]
+    tagList[1].matchAll(/<li[^>]*>([\s\S]*?)<\/li>/g),
+    (match) => match[1].replace(/<[^>]+>/g, "").trim()
   );
 }
 
@@ -165,8 +163,12 @@ function run() {
     "the production listing must include presenter and affiliation"
   );
   assert(
-    listing.includes(description),
-    "the production listing must include the requested description verbatim"
+    listing.includes("A community demo of vLLM ") &&
+      listing.includes(
+        "vLLM, agent harnesses, server-side web search, and the path toward llm-d integration and disaggregated Responses."
+      ) &&
+      listing.includes(agenticApiLink),
+    "the production listing must include the requested description with a repository link"
   );
   const firstArticle = listingArticle(
     listing,
@@ -193,7 +195,9 @@ function run() {
   );
   assert(
     presentation.includes('document.addEventListener("keydown"') &&
-      presentation.includes('class="speaker-notes"'),
+      presentation.includes('class="speaker-notes"') &&
+      presentation.includes('src="../agentic-api-links.js"') &&
+      presentation.includes('linkifyAgenticApi'),
     "the standalone presentation must retain keyboard controls and presenter notes"
   );
 
@@ -212,8 +216,12 @@ function run() {
     "the second listing must include its title, presenters, and affiliations"
   );
   assert(
-    communityArticle.includes(communityDescription),
-    "the second listing must include its requested description verbatim"
+    communityArticle.includes("A community presentation and recorded demo of the vLLM ") &&
+      communityArticle.includes(
+        "runtime, open-model inference, tool orchestration, and the path toward llm-d integration."
+      ) &&
+      communityArticle.includes(agenticApiLink),
+    "the second listing must include its requested description with a repository link"
   );
   assert.deepStrictEqual(
     renderedTags(communityArticle),
@@ -226,8 +234,9 @@ function run() {
     "the second listing must open safely in a new tab"
   );
   assert(
-    communityPresentation.includes('href="slides.css"') &&
+      communityPresentation.includes('href="slides.css"') &&
       communityPresentation.includes('src="slides.js"') &&
+      communityPresentation.includes('src="../agentic-api-links.js"') &&
       communityPresentation.includes(
         'src="agentic-api-claude-gpt56-demo-tight.mp4"'
       ) &&
@@ -258,7 +267,8 @@ function run() {
       communitySlides.includes('event.key.toLowerCase() === "f"') &&
       communitySlides.includes('event.key.toLowerCase() === "n"') &&
       communitySlides.includes('action === "fullscreen"') &&
-      communitySlides.includes('action === "notes"'),
+      communitySlides.includes('action === "notes"') &&
+      communitySlides.includes('linkifyAgenticApi'),
     "the second standalone deck must retain keyboard, fullscreen, and notes controls"
   );
 

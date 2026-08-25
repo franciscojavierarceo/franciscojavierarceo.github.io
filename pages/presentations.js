@@ -1,4 +1,4 @@
-import { Layout, SEO } from "@components/common";
+import { AgenticApiLink, Layout, SEO } from "@components/common";
 import { getSiteMetaData } from "@utils/helpers";
 import { presentations } from "content/presentations";
 
@@ -48,7 +48,7 @@ export default function Presentations() {
             ))}
           </p>
           <p className="mb-5 text-lg leading-relaxed">
-            {presentation.description}
+            <AgenticApiLink>{presentation.description}</AgenticApiLink>
           </p>
           <ul className="flex flex-wrap mb-6" aria-label="Presentation tags">
             {presentation.tags.map((tag) => (
@@ -56,7 +56,11 @@ export default function Presentations() {
                 className="px-3 py-1 mb-2 mr-2 text-sm border border-gray-300 rounded-full dark:border-gray-700"
                 key={tag}
               >
-                {tag}
+                {tag === "Agentic API" ? (
+                  <AgenticApiLink>{tag}</AgenticApiLink>
+                ) : (
+                  tag
+                )}
               </li>
             ))}
           </ul>
