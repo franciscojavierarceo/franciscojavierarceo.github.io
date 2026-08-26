@@ -29,7 +29,22 @@ export function Bio({ className }) {
   const [populateStep, setPopulateStep] = useState(0);
   const [matrixStep, setMatrixStep] = useState(-1);
 
+  const runMatrix = () => {
+    setMatrixA(randomMatrix());
+    setMatrixB(randomMatrix());
+    setVisibleA(emptyMatrix());
+    setVisibleB(emptyMatrix());
+    setMatrixResult(emptyMatrix());
+    setPopulateStep(0);
+    setMatrixStep(-1);
+    setPhase("populate");
+  };
+
   useEffect(() => {
+    if (phase === "complete") {
+      const timer = setTimeout(runMatrix, 1800);
+      return () => clearTimeout(timer);
+    }
     if (phase === "populate" && populateStep < 4) {
       const timer = setTimeout(() => {
         const row = Math.floor(populateStep / 2);
@@ -56,23 +71,20 @@ export function Bio({ className }) {
       setMatrixResult((current) => current.map((currentRow, currentRowIndex) => currentRow.map((currentValue, currentColumnIndex) => currentRowIndex === row && currentColumnIndex === column ? expression : currentValue)));
       const resolveTimer = setTimeout(() => {
         setMatrixResult((current) => current.map((currentRow, currentRowIndex) => currentRow.map((currentValue, currentColumnIndex) => currentRowIndex === row && currentColumnIndex === column ? value : currentValue)));
-        setMatrixStep(matrixStep + 1);
+        setMatrixStep(matrixStep === 3 ? 4 : matrixStep + 1);
+        if (matrixStep === 3) setPhase("complete");
       }, 900);
       return () => clearTimeout(resolveTimer);
     }, 1300);
     return () => clearTimeout(timer);
   }, [matrixA, matrixB, matrixStep, phase, populateStep]);
 
-  const runMatrix = () => {
-    setMatrixA(randomMatrix());
-    setMatrixB(randomMatrix());
-    setVisibleA(emptyMatrix());
-    setVisibleB(emptyMatrix());
-    setMatrixResult(emptyMatrix());
-    setPopulateStep(0);
-    setMatrixStep(-1);
-    setPhase("populate");
-  };
+  const vectorA = matrixA[0] || [1, 1];
+  const vectorB = [matrixB[0]?.[0] || 1, matrixB[1]?.[0] || 1];
+  const vectorAngle = Math.round(Math.atan2(Math.abs(vectorA[0] * vectorB[1] - vectorA[1] * vectorB[0]), vectorA[0] * vectorB[0] + vectorA[1] * vectorB[1]) * 180 / Math.PI);
+  const vectorPoint = (vector) => ({ x: 50 + vector[0] * 7, y: 50 - vector[1] * 7 });
+  const pointA = vectorPoint(vectorA);
+  const pointB = vectorPoint(vectorB);
 
   return (
     <>
@@ -95,11 +107,22 @@ export function Bio({ className }) {
           I'll probably write about some of those things so feel free to check back in if you're interested!
         </p>
         <p className="mt-5 text-base" style={{color: 'var(--muted)'}}>Find me on <a className="inline-link" href='https://github.com/franciscojavierarceo'>GitHub</a> or <a className="inline-link" href='https://twitter.com/franciscojarceo'>Twitter</a>. Welcome to my little corner of the internet.</p>
-        <div className="flex flex-wrap items-center gap-3 mt-6">
+        <div className="flex flex-wrap items-start gap-5 mt-6">
           <button className="terminal-action" type="button" onClick={runMatrix}>
-            generate dot-product matrix
+            generate a new dot product
           </button>
-          <pre className="matrix-output" aria-live="polite">{matrixRowsText(visibleA, visibleB, matrixResult)}</pre>
+          <div className="matrix-lab" aria-live="polite">
+            <pre className="matrix-output">{matrixRowsText(visibleA, visibleB, matrixResult)}</pre>
+            <svg className="vector-plot" viewBox="0 0 100 100" role="img" aria-label={`Two vectors with an angle of ${vectorAngle} degrees`}>
+              <line className="vector-axis" x1="8" y1="50" x2="92" y2="50" />
+              <line className="vector-axis" x1="50" y1="8" x2="50" y2="92" />
+              <line className="vector-line vector-line-a" x1="50" y1="50" x2={pointA.x} y2={pointA.y} />
+              <line className="vector-line vector-line-b" x1="50" y1="50" x2={pointB.x} y2={pointB.y} />
+              <circle className="vector-dot" cx={pointA.x} cy={pointA.y} r="2" />
+              <circle className="vector-dot vector-dot-b" cx={pointB.x} cy={pointB.y} r="2" />
+              <text x="55" y="88">θ {vectorAngle}°</text>
+            </svg>
+          </div>
         </div>
     </div>
     </section>
