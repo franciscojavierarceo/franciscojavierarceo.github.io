@@ -29,6 +29,7 @@ export function Bio({ className }) {
   const [populateStep, setPopulateStep] = useState(0);
   const [matrixStep, setMatrixStep] = useState(-1);
   const [vectorsVisible, setVectorsVisible] = useState(false);
+  const [arrowsVisible, setArrowsVisible] = useState(false);
 
   const runMatrix = () => {
     setMatrixA(randomMatrix());
@@ -39,6 +40,7 @@ export function Bio({ className }) {
     setPopulateStep(0);
     setMatrixStep(-1);
     setVectorsVisible(false);
+    setArrowsVisible(false);
     setPhase("populate");
   };
 
@@ -76,7 +78,10 @@ export function Bio({ className }) {
         setMatrixStep(matrixStep === 3 ? 4 : matrixStep + 1);
         if (matrixStep === 3) {
           setPhase("complete");
-          setTimeout(() => setVectorsVisible(true), 450);
+          setTimeout(() => {
+            setVectorsVisible(true);
+            setTimeout(() => setArrowsVisible(true), 1600);
+          }, 450);
         }
       }, 900);
       return () => clearTimeout(resolveTimer);
@@ -129,8 +134,8 @@ export function Bio({ className }) {
               </defs>
               <line className="vector-axis" x1="8" y1="50" x2="92" y2="50" />
               <line className="vector-axis" x1="50" y1="8" x2="50" y2="92" />
-              <line markerEnd={vectorsVisible ? "url(#vector-arrow-a)" : undefined} className={`vector-line vector-line-a${vectorsVisible ? " is-visible" : ""}`} pathLength="100" x1="50" y1="50" x2={pointA.x} y2={pointA.y} />
-              <line markerEnd={vectorsVisible ? "url(#vector-arrow-b)" : undefined} className={`vector-line vector-line-b${vectorsVisible ? " is-visible" : ""}`} pathLength="100" x1="50" y1="50" x2={pointB.x} y2={pointB.y} />
+              <line markerEnd={arrowsVisible ? "url(#vector-arrow-a)" : undefined} className={`vector-line vector-line-a${vectorsVisible ? " is-visible" : ""}`} pathLength="100" x1="50" y1="50" x2={pointA.x} y2={pointA.y} />
+              <line markerEnd={arrowsVisible ? "url(#vector-arrow-b)" : undefined} className={`vector-line vector-line-b${vectorsVisible ? " is-visible" : ""}`} pathLength="100" x1="50" y1="50" x2={pointB.x} y2={pointB.y} />
               <circle className="vector-origin" cx="50" cy="50" r="1.7" />
               <text className={vectorsVisible ? "vector-angle is-visible" : "vector-angle"} x="55" y="88">θ {vectorAngle}°</text>
             </svg>
