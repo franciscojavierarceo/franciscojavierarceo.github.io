@@ -153,7 +153,7 @@ function run() {
     );
   });
   assert(
-    home.includes('id="writing"') && home.includes(">Writing</h2>"),
+    home.includes('id="writing"') && home.includes(">Notes &amp; writing</a>"),
     "the homepage must distinguish the writing section"
   );
   assert(

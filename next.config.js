@@ -1,6 +1,4 @@
-const optimizedImages = require("next-optimized-images");
-
-module.exports = optimizedImages({
+module.exports = {
     async headers() {
         return [
           {
@@ -14,4 +12,4 @@ module.exports = optimizedImages({
           },
         ]
       },
-});
+};
