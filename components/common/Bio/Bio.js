@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 
 import { Image } from "..";
 import { getSiteMetaData } from "@utils/helpers";
+const { vectorPoint } = require("@utils/vector");
 
 const randomMatrix = () => Array.from({ length: 2 }, () => Array.from({ length: 2 }, () => Math.floor(Math.random() * 9) + 1));
 const emptyMatrix = () => [[null, null], [null, null]];
@@ -92,7 +93,6 @@ export function Bio({ className }) {
   const vectorA = displayVectorA;
   const vectorB = displayVectorB;
   const vectorAngle = Math.round(Math.atan2(Math.abs(vectorA[0] * vectorB[1] - vectorA[1] * vectorB[0]), vectorA[0] * vectorB[0] + vectorA[1] * vectorB[1]) * 180 / Math.PI);
-  const vectorPoint = (vector) => ({ x: 50 + vector[0] * 7, y: 50 - vector[1] * 7 });
   const pointA = vectorPoint(vectorA);
   const pointB = vectorPoint(vectorB);
 
