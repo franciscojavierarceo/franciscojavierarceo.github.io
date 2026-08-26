@@ -30,6 +30,8 @@ export function Bio({ className }) {
   const [matrixStep, setMatrixStep] = useState(-1);
   const [vectorsVisible, setVectorsVisible] = useState(false);
   const [arrowsVisible, setArrowsVisible] = useState(false);
+  const [displayVectorA, setDisplayVectorA] = useState([1, 1]);
+  const [displayVectorB, setDisplayVectorB] = useState([1, 1]);
 
   const runMatrix = () => {
     setMatrixA(randomMatrix());
@@ -45,10 +47,6 @@ export function Bio({ className }) {
   };
 
   useEffect(() => {
-    if (phase === "complete") {
-      const timer = setTimeout(runMatrix, 4000);
-      return () => clearTimeout(timer);
-    }
     if (phase === "populate" && populateStep < 4) {
       const timer = setTimeout(() => {
         const row = Math.floor(populateStep / 2);
@@ -56,6 +54,8 @@ export function Bio({ className }) {
         setVisibleA((current) => current.map((currentRow, currentRowIndex) => currentRow.map((currentValue, currentColumnIndex) => currentRowIndex === row && currentColumnIndex === column ? matrixA[row][column] : currentValue)));
         setVisibleB((current) => current.map((currentRow, currentRowIndex) => currentRow.map((currentValue, currentColumnIndex) => currentRowIndex === row && currentColumnIndex === column ? matrixB[row][column] : currentValue)));
         if (populateStep === 3) {
+          setDisplayVectorA([matrixA[0][0], matrixA[0][1]]);
+          setDisplayVectorB([matrixB[0][0], matrixB[1][0]]);
           setPhase("compute");
           setMatrixStep(0);
         } else {
@@ -89,8 +89,8 @@ export function Bio({ className }) {
     return () => clearTimeout(timer);
   }, [matrixA, matrixB, matrixStep, phase, populateStep]);
 
-  const vectorA = matrixA[0] || [1, 1];
-  const vectorB = [matrixB[0]?.[0] || 1, matrixB[1]?.[0] || 1];
+  const vectorA = displayVectorA;
+  const vectorB = displayVectorB;
   const vectorAngle = Math.round(Math.atan2(Math.abs(vectorA[0] * vectorB[1] - vectorA[1] * vectorB[0]), vectorA[0] * vectorB[0] + vectorA[1] * vectorB[1]) * 180 / Math.PI);
   const vectorPoint = (vector) => ({ x: 50 + vector[0] * 7, y: 50 - vector[1] * 7 });
   const pointA = vectorPoint(vectorA);
