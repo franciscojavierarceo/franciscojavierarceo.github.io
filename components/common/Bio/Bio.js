@@ -44,7 +44,7 @@ export function Bio({ className }) {
 
   useEffect(() => {
     if (phase === "complete") {
-      const timer = setTimeout(runMatrix, 1800);
+      const timer = setTimeout(runMatrix, 4000);
       return () => clearTimeout(timer);
     }
     if (phase === "populate" && populateStep < 4) {
