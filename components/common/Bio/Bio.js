@@ -28,6 +28,7 @@ export function Bio({ className }) {
   const [phase, setPhase] = useState("idle");
   const [populateStep, setPopulateStep] = useState(0);
   const [matrixStep, setMatrixStep] = useState(-1);
+  const [vectorsVisible, setVectorsVisible] = useState(false);
 
   const runMatrix = () => {
     setMatrixA(randomMatrix());
@@ -37,6 +38,7 @@ export function Bio({ className }) {
     setMatrixResult(emptyMatrix());
     setPopulateStep(0);
     setMatrixStep(-1);
+    setVectorsVisible(false);
     setPhase("populate");
   };
 
@@ -72,7 +74,10 @@ export function Bio({ className }) {
       const resolveTimer = setTimeout(() => {
         setMatrixResult((current) => current.map((currentRow, currentRowIndex) => currentRow.map((currentValue, currentColumnIndex) => currentRowIndex === row && currentColumnIndex === column ? value : currentValue)));
         setMatrixStep(matrixStep === 3 ? 4 : matrixStep + 1);
-        if (matrixStep === 3) setPhase("complete");
+        if (matrixStep === 3) {
+          setPhase("complete");
+          setVectorsVisible(true);
+        }
       }, 900);
       return () => clearTimeout(resolveTimer);
     }, 1300);
@@ -116,11 +121,11 @@ export function Bio({ className }) {
             <svg className="vector-plot" viewBox="0 0 100 100" role="img" aria-label={`Two vectors with an angle of ${vectorAngle} degrees`}>
               <line className="vector-axis" x1="8" y1="50" x2="92" y2="50" />
               <line className="vector-axis" x1="50" y1="8" x2="50" y2="92" />
-              <line className="vector-line vector-line-a" x1="50" y1="50" x2={pointA.x} y2={pointA.y} />
-              <line className="vector-line vector-line-b" x1="50" y1="50" x2={pointB.x} y2={pointB.y} />
-              <circle className="vector-dot" cx={pointA.x} cy={pointA.y} r="2" />
-              <circle className="vector-dot vector-dot-b" cx={pointB.x} cy={pointB.y} r="2" />
-              <text x="55" y="88">θ {vectorAngle}°</text>
+              <line className="vector-line vector-line-a" x1="50" y1="50" x2={vectorsVisible ? pointA.x : 50} y2={vectorsVisible ? pointA.y : 50} />
+              <line className="vector-line vector-line-b" x1="50" y1="50" x2={vectorsVisible ? pointB.x : 50} y2={vectorsVisible ? pointB.y : 50} />
+              <circle className="vector-dot" cx={vectorsVisible ? pointA.x : 50} cy={vectorsVisible ? pointA.y : 50} r="2" />
+              <circle className="vector-dot vector-dot-b" cx={vectorsVisible ? pointB.x : 50} cy={vectorsVisible ? pointB.y : 50} r="2" />
+              <text className={vectorsVisible ? "vector-angle is-visible" : "vector-angle"} x="55" y="88">θ {vectorAngle}°</text>
             </svg>
           </div>
         </div>

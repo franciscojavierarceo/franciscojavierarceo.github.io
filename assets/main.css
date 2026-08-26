@@ -30,11 +30,12 @@
   .matrix-lab { display: flex; align-items: center; gap: 1rem; }
   .vector-plot { width: 7rem; height: 7rem; color: var(--line); overflow: visible; }
   .vector-axis { stroke: currentColor; stroke-width: .6; opacity: .8; }
-  .vector-line { stroke: var(--accent); stroke-width: 1.4; stroke-linecap: round; filter: drop-shadow(0 0 2px var(--accent)); transition: x2 700ms ease, y2 700ms ease; }
+  .vector-line { stroke: var(--accent); stroke-width: 1.4; stroke-linecap: round; filter: drop-shadow(0 0 2px var(--accent)); transition: x2 1600ms ease-out, y2 1600ms ease-out; }
   .vector-line-b { stroke: var(--section-accent, #8bd8ff); }
-  .vector-dot { fill: var(--accent); }
+  .vector-dot { fill: var(--accent); transition: cx 1600ms ease-out, cy 1600ms ease-out; }
   .vector-dot-b { fill: var(--section-accent, #8bd8ff); }
-  .vector-plot text { fill: var(--muted); font: 7px ui-monospace, SFMono-Regular, Menlo, monospace; }
+  .vector-plot text { fill: var(--muted); font: 7px ui-monospace, SFMono-Regular, Menlo, monospace; opacity: 0; transition: opacity 500ms ease 900ms; }
+  .vector-plot text.is-visible { opacity: 1; }
   @media (max-width: 640px) { .matrix-lab { width: 100%; justify-content: space-between; } }
   .ml-notebook { pointer-events: none; position: fixed; inset: 0; z-index: 0; overflow: hidden; opacity: .28; }
   .ml-notebook-line { position: absolute; top: 22%; left: 4%; color: var(--accent); text-shadow: 0 0 12px color-mix(in srgb, var(--accent) 45%, transparent); font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: clamp(.65rem, 1vw, .82rem); white-space: pre; }
