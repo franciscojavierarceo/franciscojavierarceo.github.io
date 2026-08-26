@@ -131,8 +131,7 @@ export function Bio({ className }) {
               <line className="vector-axis" x1="50" y1="8" x2="50" y2="92" />
               <line markerEnd={vectorsVisible ? "url(#vector-arrow-a)" : undefined} className="vector-line vector-line-a" x1="50" y1="50" x2={vectorsVisible ? pointA.x : 50} y2={vectorsVisible ? pointA.y : 50} />
               <line markerEnd={vectorsVisible ? "url(#vector-arrow-b)" : undefined} className="vector-line vector-line-b" x1="50" y1="50" x2={vectorsVisible ? pointB.x : 50} y2={vectorsVisible ? pointB.y : 50} />
-              <circle className="vector-dot" cx={vectorsVisible ? pointA.x : 50} cy={vectorsVisible ? pointA.y : 50} r="2" />
-              <circle className="vector-dot vector-dot-b" cx={vectorsVisible ? pointB.x : 50} cy={vectorsVisible ? pointB.y : 50} r="2" />
+              <circle className="vector-origin" cx="50" cy="50" r="1.7" />
               <text className={vectorsVisible ? "vector-angle is-visible" : "vector-angle"} x="55" y="88">θ {vectorAngle}°</text>
             </svg>
           </div>
