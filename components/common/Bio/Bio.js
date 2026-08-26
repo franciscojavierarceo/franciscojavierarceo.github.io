@@ -119,10 +119,18 @@ export function Bio({ className }) {
           <div className="matrix-lab" aria-live="polite">
             <pre className="matrix-output">{matrixRowsText(visibleA, visibleB, matrixResult)}</pre>
             <svg className="vector-plot" viewBox="0 0 100 100" role="img" aria-label={`Two vectors with an angle of ${vectorAngle} degrees`}>
+              <defs>
+                <marker id="vector-arrow-a" markerWidth="5" markerHeight="5" refX="4" refY="2.5" orient="auto">
+                  <path d="M0,0 L5,2.5 L0,5 Z" fill="var(--accent)" />
+                </marker>
+                <marker id="vector-arrow-b" markerWidth="5" markerHeight="5" refX="4" refY="2.5" orient="auto">
+                  <path d="M0,0 L5,2.5 L0,5 Z" fill="var(--section-accent, #8bd8ff)" />
+                </marker>
+              </defs>
               <line className="vector-axis" x1="8" y1="50" x2="92" y2="50" />
               <line className="vector-axis" x1="50" y1="8" x2="50" y2="92" />
-              <line className="vector-line vector-line-a" x1="50" y1="50" x2={vectorsVisible ? pointA.x : 50} y2={vectorsVisible ? pointA.y : 50} />
-              <line className="vector-line vector-line-b" x1="50" y1="50" x2={vectorsVisible ? pointB.x : 50} y2={vectorsVisible ? pointB.y : 50} />
+              <line markerEnd="url(#vector-arrow-a)" className="vector-line vector-line-a" x1="50" y1="50" x2={vectorsVisible ? pointA.x : 50} y2={vectorsVisible ? pointA.y : 50} />
+              <line markerEnd="url(#vector-arrow-b)" className="vector-line vector-line-b" x1="50" y1="50" x2={vectorsVisible ? pointB.x : 50} y2={vectorsVisible ? pointB.y : 50} />
               <circle className="vector-dot" cx={vectorsVisible ? pointA.x : 50} cy={vectorsVisible ? pointA.y : 50} r="2" />
               <circle className="vector-dot vector-dot-b" cx={vectorsVisible ? pointB.x : 50} cy={vectorsVisible ? pointB.y : 50} r="2" />
               <text className={vectorsVisible ? "vector-angle is-visible" : "vector-angle"} x="55" y="88">θ {vectorAngle}°</text>
