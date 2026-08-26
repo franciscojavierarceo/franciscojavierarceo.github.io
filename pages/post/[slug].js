@@ -35,6 +35,7 @@ function MarkdownRender(props) {
 }
 
 export default function Post({ post, frontmatter, nextPost, previousPost }) {
+  const content = post.content.replace(/^\s*#\s+.+\n+/, "");
   return (
     <Layout>
       <SEO
@@ -48,16 +49,18 @@ export default function Post({ post, frontmatter, nextPost, previousPost }) {
           </h1>
           <p className="text-sm">{frontmatter.date}</p>
         </header>
-        <MarkdownRender
-          className="mb-4 prose lg:prose-lg dark:prose-dark"
-          escapeHtml={false}
-          source={post.content}
-          renderers={{ 
-            code: CodeBlock, 
-            image: MarkdownImage 
-          }}
-        />
+        <div className="post-content">
+          <MarkdownRender
+            escapeHtml={false}
+            source={content}
+            renderers={{ code: CodeBlock, image: MarkdownImage }}
+          />
+        </div>
       </article>
+      <nav className="flex justify-between pt-8 mt-12 border-t retro-rule" aria-label="Post navigation">
+        {previousPost ? <Link legacyBehavior href="/post/[slug]" as={`/post/${previousPost.slug}`}><a>← {previousPost.frontmatter.title}</a></Link> : <span />}
+        {nextPost ? <Link legacyBehavior href="/post/[slug]" as={`/post/${nextPost.slug}`}><a>{nextPost.frontmatter.title} →</a></Link> : <span />}
+      </nav>
     </Layout>
   );
 }
@@ -102,8 +105,6 @@ const MarkdownImage = ({ alt, src }) => (
   <Image
     alt={alt}
     src={require(`../../content/assets/${src}`)}
-    webpSrc={require(`../../content/assets/${src}?webp`)}
-    previewSrc={require(`../../content/assets/${src}?lqip`)}
     className="w-full"
   />
 );

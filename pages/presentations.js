@@ -29,8 +29,9 @@ export default function Presentations() {
           <p className="mb-3 text-sm font-semibold tracking-wide uppercase">
             {presentation.affiliation}
           </p>
-          <h2 className="mb-3 text-3xl font-bold font-display">
+          <h2 className="mb-3 text-3xl font-bold">
             <a
+              className="post-link"
               href={presentation.url}
               target="_blank"
               rel="noopener noreferrer"
@@ -65,7 +66,7 @@ export default function Presentations() {
             ))}
           </ul>
           <a
-            className="text-lg font-bold"
+            className="font-semibold post-link"
             href={presentation.url}
             target="_blank"
             rel="noopener noreferrer"
