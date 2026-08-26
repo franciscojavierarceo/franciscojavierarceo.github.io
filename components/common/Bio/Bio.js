@@ -76,7 +76,7 @@ export function Bio({ className }) {
         setMatrixStep(matrixStep === 3 ? 4 : matrixStep + 1);
         if (matrixStep === 3) {
           setPhase("complete");
-          setVectorsVisible(true);
+          setTimeout(() => setVectorsVisible(true), 450);
         }
       }, 900);
       return () => clearTimeout(resolveTimer);
