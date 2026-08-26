@@ -112,7 +112,7 @@ export function Bio({ className }) {
           I'll probably write about some of those things so feel free to check back in if you're interested!
         </p>
         <p className="mt-5 text-base" style={{color: 'var(--muted)'}}>Find me on <a className="inline-link" href='https://github.com/franciscojavierarceo'>GitHub</a> or <a className="inline-link" href='https://twitter.com/franciscojarceo'>Twitter</a>. Welcome to my little corner of the internet.</p>
-        <div className="flex flex-wrap items-start gap-5 mt-6">
+        <div className="flex flex-col items-start gap-4 mt-6">
           <button className="terminal-action" type="button" onClick={runMatrix}>
             generate a new dot product
           </button>
