@@ -18,10 +18,11 @@ jobs:
           key: ${{ runner.os }}-nextjs-v3-${{ hashFiles('**/package-lock.json') }}
 
       - name: Install and Build 🔧
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v4
         with:
-          node-version: '12'
-      - run: npm install
+          node-version: '20'
+          cache: npm
+      - run: npm ci --legacy-peer-deps
       - run: npm run build
       - run: npm run test:presentation
       - run: node ./scripts/generate-sitemap.js
