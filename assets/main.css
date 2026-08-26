@@ -31,7 +31,7 @@
   .matrix-lab .matrix-output { width: 18rem; min-width: 18rem; overflow: hidden; }
   .vector-plot { width: 7rem; height: 7rem; color: var(--line); overflow: visible; }
   .vector-axis { stroke: currentColor; stroke-width: .6; opacity: .8; }
-  .vector-line { stroke: var(--accent); stroke-width: 1.4; stroke-linecap: round; stroke-dasharray: 1; stroke-dashoffset: 1; filter: drop-shadow(0 0 2px var(--accent)); transition: stroke-dashoffset 1600ms ease-out; }
+  .vector-line { stroke: var(--accent); stroke-width: 1.4; stroke-linecap: round; stroke-dasharray: 100; stroke-dashoffset: 100; filter: drop-shadow(0 0 2px var(--accent)); transition: stroke-dashoffset 1600ms ease-out; }
   .vector-line.is-visible { stroke-dashoffset: 0; }
   .vector-line-b { stroke: var(--section-accent, #8bd8ff); }
   .vector-origin { fill: var(--ink); }
