@@ -43,10 +43,10 @@ const openSource = sectionById(home, "open-source");
     "I serve on the Kubeflow Steering Committee",
   ],
   [
-    "OGX",
+    "Llama Stack (now OGX)",
     "https://github.com/ogx-ai/ogx",
-    "Maintainer · formerly Llama Stack",
-    "Llama Stack is now OGX",
+    "Maintainer",
+    "An open-source, vendor-neutral application server for generative AI.",
   ],
   [
     "vLLM Agentic API",
@@ -71,8 +71,8 @@ const openSource = sectionById(home, "open-source");
 });
 
 assert(
-  openSource.includes("Llama Stack is now OGX"),
-  "the OGX entry must explain the Llama Stack rename"
+  openSource.includes("Llama Stack (now OGX)"),
+  "the project name must communicate the Llama Stack rename"
 );
 assert(
   openSource.includes("Kubeflow Steering Committee"),

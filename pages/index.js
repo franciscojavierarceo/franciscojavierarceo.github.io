@@ -22,11 +22,11 @@ const openSourceProjects = [
       "I serve on the Kubeflow Steering Committee, helping guide the project's governance and direction.",
   },
   {
-    role: "Maintainer · formerly Llama Stack",
-    name: "OGX",
+    role: "Maintainer",
+    name: "Llama Stack (now OGX)",
     url: "https://github.com/ogx-ai/ogx",
     description:
-      "Llama Stack is now OGX: an open-source, vendor-neutral application server for generative AI.",
+      "An open-source, vendor-neutral application server for generative AI.",
   },
   {
     role: "Maintainer · vLLM community",
