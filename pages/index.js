@@ -3,6 +3,7 @@ import { AgenticApiLink, Layout, Bio, SEO } from "@components/common";
 import { getSortedPosts } from "@utils/posts";
 import { getSiteMetaData } from "@utils/helpers";
 import { presentations } from "content/presentations";
+import { publications } from "content/publications";
 
 const siteMetadata = getSiteMetaData();
 export default function Home({ posts }) {
@@ -60,6 +61,51 @@ export default function Home({ posts }) {
               Open presentation
               <span className="sr-only"> (opens in a new tab)</span>{" "}
               <span aria-hidden="true">↗</span>
+            </a>
+          </article>
+        ))}
+      </section>
+      <section
+        className="pt-8 mb-16 border-t retro-rule"
+        aria-labelledby="publications"
+      >
+        <div className="flex flex-col mb-2 sm:flex-row sm:items-end sm:justify-between">
+          <div>
+            <h2 className="mb-2 text-3xl font-black" id="publications">
+              Publications & papers
+            </h2>
+            <p className="text-base" style={{color: 'var(--muted)'}}>
+              Research and inventions at the intersection of AI systems, security, and machine learning.
+            </p>
+          </div>
+        </div>
+        {publications.map((publication) => (
+          <article className="pt-6 mt-6" key={publication.url}>
+            <p className="mb-2 eyebrow">{publication.type}</p>
+            <h3 className="mb-2 text-2xl font-bold font-display">
+              <a
+                className="post-link"
+                href={publication.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={`${publication.title} (opens in a new tab)`}
+              >
+                {publication.title}
+              </a>
+            </h3>
+            {publication.authors && (
+              <p className="mb-3 text-base" style={{color: 'var(--muted)'}}>
+                {publication.authors}
+              </p>
+            )}
+            <a
+              className="font-semibold"
+              href={publication.url}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              {publication.linkLabel} <span aria-hidden="true">↗</span>
+              <span className="sr-only"> (opens in a new tab)</span>
             </a>
           </article>
         ))}
