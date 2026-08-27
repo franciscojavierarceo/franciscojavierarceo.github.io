@@ -102,7 +102,7 @@ export function Bio({ className }) {
     <div className="flex flex-col items-start gap-6 md:flex-row md:items-center">
     <img
       src="/profile.jpg"
-      className="object-cover w-20 h-20 rounded-full md:w-24 md:h-24"
+      className="object-cover w-20 h-20 rounded-full profile-photo md:w-24 md:h-24"
       alt={'Francisco Javier Arceo'}
       />
       <div>

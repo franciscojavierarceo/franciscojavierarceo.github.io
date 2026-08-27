@@ -26,6 +26,8 @@
   .section-heading { color: var(--section-accent, #8bd8ff); text-shadow: 0 0 16px rgba(139, 216, 255, .14); }
   .terminal-action { border: 1px solid var(--line); color: var(--accent); background: transparent; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: .78rem; padding: .45rem .7rem; transition: background 160ms ease, border-color 160ms ease; }
   .terminal-action:hover { background: var(--accent-soft); border-color: var(--accent); }
+  .profile-photo { border-radius: 9999px; aspect-ratio: 1 / 1; object-fit: cover; flex-shrink: 0; }
+  .commit-history { max-width: 50rem; }
   .matrix-output { margin: 0; color: var(--muted); font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: .72rem; line-height: 1.45; white-space: pre; }
   .matrix-lab { display: grid; grid-template-columns: 18rem 7rem; align-items: start; gap: 1.25rem; min-height: 7rem; }
   .matrix-lab .matrix-output { width: 18rem; min-width: 18rem; overflow: hidden; }

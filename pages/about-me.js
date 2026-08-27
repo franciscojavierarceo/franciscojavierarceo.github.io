@@ -48,7 +48,7 @@ export default function AboutMe() {
     <div className={clsx(`flex items-center`, 'my-5')}>
       <img
         src="/profile.jpg"
-        className="object-cover w-24 h-24 rounded-full"
+        className="object-cover w-24 h-24 rounded-full profile-photo"
         alt={'Francisco Javier Arceo'}
         />
       <h2 style={{fontSize: '2.0rem', marginLeft: '2rem', textAlign: 'center'}}>Hello there! &#128075;</h2>

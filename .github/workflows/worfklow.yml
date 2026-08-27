@@ -24,7 +24,7 @@ jobs:
           cache: npm
       - run: npm ci --legacy-peer-deps
       - run: npm run build
-      - run: npm run test:presentation
+      - run: npm run test:site
       - run: node ./scripts/generate-sitemap.js
         env:
             CI: false

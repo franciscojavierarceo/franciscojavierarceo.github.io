@@ -1,16 +1,83 @@
 import Link from "next/link";
-import { AgenticApiLink, Layout, Bio, SEO } from "@components/common";
+import { AgenticApiLink, CommitHistory, Layout, Bio, SEO } from "@components/common";
 import { getSortedPosts } from "@utils/posts";
 import { getSiteMetaData } from "@utils/helpers";
 import { presentations } from "content/presentations";
 import { publications } from "content/publications";
 
 const siteMetadata = getSiteMetaData();
+const openSourceProjects = [
+  {
+    role: "Maintainer",
+    name: "Feast",
+    url: "https://github.com/feast-dev/feast",
+    description:
+      "The open-source feature store for production machine learning.",
+  },
+  {
+    role: "Steering committee",
+    name: "Kubeflow",
+    url: "https://github.com/kubeflow/community",
+    description:
+      "I serve on the Kubeflow Steering Committee, helping guide the project's governance and direction.",
+  },
+  {
+    role: "Maintainer · formerly Llama Stack",
+    name: "OGX",
+    url: "https://github.com/ogx-ai/ogx",
+    description:
+      "Llama Stack is now OGX: an open-source, vendor-neutral application server for generative AI.",
+  },
+  {
+    role: "Maintainer · vLLM community",
+    name: "vLLM Agentic API",
+    url: "https://github.com/vllm-project/agentic-api",
+    description:
+      "The stateful agentic API layer for vLLM, built in Rust for open-model workloads.",
+  },
+];
+
 export default function Home({ posts }) {
   return (
     <Layout>
       <Bio className="mb-16" />
       <SEO title={siteMetadata.title} description={siteMetadata.description}/>
+      <section
+        className="pt-8 mb-16 border-t retro-rule"
+        aria-labelledby="open-source"
+      >
+        <div className="max-w-2xl">
+          <h2 className="mb-2 text-3xl font-black" id="open-source">
+            Open source
+          </h2>
+          <p className="text-base" style={{color: 'var(--muted)'}}>
+            I maintain and help govern open infrastructure for production AI
+            and machine learning.
+          </p>
+        </div>
+        <div className="grid gap-6 mt-8 sm:grid-cols-2">
+          {openSourceProjects.map((project) => (
+            <article className="pt-5 border-t retro-rule" key={project.url}>
+              <p className="mb-2 eyebrow">{project.role}</p>
+              <h3 className="mb-2 text-2xl font-bold font-display">
+                <a
+                  className="post-link"
+                  href={project.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={`${project.name} (opens in a new tab)`}
+                >
+                  {project.name}
+                </a>
+              </h3>
+              <p className="text-base leading-relaxed">{project.description}</p>
+            </article>
+          ))}
+        </div>
+        <div className="pt-8 mt-8 border-t retro-rule">
+          <CommitHistory />
+        </div>
+      </section>
       <section
         className="pt-8 mb-16 border-t retro-rule"
         aria-labelledby="featured-presentations"

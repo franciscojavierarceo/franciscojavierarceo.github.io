@@ -6,6 +6,8 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build && next export && node ./scripts/generate-sitemap.js",
+    "test": "npm run test:site",
+    "test:site": "node tests/bio-vector.test.js && node tests/publications.test.js && node tests/commit-history-theme.test.js && node tests/homepage-open-source.test.js && node tests/profile-photo.test.js && npm run test:presentation",
     "test:presentation": "node tests/presentation-publishing.test.js",
     "start": "next start"
   },
