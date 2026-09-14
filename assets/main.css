@@ -23,7 +23,11 @@
   .terminal-label::before { content: "~/"; color: var(--accent); }
   .terminal-label { text-shadow: 0 0 8px rgba(85, 217, 255, .3); }
   h1, h2, h3 { color: var(--accent); text-shadow: 0 0 18px rgba(85, 217, 255, .14); }
-  .section-heading { color: var(--section-accent, #8bd8ff); text-shadow: 0 0 16px rgba(139, 216, 255, .14); }
+  .hero-heading, .section-heading { color: #4ade80; text-shadow: none; text-decoration-color: currentColor; }
+  .light .hero-heading, .light .section-heading { color: #18743b; }
+  .section-heading:hover { text-decoration: underline; }
+  .section-heading:focus-visible { outline: 2px solid currentColor; outline-offset: 4px; border-radius: 2px; }
+  h2[id] { scroll-margin-top: 2rem; }
   .terminal-action { border: 1px solid var(--line); color: var(--accent); background: transparent; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: .78rem; padding: .45rem .7rem; transition: background 160ms ease, border-color 160ms ease; }
   .terminal-action:hover { background: var(--accent-soft); border-color: var(--accent); }
   .profile-photo { border-radius: 9999px; aspect-ratio: 1 / 1; object-fit: cover; flex-shrink: 0; }

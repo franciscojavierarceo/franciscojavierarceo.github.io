@@ -48,7 +48,7 @@ export default function Home({ posts }) {
       >
         <div className="max-w-2xl">
           <h2 className="mb-2 text-3xl font-black" id="open-source">
-            Open source
+            <a className="section-heading" href="#open-source">Open source</a>
           </h2>
           <p className="text-base" style={{color: 'var(--muted)'}}>
             I maintain and help govern open infrastructure for production AI
@@ -85,9 +85,7 @@ export default function Home({ posts }) {
         <div className="flex flex-col mb-2 sm:flex-row sm:items-end sm:justify-between">
           <div>
             <h2 className="mb-2 text-3xl font-black" id="featured-presentations">
-              <Link legacyBehavior href="/presentations">
-                <a className="section-heading">Featured presentations</a>
-              </Link>
+              <a className="section-heading" href="#featured-presentations">Featured presentations</a>
             </h2>
             <p className="text-base" style={{color: 'var(--muted)'}}>
               Recent talks, demos, and experiments in open infrastructure.
@@ -139,7 +137,7 @@ export default function Home({ posts }) {
         <div className="flex flex-col mb-2 sm:flex-row sm:items-end sm:justify-between">
           <div>
             <h2 className="mb-2 text-3xl font-black" id="publications">
-              Publications & papers
+              <a className="section-heading" href="#publications">Publications & papers</a>
             </h2>
             <p className="text-base" style={{color: 'var(--muted)'}}>
               Research and inventions at the intersection of AI systems, security, and machine learning.
@@ -180,9 +178,7 @@ export default function Home({ posts }) {
       <section className="pt-8 border-t retro-rule" aria-labelledby="writing">
         <div className="flex items-end justify-between mb-8">
           <h2 className="text-3xl font-black" id="writing">
-            <Link legacyBehavior href="/writing">
-              <a className="section-heading">Notes & writing</a>
-            </Link>
+            <a className="section-heading" href="#writing">Notes & writing</a>
           </h2>
           <Link legacyBehavior href="/writing">
             <a className="font-semibold">View all →</a>

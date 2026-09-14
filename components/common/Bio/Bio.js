@@ -107,7 +107,7 @@ export function Bio({ className }) {
       />
       <div>
         <p className="mb-2 eyebrow terminal-label">francisco</p>
-        <h2 className="text-3xl font-black md:text-5xl">Developer & open-source enthusiast.</h2>
+        <h2 className="hero-heading text-3xl font-black md:text-5xl">Developer & open-source enthusiast.</h2>
       </div>
     </div>
     <div className="max-w-2xl mt-6 text-lg leading-relaxed">
