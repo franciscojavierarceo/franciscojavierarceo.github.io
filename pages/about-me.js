@@ -95,7 +95,7 @@ export default function AboutMe() {
       </ul>
     </p><br/>
     <p>
-      If you'd like to get in touch, feel free to reach out to me on{' '}<a href="htps://www.twitter.com/franciscojarceo">Twitter</a> or{' '}<a href="https://www.linkedin.com/in/franciscojavierarceo/">LinkedIn</a>.
+      If you'd like to get in touch, feel free to reach out to me on{' '}<a href="https://www.twitter.com/franciscojarceo">Twitter</a> or{' '}<a href="https://www.linkedin.com/in/franciscojavierarceo/">LinkedIn</a>.
     </p><br/>
     <p>
       Also, here's a random chart. 😊
