@@ -14,6 +14,13 @@ export const publications = [
     linkLabel: "Read the paper",
   },
   {
+    type: "Patent application · US20260073444A1",
+    title: "System, method and apparatus for employing machine learning to prevent payment failures",
+    authors: "Kyle Gahagan, Francisco Javier Arceo, Jiahui Ying, and Jiarui Xu",
+    url: "https://patents.google.com/patent/US20260073444A1/en",
+    linkLabel: "View patent",
+  },
+  {
     type: "Patent application · US20250094994A1",
     title: "Method and apparatus for facilitating provision of exposure management based on streaming data feeds via machine learning and low latency modeling",
     authors: "",
