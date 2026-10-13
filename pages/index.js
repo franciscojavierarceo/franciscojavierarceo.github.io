@@ -33,7 +33,7 @@ const openSourceProjects = [
     name: "vLLM Agentic API",
     url: "https://github.com/vllm-project/agentic-api",
     description:
-      "The stateful agentic API layer for vLLM, built in Rust for open-model workloads.",
+      "The stateful agentic API layer for vLLM, focused on agentic inference and built in Rust for open-model workloads.",
   },
 ];
 
