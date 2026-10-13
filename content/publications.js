@@ -23,7 +23,7 @@ export const publications = [
   {
     type: "Patent application · US20250094994A1",
     title: "Method and apparatus for facilitating provision of exposure management based on streaming data feeds via machine learning and low latency modeling",
-    authors: "",
+    authors: "Ross Briden, Francisco Javier Arceo, Aiqing Huang, Johan Backman, Jiarui Xu, and Laurence Duggan",
     url: "https://patents.google.com/patent/US20250094994A1/en?q=(20250094994)&country=US",
     linkLabel: "View patent",
   },
