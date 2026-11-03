@@ -1,10 +1,10 @@
 export const publications = [
   {
-    type: "Preprint · arXiv",
+    type: "Journal article · Journal of Open Source Software",
     title: "OGX: An Open-Source, Vendor-Neutral Generative AI Application Server",
-    authors: "Francisco Javier Arceo et al.",
-    url: "https://arxiv.org/abs/2608.14580",
-    linkLabel: "Read on arXiv",
+    authors: "Francisco Javier Arceo, Sébastien Han, Matthew Farrellee, Charlie Doern, Yuan Tang, Derek Higgins, Varsha Prasad Narsing, Gordon Sim, Sumanth Kamenani, Ben Browning, and Raghotham Murthy",
+    url: "https://joss.theoj.org/papers/10.21105/joss.11234",
+    linkLabel: "Read the paper",
   },
   {
     type: "Conference paper · ACM CAIS ’26",
