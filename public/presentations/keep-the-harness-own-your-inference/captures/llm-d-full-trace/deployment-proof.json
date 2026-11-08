@@ -1,0 +1,7 @@
+{
+  "first_gateway_pod": "agentic-api-c68899f84-44b9l",
+  "continuation_gateway_pod": "agentic-api-c68899f84-gg7rv",
+  "inference_route": "Agentic API \u2192 llm-d standalone router \u2192 connector pod \u2192 one Spark vLLM GPU",
+  "database": "shared PostgreSQL",
+  "limitation": "The connector is a network bridge, not an additional GPU model server."
+}

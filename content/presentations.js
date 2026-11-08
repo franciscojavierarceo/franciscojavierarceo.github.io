@@ -1,5 +1,14 @@
 export const presentations = [
   {
+    url: "/presentations/keep-the-harness-own-your-inference/",
+    affiliation: "AI Engineer Code Summit 2026 · Baseten",
+    title: "Keep the Harness, Own Your Inference",
+    presenters: [{ name: "Francisco Javier Arceo", affiliation: "Baseten" }],
+    description:
+      "An hour-long workshop on Codex and Claude Code powered by vLLM Agentic API, with recorded demos of tool calling, PDF file search, stateful Responses, llm-d on Kubernetes, and the path toward agent swarms.",
+    tags: ["vLLM", "Agentic API", "Codex", "Claude Code", "llm-d", "Kubernetes", "Agent Swarms"],
+  },
+  {
     url: "/presentations/llm-d-agentic-api-demo/",
     affiliation: "Red Hat AI",
     title: "Open Agents. Distributed Inference. One Stack.",

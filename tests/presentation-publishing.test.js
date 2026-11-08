@@ -1,6 +1,7 @@
 const assert = require("assert");
 const fs = require("fs");
 const path = require("path");
+const crypto = require("crypto");
 
 const projectRoot = path.resolve(__dirname, "..");
 const outputRoot = path.join(projectRoot, "out");
@@ -315,6 +316,33 @@ function run() {
     "ftyp",
     "community demo MP4 must be copied intact into the production export"
   );
+
+  const workshopSlug = "keep-the-harness-own-your-inference";
+  const workshopUrl = `/presentations/${workshopSlug}/`;
+  const workshopArticle = listingArticle(listing, workshopUrl);
+  assert(
+    workshopArticle.includes("Keep the Harness, Own Your Inference") &&
+      workshopArticle.includes("Baseten"),
+    "the workshop must be discoverable from the production presentation listing"
+  );
+  const workshop = readOutput("presentations", workshopSlug, "index.html");
+  assert(
+    workshop.includes("media/slides-qr.png") &&
+      workshop.includes(`https://franciscojavierarceo.dev${workshopUrl}`),
+    "the closing QR must link to the published workshop"
+  );
+  const manifest = JSON.parse(
+    readOutput("presentations", workshopSlug, "publication.json")
+  );
+  for (const [relativePath, expectedHash] of Object.entries(manifest.sha256)) {
+    const exportedPath = path.join(outputRoot, "presentations", workshopSlug, relativePath);
+    assert(fs.existsSync(exportedPath), `workshop export is missing ${relativePath}`);
+    assert.strictEqual(
+      crypto.createHash("sha256").update(fs.readFileSync(exportedPath)).digest("hex"),
+      expectedHash,
+      `workshop asset ${relativePath} must be exported intact`
+    );
+  }
 
   console.log("Presentation publishing integration test passed.");
 }
