@@ -1,0 +1,31 @@
+{
+  "captured_at": "2026-11-08",
+  "codex_version": "0.160.0",
+  "model": "nvidia/Qwen3.8-Flash-Next-FP4-Local",
+  "hardware": "NVIDIA GB10 / DGX Spark",
+  "gateway_source": "45c729f development build plus startup-file-search.patch documented in ../responses-full-trace",
+  "inference_rounds": 3,
+  "completed_client_commands": 2,
+  "actual_sampled_token_pieces": 117,
+  "observed_penalty": 0.6475,
+  "state_mode": "store:false; Codex replays full input history and function_call_output items. No saved-ID continuation in this clip.",
+  "token_display": "Actual decoded sampled token pieces from vLLM message.output_text.logprobs; not token IDs. Logprobs can include tool-control markers removed from parsed text. SSE deltas can batch multiple tokens. Function-call argument deltas are raw streamed fragments, without assumed token boundaries.",
+  "recording_instrumentation": {
+    "vllm_tap": "Adds include=message.output_text.logprobs, top_logprobs=1, and chat_template_kwargs.enable_thinking=false.",
+    "client_tap": "Omits optional function_call_output.id with fco_ prefix because the development gateway expects fc_. Preserves call_id. Both original and adjusted requests are in server.jsonl."
+  },
+  "redactions": [
+    "Client base instructions",
+    "Installed skill catalog",
+    "Local environment context",
+    "client_metadata and prompt_cache_key"
+  ],
+  "playback": "Rendered from actual JSONL/HTTP captures; slowed and edited for readability. Not a desktop screen recording or latency benchmark.",
+  "validation": "3 HTTP 200 inference rounds, two command executions exit 0, two tool outputs replayed, final answer includes observed 0.6475.",
+  "sha256": {
+    "server.jsonl": "b51090f08cec24f98978687e9ba53b77fcffd6c39207dbf4900183d3b4b6d628",
+    "inference.jsonl": "8a5f76d387003cab7b8817dbb1f897f8a08040f69d6c2115a78c8e97c8742ca0",
+    "client.jsonl": "8abe1cbe2e3566412c3ee4335ed15225f9f3f2710d7df2f3f9a887ec918cdf35",
+    "penalty.py": "3efd2d701c5e75c9b43375b18460756dd1cb89e6e66edb598c0629f81e21ee17"
+  }
+}
