@@ -1,0 +1,6 @@
+{
+  "tests_unchanged": true,
+  "only_implementation_changed": true,
+  "independent_tests": "test_lasso (test_penalty.PenaltyTests.test_lasso) ... ok\ntest_mixed_penalty (test_penalty.PenaltyTests.test_mixed_penalty) ... ok\ntest_ridge (test_penalty.PenaltyTests.test_ridge) ... ok\n\n----------------------------------------------------------------------\nRan 3 tests in 0.000s\n\nOK\n",
+  "independent_script_output": "{\"coefficients\": [1, -2, 0.5], \"alpha\": 0.7, \"lambda_value\": 0.2, \"penalty\": 0.6475}\n"
+}

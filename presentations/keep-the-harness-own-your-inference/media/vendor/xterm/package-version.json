@@ -1,0 +1,17 @@
+{
+  "name": "@xterm/xterm",
+  "version": "6.0.0",
+  "dist": {
+    "shasum": "93637b0f2ee3a70718b5746a27c9c506af16745b",
+    "tarball": "https://registry.npmjs.org/@xterm/xterm/-/xterm-6.0.0.tgz",
+    "fileCount": 161,
+    "integrity": "sha512-TQwDdQGtwwDt+2cgKDLn0IRaSxYu1tSUjgKarSDkUM0ZNiSRXFpjxEsvc/Zgc5kq5omJ+V0a8/kIM2WD3sMOYg==",
+    "signatures": [
+      {
+        "sig": "MEQCIE1Age1GsE5nVZ79G0fSE/NrJFT6fpZJ20Ex0Qfk6pDtAiBSh1Lchtv/+Ls+A0QRH7I1xjJDRtkWNoFMWUVf6HVC5g==",
+        "keyid": "SHA256:DhQ8wR5APBvFHLF/+Tc+AYvPOdTpcIDqOhxsBHRwC7U"
+      }
+    ],
+    "unpackedSize": 5921599
+  }
+}

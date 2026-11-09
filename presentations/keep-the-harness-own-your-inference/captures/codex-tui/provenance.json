@@ -1,0 +1,32 @@
+{
+  "captured_at": "2026-11-08",
+  "codex_version": "0.160.0",
+  "client": "Native interactive Codex TUI in a real PTY; not codex exec --json, not a handcrafted CLI transcript.",
+  "playback": "Exact native terminal output replayed through xterm.js. Opening idle shortened to 3s; stops after final answer. Default 0.75x playback. All three panes use the same recorded timestamps.",
+  "model": "nvidia/Qwen3.8-Flash-Next-FP4-Local",
+  "hardware": "DGX Spark / NVIDIA GB10",
+  "gateway": "Development build 45c729f plus startup-file-search.patch; same isolated setup documented by responses-full-trace.",
+  "main_inference_requests": 7,
+  "background_title_requests": 1,
+  "background_display": "Automatic title-generation request is retained in wire captures but excluded from the main agent-loop panes.",
+  "observed": "3 failing tests \u2192 implementation fixed \u2192 3 passing tests; tests unchanged; observed penalty 0.6475.",
+  "state_mode": "Codex replays full history with store:false.",
+  "instrumentation": "vLLM tap requests token logprobs and disables thinking. Client tap omits optional fco_ tool-output item IDs for the development gateway, preserving call_id; both versions captured.",
+  "tokens": "Actual sampled decoded token pieces from vLLM logprobs, including any control markers exposed there. Function-call argument deltas are fragments, not asserted token boundaries.",
+  "public_omissions": [
+    "client base instructions",
+    "installed skill catalog",
+    "local environment context",
+    "client metadata and prompt cache key"
+  ],
+  "sha256": {
+    "before-test_penalty.py": "2debe30cbe354cb7beadfa86a85cd489bf0952c31fc016de3384e15800f73276",
+    "server.jsonl": "b3b39bf264d815e09149a73cfc3a03ae5a251abcb9b2680b23d0026aa02ec8a9",
+    "inference.jsonl": "c88c16acee4e04a0a1b4af7e4a3d6d6e6729da48abc7eeb91d265e35cac36773",
+    "after-penalty.py": "3efd2d701c5e75c9b43375b18460756dd1cb89e6e66edb598c0629f81e21ee17",
+    "terminal.cast": "a93d22ac10cc8b29f3621898d8816f4bf656aea530cbdf9a8925c7515f909f06",
+    "before-penalty.py": "5a5fe4d29a40fd1edb807abf592d76dbdd08743fb67ac8e53fbaf5b8dc273339",
+    "validation.json": "b88a096950a7b4be42e9bc85ec514c51de7236c670668bb7680226d27578e3ca",
+    "after-test_penalty.py": "2debe30cbe354cb7beadfa86a85cd489bf0952c31fc016de3384e15800f73276"
+  }
+}
