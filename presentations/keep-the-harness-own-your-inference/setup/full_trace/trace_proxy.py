@@ -31,6 +31,8 @@ def main():
     args = parser.parse_args()
     args.capture.mkdir(parents=True, exist_ok=True)
     upstream = urllib.parse.urlsplit(args.upstream)
+    if upstream.scheme != 'http' or not upstream.hostname or upstream.username or upstream.password:
+        parser.error('--upstream must be an HTTP URL without embedded credentials; use an SSH tunnel for a remote server')
 
     class Handler(BaseHTTPRequestHandler):
         protocol_version = 'HTTP/1.1'

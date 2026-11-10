@@ -3,6 +3,7 @@
 import argparse
 import hashlib
 import json
+import os
 from pathlib import Path
 import time
 from openai import OpenAI
@@ -18,7 +19,7 @@ def main():
     parser.add_argument('--phase', choices=['function', 'files', 'all'], default='all')
     args = parser.parse_args()
     args.capture.mkdir(parents=True, exist_ok=True)
-    client = OpenAI(base_url=args.base_url, api_key='local-demo', timeout=240)
+    client = OpenAI(base_url=args.base_url, api_key=os.environ.get('AGENTIC_GATEWAY_API_KEY', 'local-demo'), timeout=240)
     timeline = args.capture / 'client.jsonl'
 
     def emit(kind, title, data=None):
@@ -66,7 +67,7 @@ def main():
         beta, alpha, lam = values['coefficients'], values['alpha'], values['lambda_value']
         penalty = lam * (alpha * sum(abs(b) for b in beta) + (1-alpha) * sum(b*b for b in beta) / 2)
         emit('execution', 'CLIENT executes elastic_net_penalty', {'call_id': call['call_id'], 'arguments': values, 'penalty': penalty})
-        continuation_client = OpenAI(base_url=args.continuation_base_url, api_key='local-demo', timeout=240) if args.continuation_base_url else client
+        continuation_client = OpenAI(base_url=args.continuation_base_url, api_key=os.environ.get('AGENTIC_GATEWAY_API_KEY', 'local-demo'), timeout=240) if args.continuation_base_url else client
         second = respond('function-answer', request_client=continuation_client, previous_response_id=first['id'],
                          input=[{'type': 'function_call_output', 'call_id': call['call_id'], 'output': json.dumps({'penalty': penalty})}],
                          instructions='Report the returned penalty in one sentence.', tool_choice='none')

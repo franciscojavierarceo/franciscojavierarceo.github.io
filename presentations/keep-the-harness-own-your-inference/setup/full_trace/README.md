@@ -1,5 +1,7 @@
 # Real Responses and llm-d recordings
 
+**Attendee tooling update, November 10:** use the [workshop setup guide](https://franciscojavierarceo.dev/presentations/keep-the-harness-own-your-inference/setup/) for laptop commands. `prepare_codex.py` now takes `--model` (or `AIE_MODEL`), accepts `--editable`, resolves relative roots, stages the fixture in Git, and refuses to overwrite takes. `record_tui.py` discovers Codex on PATH and requires an interactive terminal. SDK recording reads `AGENTIC_GATEWAY_API_KEY`; the TUI forwards only that dedicated credential. The environment paths and original recording details below are historical provenance.
+
 Recorded November 8, 2026, with an existing local vLLM serving
 `nvidia/Qwen3.8-Flash-Next-FP4-Local` on DGX Spark.
 
@@ -107,7 +109,7 @@ Slide 16 now opens the real Codex 0.160.0 terminal-tool loop: inspect `penalty.p
 incorporate the observed `0.6475` into the answer. This is three inference rounds with two successful
 client command executions. The other tab retains the SDK-based PDF upload and native file-search demo.
 
-`prepare_codex.py --root /tmp/new-codex-take --base-url http://127.0.0.1:9004/v1` creates a disposable
+`prepare_codex.py --root /tmp/new-codex-take --base-url http://127.0.0.1:9004/v1 --model "$AIE_MODEL" --editable` creates a disposable
 workspace, config and model catalog. Use the pinned local model and development gateway described in
 the capture provenance. Start two taps before `record_codex.py --root /tmp/new-codex-take`:
 
