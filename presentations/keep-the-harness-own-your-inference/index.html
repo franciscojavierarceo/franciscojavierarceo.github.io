@@ -184,7 +184,7 @@ function flagSurface(){
 function drawFreedomFlag(now){
  freedomFrame=0;const canvas=$('freedom-cloth');if(!canvas)return;
  if(!freedomStart)freedomStart=now;
- const t=reducedMotion.matches?1.15:(now-freedomStart)/1000,g=canvas.getContext('2d'),cloth=flagSurface();
+ const t=reducedMotion.matches?1.15:(now-freedomStart)/3000,g=canvas.getContext('2d'),cloth=flagSurface();
  g.clearRect(0,0,2000,1260);
  const column=x=>{const u=x/1900,e=Math.pow(u,.78),phase=u*Math.PI*3.6-t*2.7;return {x:50+x+Math.sin(phase)*17*e,y:130+e*(100*Math.sin(phase)+25*Math.sin(u*Math.PI*2-t*1.8)),h:1000*(1-.055*e+.045*Math.cos(phase)*e),shade:Math.cos(phase-.8)};};
  for(let x=0;x<1900;x+=5){
