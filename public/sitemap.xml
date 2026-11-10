@@ -13,13 +13,13 @@
   </url>
 
   <url>
-    <loc>https://franciscojavierarceo.github.io/post/2021-is-nearly-over</loc>
+    <loc>https://franciscojavierarceo.github.io/post/2021-reflection</loc>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
 
   <url>
-    <loc>https://franciscojavierarceo.github.io/post/2021-reflection</loc>
+    <loc>https://franciscojavierarceo.github.io/post/2021-is-nearly-over</loc>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
@@ -87,6 +87,12 @@
   </url>
 
   <url>
+    <loc>https://franciscojavierarceo.github.io/post/i-love-code</loc>
+    <changefreq>daily</changefreq>
+    <priority>0.5</priority>
+  </url>
+
+  <url>
     <loc>https://franciscojavierarceo.github.io/post/github-actions</loc>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
@@ -96,12 +102,6 @@
     <loc
       >https://franciscojavierarceo.github.io/post/how-to-build-a-credit-risk-model</loc
     >
-    <changefreq>daily</changefreq>
-    <priority>0.5</priority>
-  </url>
-
-  <url>
-    <loc>https://franciscojavierarceo.github.io/post/i-love-code</loc>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
