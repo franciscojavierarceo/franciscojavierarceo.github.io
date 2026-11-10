@@ -1,0 +1,17 @@
+{
+  "recorded_at": "2026-11-08",
+  "gateway_source_commit": "45c729f",
+  "gateway_source_branch": "codex/file-search-responses-protocol",
+  "gateway_patch": "startup-file-search.patch",
+  "build_features": [
+    "file-search-pdf"
+  ],
+  "model": "nvidia/Qwen3.8-Flash-Next-FP4-Local",
+  "inference": "vLLM on DGX Spark; existing local model server",
+  "sdk": "openai 3.46.0",
+  "retrieval": "Native in-tree file_search, PDF extraction and keyword retrieval; no embedding endpoint configured",
+  "citations": "Native file_citation annotations checked against uploaded file IDs; source support still merits human review",
+  "video": "Rendered from actual SDK events and captured HTTP bodies; timing edited for readability; not a desktop screen capture",
+  "upstream_post_requests": 6,
+  "real_elapsed_seconds": 27.218
+}

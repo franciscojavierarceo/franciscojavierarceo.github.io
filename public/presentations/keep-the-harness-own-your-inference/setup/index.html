@@ -1,0 +1,292 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Workshop setup & reproduction · Agentic API</title><style>
+:root{color-scheme:dark;--blue:#30a2ff;--gold:#fdb515}*{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:24px}body{margin:0;background:#030303;color:#f1f1f0;font:17px/1.7 Arial,Helvetica,sans-serif}header,main,footer{width:min(1000px,90vw);margin:auto}header{display:flex;justify-content:space-between;gap:20px;padding:24px 0;border-bottom:1px solid #283342;font:13px monospace}a{color:var(--blue);text-underline-offset:4px}a:focus-visible{outline:3px solid var(--gold);outline-offset:4px}h1{font-size:clamp(36px,5vw,60px);letter-spacing:-.04em;line-height:1.08;margin:52px 0 18px;max-width:800px}h2{font-size:28px;line-height:1.25;margin:52px 0 18px;letter-spacing:-.02em}h1+h2{color:var(--gold);font-size:25px;margin-top:0}p,li{color:#b9bec8}strong{color:#f1f1f0}code{font-family:ui-monospace,SFMono-Regular,Consolas,monospace;color:#e0c47d;font-size:.9em}pre{background:#101720;border:1px solid #2a3c50;border-radius:10px;padding:22px;overflow-x:auto;line-height:1.6}pre code{color:#d9e3ed;font-size:14px}blockquote{margin:24px 0;border-left:3px solid var(--gold);padding:6px 22px;background:#fdb51508}table{border-collapse:collapse;width:100%;font-size:15px;display:block;overflow-x:auto}th,td{text-align:left;vertical-align:top;padding:13px 16px;border:1px solid #2a3340;min-width:180px}th{color:var(--gold);background:#111820}td{color:#b9bec8}footer{padding:36px 0 50px;font-size:13px;color:#8795a8}ol,ul{padding-left:24px}li{margin:10px 0}@media(max-width:650px){body{font-size:16px}h2{font-size:24px}pre{padding:15px}header{flex-wrap:wrap}th,td{padding:10px;font-size:14px}}@media print{body{background:white;color:black}p,li,td,strong{color:black}pre{white-space:pre-wrap;background:#eee}pre code,code{color:black}header{display:none}a{color:#125a99}h2{break-after:avoid}table{display:table;font-size:12px}}
+</style></head><body><header><a href="../#1">← Workshop slides</a><a href="workshop-kit.zip" download>Download reproduction kit ↓</a><a href="README.md" download>README.md ↓</a></header><main><h1 id="keep-the-harness-own-your-inference">Keep the Harness, Own Your Inference</h1>
+<h2 id="workshop-setup-reproduction-guide">Workshop setup &amp; reproduction guide</h2>
+<p>Francisco Javier Arceo · AI Engineer Code Summit 2026 · November 10, 2026</p>
+<p>Keep Codex or Claude Code. Run the gateway on your laptop. Connect it to an open model, then inspect the work between the harness and inference.</p>
+<p><a href="../#1">Slides</a> · <a href="README.md">Download this README</a> · <a href="workshop-kit.zip">Download all demo sources</a> · <a href="../penalty-demo/">Python source viewer</a> · <a href="https://github.com/vllm-project/agentic-api">Agentic API repository</a></p>
+<p><strong>Start here:</strong> run the Python fixture without a GPU, then connect a model endpoint. The workshop is presenter-led; you do not need to provision infrastructure to follow along. Each section below says what a successful result looks like.</p>
+<p><a href="#1-download-the-workshop-kit">Laptop setup</a> · <a href="#4-let-native-codex-fix-the-bug">Codex demo</a> · <a href="#6-tool-calls-hydration-pdf-upload-file-search-citations">PDF search</a> · <a href="#7-inspect-the-actual-inference-wire">Inference wire</a> · <a href="#8-compaction-save-a-checkpoint-then-continue">Compaction</a> · <a href="#9-server-side-web-search-codex-and-claude-code">Web search</a> · <a href="#10-kubernetes-llm-d-same-api-different-workers">Kubernetes</a></p>
+<h2 id="what-runs-where">What runs where?</h2>
+<table>
+<thead>
+<tr>
+<th>On your laptop</th>
+<th>On a GPU host, DGX Spark, or cluster</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Python 3.10+, Git, curl; Node/npm for Codex</td>
+<td>An OpenAI-compatible inference server, with a tool-capable model and its required parser/template settings</td>
+</tr>
+<tr>
+<td>Agentic API gateway and SQLite; no GPU dependency in the base install</td>
+<td>Model weights and the GPU memory needed to serve them</td>
+</tr>
+<tr>
+<td>Codex/Claude Code, fixture tests, SDK clients, optional recording taps</td>
+<td>Optional llm-d routing and distributed GPU workers</td>
+</tr>
+</tbody>
+</table>
+<p>Mac/Linux instructions below use a POSIX shell. Windows users can use WSL2. A laptop can run the gateway against a remote inference endpoint; installing Agentic API does not make a large model fit into laptop memory. No OpenAI account credential is needed for the unauthenticated local gateway examples. A protected gateway or upstream needs its own credentials; web search also needs a search-provider key.</p>
+<h2 id="1-download-the-workshop-kit">1. Download the workshop kit</h2>
+<pre><code class="language-bash">mkdir agentic-workshop
+cd agentic-workshop
+curl -fL https://franciscojavierarceo.dev/presentations/keep-the-harness-own-your-inference/setup/workshop-kit.zip -o workshop-kit.zip
+unzip workshop-kit.zip
+cd workshop-kit
+python3 -m venv .venv
+. .venv/bin/activate
+python -m pip install --upgrade pip
+python -m pip install agentic-api openai
+agentic-api doctor --mode remote
+agentic --version
+</code></pre>
+<p>The base Python package bundles the Rust gateway and CLI; it does not install vLLM. This installs the available package release. For the exact development build behind the PDF recording, use section 5 instead. Record your installed versions with <code>python -m pip freeze</code> and <code>agentic --version</code> when comparing results.</p>
+<p><a href="https://github.com/vllm-project/agentic-api/blob/main/docs/guides/python-installation.md">Python installation guide</a> · <a href="https://pypi.org/project/agentic-api/">Package on PyPI</a></p>
+<h2 id="2-run-the-exact-coding-fixture-no-model-needed">2. Run the exact coding fixture — no model needed</h2>
+<pre><code class="language-bash">cd penalty/before
+python3 -m unittest -v
+# Expected: 3 failures. This is the bug Codex fixes.
+cd ../after
+python3 -m unittest -v
+python3 penalty.py
+# Expected: 3 tests pass; penalty = 0.6475.
+cd ../..
+</code></pre>
+<p>The implementation swaps the L1/L2 mixing weights. <code>before</code> and <code>after</code> contain the exact captured Python files, and their tests are identical. The baseline deliberately exits with a failing test status. <a href="../penalty-demo/">Read the files side by side</a>.</p>
+<h2 id="3-connect-inference-and-test-the-gateway">3. Connect inference and test the gateway</h2>
+<p>Use an existing tool-capable vLLM endpoint, or tunnel to a GPU host you control:</p>
+<pre><code class="language-bash"># Separate terminal; leave this running if using a remote GPU host.
+ssh -N -L 8000:127.0.0.1:8000 YOUR_GPU_HOST
+</code></pre>
+<p>If starting vLLM yourself, use the model's documented tool/reasoning parser and chat template. There is no universal parser flag for all models. The recording used <code>nvidia/Qwen3.8-Flash-Next-FP4-Local</code> on a DGX Spark; that is a served model ID from the presenter's deployment, not a promise that every installation can download or serve that alias. Pick a model supported by your hardware and confirm its exact served name:</p>
+<pre><code class="language-bash">export UPSTREAM_URL=http://127.0.0.1:8000
+curl --fail &quot;$UPSTREAM_URL/v1/models&quot; | python -m json.tool
+export AIE_MODEL='REPLACE_WITH_AN_ID_FROM_THE_MODELS_RESPONSE'
+export AIE_GATEWAY_URL=http://127.0.0.1:9000
+# Terminal A: explicit port avoids differences between launcher defaults.
+agentic serve --upstream &quot;$UPSTREAM_URL&quot; --gateway-port 9000
+</code></pre>
+<p>In terminal B, activate the same virtual environment and export the same <code>AIE_MODEL</code> and <code>AIE_GATEWAY_URL</code>. These two variables are workshop-client settings. The gateway origin has <strong>no <code>/v1</code> suffix</strong>; the SDK script adds it.</p>
+<pre><code class="language-bash">curl --fail &quot;$AIE_GATEWAY_URL/ready&quot;
+python check_setup.py
+python demo.py state
+</code></pre>
+<p>Success: <code>/ready</code> returns HTTP 200, <code>check_setup.py</code> reports a completed response, and the state demo recalls <strong>DEMO-742</strong> and its constraints through <code>previous_response_id</code>. The fresh control request has not received those facts. Judge the returned answer, not just the presence of a response ID. The gateway's SQLite database must remain in place between requests.</p>
+<p>For an authenticated gateway, set <code>AGENTIC_GATEWAY_API_KEY</code> privately. <code>check_setup.py</code>, <code>demo.py</code>, <code>compact.py</code>, and <code>web_search.py</code> read it. The original <code>full_trace/record.py</code> uses the fixture key <code>local-demo</code> and targets an unauthenticated local gateway; adapt its two <code>OpenAI</code> constructors before using a protected endpoint.</p>
+<h2 id="4-let-native-codex-fix-the-bug">4. Let native Codex fix the bug</h2>
+<p>Install the official CLI separately (<a href="https://developers.openai.com/codex/cli">Codex CLI installation</a>). The captured terminal used Codex <strong>0.160.0</strong>; pin that version when comparing the recording, or use a current CLI with a compatible current gateway.</p>
+<pre><code class="language-bash">npm install -g @openai/codex@0.160.0
+codex --version
+cp -R penalty/before my-codex-task
+cd my-codex-task
+git init
+agentic harness codex --gateway-url &quot;$AIE_GATEWAY_URL&quot; --model &quot;$AIE_MODEL&quot;
+</code></pre>
+<p>Enter this prompt in the <strong>actual Codex terminal</strong>:</p>
+<blockquote>
+<p>Run python3 -m unittest -v to reproduce the bug. Read penalty.py and test_penalty.py. Fix elastic_net_penalty without changing the tests or its signature. Use only the Python standard library. Run the tests again, run python3 penalty.py, and show the diff. Report only results you observed.</p>
+</blockquote>
+<p>Approve the requested local file/command actions. Afterwards, independently run:</p>
+<pre><code class="language-bash">python3 -m unittest -v
+python3 penalty.py
+cmp test_penalty.py ../penalty/before/test_penalty.py
+cd ..
+</code></pre>
+<p>Success: all 3 tests pass; the script prints <strong>0.6475</strong>; <code>cmp</code> exits 0. Model output can differ from the recording and still be correct. For Claude Code, install its CLI from <a href="https://code.claude.com/docs/en/setup">Anthropic's setup instructions</a>, make a separate clean copy of <code>penalty/before</code>, and use <code>agentic harness claude --gateway-url "$AIE_GATEWAY_URL" --model "$AIE_MODEL"</code>. The launcher handles model overrides and isolates harness settings. <a href="https://github.com/vllm-project/agentic-api/blob/main/docs/guides/harness-cli-testing.md">Harness troubleshooting</a>.</p>
+<h2 id="5-build-the-exact-pdf-demo-gateway">5. Build the exact PDF-demo gateway</h2>
+<p>The November 8 PDF recording used development commit <strong>45c729f5fe351c55edbb686a750bde1fe3eacf5e</strong>, a startup-registration patch, and the <strong>file-search-pdf</strong> feature. Do not assume the PyPI wheel contains that exact implementation. This path requires Rust and the repository's native build prerequisites. Build in a separate checkout:</p>
+<pre><code class="language-bash"># From workshop-kit, save its absolute location before entering the checkout.
+export KIT_DIR=&quot;$PWD&quot;
+git clone https://github.com/vllm-project/agentic-api.git recorded-gateway
+cd recorded-gateway
+git checkout 45c729f5fe351c55edbb686a750bde1fe3eacf5e
+git apply --check &quot;$KIT_DIR/full_trace/startup-file-search.patch&quot;
+git apply &quot;$KIT_DIR/full_trace/startup-file-search.patch&quot;
+cargo build -p agentic-server --bins --features file-search-pdf
+cargo test -p agentic-server-core --features file-search-pdf --test file_search_tool_test
+export RECORDED_GATEWAY_DIR=&quot;$PWD&quot;
+cd &quot;$KIT_DIR&quot;
+</code></pre>
+<p>Stop the gateway from section 3 before binding port 9000 again. Use an isolated home and explicit file storage; these paths hold the uploaded documents and state:</p>
+<pre><code class="language-bash">export AGENTIC_API_HOME=&quot;$PWD/runtime&quot;
+mkdir -p &quot;$AGENTIC_API_HOME/files&quot;
+python - &lt;&lt;'PY'
+import json, os
+from pathlib import Path
+root = Path(os.environ['AGENTIC_API_HOME'])
+(root / 'config.toml').write_text('[files]\nstorage_dir = ' + json.dumps(str(root / 'files')) + '\n')
+PY
+LLM_API_BASE=&quot;$UPSTREAM_URL&quot; \
+  &quot;$RECORDED_GATEWAY_DIR/target/debug/agentic-server&quot; \
+  --gateway-host 127.0.0.1 --gateway-port 9000
+</code></pre>
+<p>This pinned build is the reproducibility path for the recording; it does not include later fixes. A newer checkout may not need the patch. Do not apply the patch blindly to another commit.</p>
+<h2 id="6-tool-calls-hydration-pdf-upload-file-search-citations">6. Tool calls, hydration, PDF upload, file search, citations</h2>
+<p>In a second terminal, activate the kit environment, set the gateway/model variables, and install the SDK version used in the recording:</p>
+<pre><code class="language-bash">python -m pip install openai==3.46.0
+python fetch_corpus.py
+python full_trace/record.py \
+  --base-url &quot;$AIE_GATEWAY_URL/v1&quot; --model &quot;$AIE_MODEL&quot; \
+  --corpus corpus --capture runs/first-take
+</code></pre>
+<p>Use a fresh capture directory for each run. To run only one section, add <code>--phase function</code> or <code>--phase files</code>.</p>
+<p>The corpus downloader fetches the authors' PDFs, checks the PDF header, and verifies the SHA-256 values from the recording. Papers are not redistributed in the kit. If a publisher changes the bytes, the downloader stops rather than silently changing the corpus; review the new source before updating the manifest.</p>
+<table>
+<thead>
+<tr>
+<th>Step</th>
+<th>What to inspect / expected result</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Client-executed function tool</td>
+<td><code>function-call.json</code>: a <code>function_call</code> with JSON arguments and a <code>call_id</code></td>
+</tr>
+<tr>
+<td>Function execution</td>
+<td>Client computes the elastic-net penalty, <strong>0.6475</strong></td>
+</tr>
+<tr>
+<td>State hydration</td>
+<td><code>function-answer.json</code>: request carries <code>previous_response_id</code> and matching <code>function_call_output</code>; final answer includes 0.6475</td>
+</tr>
+<tr>
+<td>Upload</td>
+<td>3 PDFs uploaded through <code>client.files.create(..., purpose="assistants")</code></td>
+</tr>
+<tr>
+<td>Index</td>
+<td>Vector store created; each <code>files.create_and_poll</code> reaches <code>completed</code></td>
+</tr>
+<tr>
+<td>Retrieval</td>
+<td><code>vector_stores.search</code> returns actual passages</td>
+</tr>
+<tr>
+<td>Server-executed search</td>
+<td><code>file-search.json</code> includes completed <strong>file_search_call</strong> items and results, using <code>tools=[{"type":"file_search", ...}]</code></td>
+</tr>
+<tr>
+<td>Citations</td>
+<td>Nonempty <strong>file_citation</strong> annotations reference uploaded file IDs; check the passages support the claims</td>
+</tr>
+<tr>
+<td>Persistence</td>
+<td><code>responses.retrieve</code> returns the stored response</td>
+</tr>
+</tbody>
+</table>
+<p>This recording uses keyword retrieval. It does not run an embedding service, and an upload is not itself proof of successful retrieval. The script asserts tool execution and citation IDs; it does not prove every generated statement is supported.</p>
+<p>Sources: <a href="https://web.stanford.edu/~hastie/Papers/elasticnet.pdf">Zou &amp; Hastie: elastic net</a>, <a href="https://hastie.su.domains/Papers/glmnet.pdf">Friedman, Hastie &amp; Tibshirani: glmnet</a>, <a href="https://arxiv.org/abs/1011.2234">Tibshirani et al.: strong rules</a>. Source URLs and hashes are in <code>full_trace/corpus-sources.json</code>.</p>
+<h2 id="7-inspect-the-actual-inference-wire">7. Inspect the actual inference wire</h2>
+<p>Put a local recording tap between Agentic API and vLLM. The tap below supports a local <strong>HTTP</strong> upstream; tunnel remote inference to localhost first. It captures request/response bodies, not request credential headers.</p>
+<pre><code class="language-bash"># Terminal A: leave the tap running.
+python full_trace/trace_proxy.py --port 8011 \
+  --upstream &quot;$UPSTREAM_URL&quot; --capture runs/wire
+</code></pre>
+<p>Restart the gateway from section 5 with <code>LLM_API_BASE=http://127.0.0.1:8011</code>, then repeat section 6 into a fresh capture directory. Inspect <code>runs/wire/inference.jsonl</code> and the <code>*-request.json</code> / <code>*-response.sse</code> files.</p>
+<p>Look for the hydrated <code>input</code> history upstream: <code>previous_response_id</code> is resolved at the gateway rather than sent unchanged to the inference engine. For file search, the next inference request includes the retrieved passages. For the client function, it includes the matching <code>function_call_output</code>.</p>
+<p>To inspect sampled token pieces with a compatible vLLM Responses implementation, start another tap with <code>--token-logprobs</code>. It requests <code>message.output_text.logprobs</code>, <code>top_logprobs=1</code>, and disables thinking for this recording profile. A streamed text delta is not necessarily one token. Logprob token pieces are decoded pieces, not token IDs; tool-argument deltas are still fragments.</p>
+<p>For the exact historical Codex recording, the client-side tap also used <code>--omit-tool-output-ids</code> to remove optional <code>function_call_output.id</code> values while preserving <code>call_id</code>. Both original and adjusted requests were saved. This compatibility modification is not required for the SDK demo. Native terminal capture tools (<code>record_tui.py</code>, <code>prepare_codex.py</code>) are included under <code>full_trace/</code>; their historical defaults are documented in <code>full_trace/README.md</code>. In particular, <code>prepare_codex.py</code> creates a read-only, already-correct fixture; replace it with the section 4 buggy fixture and use <code>sandbox_mode="workspace-write"</code> to recreate the editing demo. Pass <code>--codex "$(command -v codex)"</code> to <code>record_tui.py</code> rather than its presenter-specific default.</p>
+<p>Only record fixture data. Request bodies and tool output can contain local files/context; inspect and redact them before publishing your own traces. <a href="../captures/codex-tui/provenance.json">Public recording provenance</a> and <a href="../captures/responses-full-trace/provenance.json">PDF-demo provenance</a> distinguish captures from edited playback.</p>
+<h2 id="8-compaction-save-a-checkpoint-then-continue">8. Compaction: save a checkpoint, then continue</h2>
+<pre><code class="language-bash">python compact.py
+</code></pre>
+<p>The script creates a <strong>fresh stored response</strong>, compacts that response ID, writes <code>runs/compact.json</code>, and sends the <strong>entire returned output array</strong> plus the follow-up message into the next request. No response IDs from the slides are reused.</p>
+<p>Success: <code>object</code> is <code>response.compaction</code>, an output item has <code>type="compaction"</code>, and the continuation preserves <strong>DEMO-742</strong>, no new dependencies, and no test edits. Inspect <code>runs/compact-continued.json</code>; the script checks the response shape, and you check the retained constraints. Compaction does not execute the code fix. This gateway's checkpoint representation is not a claim of OpenAI-hosted encrypted-checkpoint interoperability.</p>
+<p>For the longer explicitly seeded teaching transcript, run <code>python demo.py compact</code>. It should also retain the 12-second retry cap, zero rule, standard-library restriction, and next action. <a href="https://github.com/vllm-project/agentic-api/blob/main/docs/guides/responses-compaction.md">Compaction implementation guide</a>.</p>
+<h2 id="9-server-side-web-search-codex-and-claude-code">9. Server-side web search, Codex and Claude Code</h2>
+<p>Set <strong>YOU_API_KEY</strong> in the gateway process environment using your own You.com account; the workshop does not supply a shared key. Restart the gateway after changing its configuration. Never put the key in a slide, URL, or committed config file.</p>
+<pre><code class="language-bash">python web_search.py
+</code></pre>
+<p>Success: a completed <code>web_search_call</code> appears in the output, followed by an answer based on search results. The script saves <code>runs/web-search.json</code> and rejects an answer with no executed search. Search results and model wording change over time.</p>
+<p>For Claude Code's <code>WebSearch</code> client function to execute at the gateway, set <code>MESSAGES_GATEWAY_TOOL_ALIASES=WebSearch=web_search</code> <strong>on the gateway</strong>, then restart it. Attach Claude as in section 4 and ask it to search the web for current Agentic API documentation. For Codex, enable web search in its isolated configuration/session (<code>-c 'web_search="live"'</code> as a Codex argument after the launcher's <code>--</code>) and ask the same question. Confirm execution in gateway logs; the model saying it searched is insufficient. <a href="https://github.com/vllm-project/agentic-api/blob/main/docs/guides/harness-cli-testing.md">Gateway-owned web-search configuration</a>.</p>
+<h2 id="10-kubernetes-llm-d-same-api-different-workers">10. Kubernetes + llm-d: same API, different workers</h2>
+<p>The recording used two CPU gateway pods sharing PostgreSQL and file storage, the official llm-d standalone Router, and <strong>one</strong> existing Spark GPU behind a connector. It demonstrated continuation across two gateway pods. It did not demonstrate multiple GPU workers, autoscaling, failover, or prefill/decode disaggregation.</p>
+<p>Prerequisites: a disposable <code>kind</code> cluster, Docker, kubectl, Helm, and a reachable tool-capable inference endpoint. Use the <a href="https://github.com/vllm-project/agentic-api/blob/main/docs/deploying/kubernetes.md">Agentic API Kubernetes guide</a> and <a href="https://github.com/llm-d/llm-d/blob/main/docs/getting-started/quickstart.md">llm-d quickstart</a> for cluster prerequisites, including the InferencePool CRD. The kit contains the exact recording manifests under <code>full_trace/kubernetes/</code>; these use disposable database credentials and a local image.</p>
+<p>To reproduce the recorded topology on a Linux Docker host:</p>
+<ol>
+<li>Build the section 5 gateway <strong>for the Linux architecture of your kind node</strong>. Copy its binary beside <code>full_trace/kubernetes/Dockerfile</code>; run <code>docker build -t aie-agentic-trace:dev full_trace/kubernetes</code>, then <code>kind load docker-image aie-agentic-trace:dev --name YOUR_CLUSTER</code>.</li>
+<li>Create namespace <code>llm-d-demo</code>. In <code>spark-connector.yaml</code>, replace the presenter's <code>http://172.18.0.1:18001</code> with an inference URL reachable <strong>from inside the cluster</strong>. Apply that manifest. A laptop's <code>127.0.0.1</code> is not a pod's localhost. Keep the connector's <code>/health</code> endpoint working.</li>
+<li>Install the Router with the captured values:</li>
+</ol>
+<pre><code class="language-bash">kubectl create namespace llm-d-demo
+helm upgrade --install aie-router \
+  oci://ghcr.io/llm-d/charts/llm-d-router-standalone \
+  --version v0 --namespace llm-d-demo \
+  -f full_trace/kubernetes/router-values.yaml
+# Recording chart digest:
+# sha256:b9abb14ca670dc22baa617fb1ee6faa02b442903547ba451538f96aef53842e9
+kubectl apply -f full_trace/kubernetes/agentic-api.yaml
+kubectl -n agentic-demo rollout status deployment/postgres
+kubectl -n agentic-demo rollout status deployment/agentic-api
+kubectl -n agentic-demo scale deployment/agentic-api --replicas=2
+kubectl -n agentic-demo rollout status deployment/agentic-api
+kubectl -n agentic-demo get pods,svc
+</code></pre>
+<p>The recording's shared ReadWriteOnce volume works on its single-node kind cluster. Multi-node/shared deployments need suitable shared storage or another storage backend; PostgreSQL alone does not share PDF blobs. Use an immutable image and proper secret management outside this disposable setup. Check the chart digest from Helm against the recorded one when matching the historical deployment.</p>
+<ol start="4">
+<li>From the kit, record and verify cross-pod continuation:</li>
+</ol>
+<pre><code class="language-bash">python full_trace/record_cluster.py \
+  --kubectl &quot;$(command -v kubectl)&quot; --kubeconfig &quot;$KUBECONFIG&quot; \
+  --model &quot;$AIE_MODEL&quot; --capture runs/cluster-take
+</code></pre>
+<p>Set <code>KUBECONFIG</code> to your kind kubeconfig first. The recorder requires exactly two ready gateway pods, forwards them separately on 9031 and 9032, sends the first request to one pod, and continues through the other. Success: <code>deployment-proof.json</code> names <strong>different</strong> gateway pods and the final answer includes <strong>0.6475</strong>. The recorder closes its own port-forwards. Router/gateway logs and deployment inspection are saved alongside the API results.</p>
+<p>For a real multi-GPU llm-d deployment, replace the connector with actual model-server pods and size them independently from the CPU gateways. Prefix-cache affinity is an inference-router concern; conversation state lives at the gateway/storage layer. Neither proves the other is being reused.</p>
+<h2 id="11-what-you-can-reproduce-and-what-is-a-research-direction">11. What you can reproduce, and what is a research direction</h2>
+<table>
+<thead>
+<tr>
+<th>In this workshop</th>
+<th>Status</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Codex edits Python, calls local tools, runs unchanged tests</td>
+<td>Captured native CLI session; runnable fixture included</td>
+</tr>
+<tr>
+<td>Responses function loop, stored-ID hydration, PDF upload/search/citations</td>
+<td>Real captured API traffic; pinned gateway build and scripts included</td>
+</tr>
+<tr>
+<td>Compaction + continuation; server-side web search</td>
+<td>Real local API validation; scripts and expected checks included</td>
+</tr>
+<tr>
+<td>Two CPU gateway pods, shared state, llm-d Router, one GPU</td>
+<td>Recorded deployment and cross-pod continuation</td>
+</tr>
+<tr>
+<td>Separate prefill/decode GPUs</td>
+<td>Illustrated architecture; follow the <a href="https://github.com/llm-d/llm-d/tree/main/guides/pd-disaggregation">llm-d disaggregated-serving guide</a> to deploy it on suitable hardware</td>
+</tr>
+<tr>
+<td>Skills/containers provisioning a fleet; retained-context swarm branches</td>
+<td>Proposed design, not a released end-to-end swarm implementation</td>
+</tr>
+<tr>
+<td>Shared prefixes, coordination, speculative decoding make exploration cheaper</td>
+<td>Hypotheses/mechanisms to measure; no cost reduction benchmark in this workshop</td>
+</tr>
+</tbody>
+</table>
+<h2 id="troubleshooting-and-cleanup">Troubleshooting and cleanup</h2>
+<ul>
+<li><strong>Connection refused:</strong> start/tunnel inference first, then gateway; check <code>/v1/models</code> and <code>/ready</code> separately. Verify ports and served model IDs.</li>
+<li><strong>A model replies but never calls tools:</strong> verify model capability and its engine's parser/template. Test section 6's forced function call before trying a full coding task.</li>
+<li><strong>Missing file-search handler / PDF support:</strong> use section 5's pinned source and feature; a declared tool is not proof that a release implements it.</li>
+<li><strong>Lost response IDs:</strong> preserve the same database, or share PostgreSQL between pods. IDs in published captures belong to the presenter's database and cannot be reused on yours.</li>
+<li><strong>SDK mismatch:</strong> use the captured SDK pin for section 6 and retain raw JSON. The exact recording package set is in <code>full_trace/requirements.txt</code>; video-only dependencies are unnecessary for API requests.</li>
+<li><strong>Slow/surprising output:</strong> compare model, parser, context window, reasoning mode and hardware. Recordings are edited for clarity; their playback duration is not a latency benchmark.</li>
+<li>Stop local gateways/taps/SSH forwards with Ctrl-C. Remove only the kit's <code>runtime/</code>, <code>runs/</code>, and <code>corpus/</code> directories when you no longer need their data. For a disposable cluster, <code>kind delete cluster --name YOUR_CLUSTER</code> removes that cluster and its local data.</li>
+</ul>
+<p><a href="https://github.com/vllm-project/agentic-api">Contribute to Agentic API</a> · <a href="https://vllm-project.github.io/agentic-api/">Project docs</a> · <a href="https://x.com/franciscojarceo">Francisco on X</a></p>
+<p>This is a <strong>README</strong> because it is for workshop attendees. <code>AGENTS.md</code> is conventionally used for instructions to coding agents working in a repository.</p></main><footer>Francisco Javier Arceo · AI Engineer Code Summit · Published November 10, 2026</footer></body></html>

@@ -1,0 +1,38 @@
+{
+  "models": [
+    {
+      "slug": "nvidia/Qwen3.8-Flash-Next-FP4-Local",
+      "display_name": "nvidia/Qwen3.8-Flash-Next-FP4-Local",
+      "supported_in_api": true,
+      "visibility": "list",
+      "priority": 0,
+      "input_modalities": [
+        "text"
+      ],
+      "default_reasoning_level": "low",
+      "supported_reasoning_levels": [
+        {
+          "effort": "low",
+          "description": "Fast"
+        }
+      ],
+      "supports_reasoning_summaries": false,
+      "supports_parallel_tool_calls": true,
+      "web_search_tool_type": "text",
+      "shell_type": "local",
+      "context_window": 32768,
+      "max_context_window": 32768,
+      "base_instructions": "You are a concise coding assistant. Use the terminal tools to inspect and run the requested local Python script. Report only results you observed. Do not use the network.",
+      "support_verbosity": false,
+      "supports_image_detail_original": false,
+      "use_responses_lite": false,
+      "supports_search_tool": false,
+      "include_skills_usage_instructions": false,
+      "truncation_policy": {
+        "limit": 24000,
+        "mode": "tokens"
+      },
+      "experimental_supported_tools": []
+    }
+  ]
+}

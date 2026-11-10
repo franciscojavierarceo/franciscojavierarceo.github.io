@@ -1,0 +1,20 @@
+[
+  {
+    "filename": "elastic-net.pdf",
+    "url": "https://web.stanford.edu/~hastie/Papers/elasticnet.pdf",
+    "sha256": "f4508b15aa5934438c3ac05a50b18edd39f2261f570ce2de465b6326522d03ae",
+    "bytes": 254559
+  },
+  {
+    "filename": "glmnet.pdf",
+    "url": "https://hastie.su.domains/Papers/glmnet.pdf",
+    "sha256": "6ece5dd6d8bd9fcb5bdb4b1184525bff83e2f7a2afc89d4b9df1eaa08642f250",
+    "bytes": 2495823
+  },
+  {
+    "filename": "strong-rules.pdf",
+    "url": "https://arxiv.org/pdf/1011.2234",
+    "sha256": "68bc7e73d085089dba6629e8de6c86eeee7f5d07cad5f618967948a5a16582c9",
+    "bytes": 400716
+  }
+]
