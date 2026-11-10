@@ -1,0 +1,77 @@
+name: Workshop macOS attendee check
+on:
+  push:
+    branches: [codex/workshop-macos-validation]
+    paths: [.github/workflows/workshop-macos-check.yml, tests/workshop-native-smoke.py]
+permissions:
+  contents: read
+jobs:
+  attendee:
+    name: Attendee setup (${{ matrix.runner }})
+    runs-on: ${{ matrix.runner }}
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        runner: [macos-15, macos-15-intel]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Download public workshop kit and install attendee tools
+        shell: bash
+        run: |
+          set -euo pipefail
+          uname -sm
+          sw_vers
+          mkdir agentic-workshop
+          cd agentic-workshop
+          curl -fL --retry 3 https://franciscojavierarceo.dev/presentations/keep-the-harness-own-your-inference/setup/workshop-kit.zip -o workshop-kit.zip
+          unzip -q workshop-kit.zip
+          cd workshop-kit
+          python3 -m venv .venv
+          . .venv/bin/activate
+          python -m pip install --upgrade pip
+          python -m pip install agentic-api==0.10.0 openai==3.46.0 pytrec-eval-terrier==0.5.11
+          agentic-api doctor --mode remote
+          agentic --version
+          python -m pip freeze
+          npm install --prefix "$RUNNER_TEMP/codex-install" @openai/codex@0.160.0
+          echo "$RUNNER_TEMP/codex-install/node_modules/.bin" >> "$GITHUB_PATH"
+      - name: Follow fixture instructions and verify retrieval metrics
+        shell: bash
+        run: |
+          set -euo pipefail
+          cd agentic-workshop/workshop-kit
+          . .venv/bin/activate
+          cd penalty/before
+          set +e
+          python3 -m unittest -v > before-tests.log 2>&1
+          baseline_status=$?
+          set -e
+          cat before-tests.log
+          test "$baseline_status" -eq 1
+          grep -F 'FAILED (failures=3)' before-tests.log
+          cd ../after
+          python3 -m unittest -v
+          python3 penalty.py | grep -F 0.6475
+          cmp test_penalty.py ../before/test_penalty.py
+          cd ../..
+          python retrieval-benchmark/verify_metrics.py
+          python fetch_corpus.py
+          codex --version
+      - name: Test native gateway and native Codex with deterministic inference
+        shell: bash
+        run: |
+          set -euo pipefail
+          agentic-workshop/workshop-kit/.venv/bin/python tests/workshop-native-smoke.py agentic-workshop/workshop-kit
+      - name: Upload test evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: workshop-macos-${{ matrix.runner }}
+          path: macos-check-results/
