@@ -22,7 +22,7 @@
     "captures/responses-full-trace/client.jsonl": "5d91e6a9bb431810603d024287a465952294b17ab16d499e91793e5a57d7fc64",
     "captures/responses-full-trace/inference.jsonl": "f32a21ab578f6398dccc8e2a660f1530817f13aedc1a0ae68b21981cc6c4b4e0",
     "captures/responses-full-trace/provenance.json": "7ea8a2350e913ae31e2e0eda5cc5a30f5831ee49a478fc8e4238a463d91855ee",
-    "index.html": "84a8120cb2b0038f37e39b4eeab5b375e5b4590688a9bbf5e62b94e755d035b7",
+    "index.html": "89188bde2aae43e8727509473311f531299884296d743d6aa3f5f2446a6b8212",
     "media/claude-code-poster.jpg": "9e0bb95d88dc68444ece66d7bbfb712067e154613102d09659e5df81b1494522",
     "media/claude-code-web-search.mp4": "db653060f900b0d4d108c1f4ca722b51fb92270e227f1a0529b3554d6aec9b68",
     "media/codex-agent-loop-trace.jpg": "63613806a4fe3b8519266de4cc5068d0eb8457f73b5c52245f621a3fe5196370",
@@ -42,7 +42,12 @@
     "media/vendor/xterm/LICENSE": "b569f629d00f2626a8100df2a1798210535621e42164dfd426a6fe5aac7b0ccd",
     "media/vendor/xterm/package-version.json": "4d305c41749aa1cc425c09acc80e6b50b41406a51c934be2366c09db8e141d5d",
     "media/vendor/xterm/xterm.css": "854a7c0fb70e8b1a083c16797ab827299fb18744f5ad34f227b48337e33293c6",
-    "media/vendor/xterm/xterm.js": "14903579ff54664cd72f8e8699e6961a6272c21863ec1c3b118cdc8af5d4a972"
+    "media/vendor/xterm/xterm.js": "14903579ff54664cd72f8e8699e6961a6272c21863ec1c3b118cdc8af5d4a972",
+    "penalty-demo/index.html": "c5378943e1aa3ac7fe5276fa4cf4363f4dd1149aac746423ea5116e4f716e270",
+    "penalty-demo/penalty-demo.zip": "21b2219fff35173d61b2b1a6d04f89d0cff5a4a0beee6e9fddaf5084b8988f04",
+    "penalty-demo/test_penalty.py": "2debe30cbe354cb7beadfa86a85cd489bf0952c31fc016de3384e15800f73276",
+    "penalty-demo/after/penalty.py": "3efd2d701c5e75c9b43375b18460756dd1cb89e6e66edb598c0629f81e21ee17",
+    "penalty-demo/before/penalty.py": "5a5fe4d29a40fd1edb807abf592d76dbdd08743fb67ac8e53fbaf5b8dc273339"
   },
   "updated_at": "2026-11-08",
   "slide_count": 29
