@@ -183,6 +183,13 @@ python full_trace/record.py \
 </table>
 <p>This recording uses keyword retrieval. It does not run an embedding service, and an upload is not itself proof of successful retrieval. The script asserts tool execution and citation IDs; it does not prove every generated statement is supported.</p>
 <p>Sources: <a href="https://web.stanford.edu/~hastie/Papers/elasticnet.pdf">Zou &amp; Hastie: elastic net</a>, <a href="https://hastie.su.domains/Papers/glmnet.pdf">Friedman, Hastie &amp; Tibshirani: glmnet</a>, <a href="https://arxiv.org/abs/1011.2234">Tibshirani et al.: strong rules</a>. Source URLs and hashes are in <code>full_trace/corpus-sources.json</code>.</p>
+<h3 id="retrieval-benchmark-recompute-the-saved-scores">Retrieval benchmark: recompute the saved scores</h3>
+<p>The fifth tab on slide 15 shows the separate <strong>November 3 semantic-retrieval benchmark</strong>, using Agentic API's sqlite-vec repository and an exact-cosine reference over the same embeddings. This is distinct from the keyword-based PDF demo. nDCG@10 rounds to <strong>0.310</strong> on NFCorpus, <strong>0.697</strong> on SciFact, and <strong>0.393</strong> on ArguAna for both methods, across <strong>2,029 judged queries</strong> with no search failures.</p>
+<p>The kit includes the original reports, returned document rankings, BEIR relevance judgments, run logs and preparation/scoring harness. Recompute the Agentic API metrics from the retained rankings:</p>
+<pre><code class="language-bash">python -m pip install pytrec-eval-terrier
+python retrieval-benchmark/verify_metrics.py
+</code></pre>
+<p>Success: all three metrics match the saved report for each dataset. This verification does not rerun embeddings or search. The exact source commit and embedding-model revision were not retained with those historical runs; see <code>retrieval-benchmark/methodology.json</code> for the recipe and limits. It is not a live OpenAI/OGX comparison or an answer-quality, latency, or cost benchmark.</p>
 <h2 id="7-inspect-the-actual-inference-wire">7. Inspect the actual inference wire</h2>
 <p>Put a local recording tap between Agentic API and vLLM. The tap below supports a local <strong>HTTP</strong> upstream; tunnel remote inference to localhost first. It captures request/response bodies, not request credential headers.</p>
 <pre><code class="language-bash"># Terminal A: leave the tap running.
