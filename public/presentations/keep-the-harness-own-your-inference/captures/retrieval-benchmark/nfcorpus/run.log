@@ -1,0 +1,32 @@
+   Compiling agentic-server-core v0.9.0 (/tmp/agentic-api-file-search-sqlite-fix/crates/agentic-server-core)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 8.09s
+     Running tests/beir_sqlite_vec_benchmark.rs (/tmp/agentic-api-file-search-core/target/debug/deps/beir_sqlite_vec_benchmark-53ce70556043ebcb)
+
+running 1 test
+uploaded 500 files in 7.8s
+uploaded 1000 files in 10.9s
+uploaded 1500 files in 13.9s
+uploaded 2000 files in 16.9s
+uploaded 2500 files in 19.9s
+uploaded 3000 files in 22.9s
+uploaded 3500 files in 25.9s
+indexing 3633 files
+index ready in 43.3s
+searched 25 queries in 49.1s
+searched 50 queries in 55.1s
+test beir_sqlite_vec has been running for over 60 seconds
+searched 75 queries in 61.3s
+searched 100 queries in 67.5s
+searched 125 queries in 73.6s
+searched 150 queries in 79.7s
+searched 175 queries in 85.8s
+searched 200 queries in 92.0s
+searched 225 queries in 98.1s
+searched 250 queries in 104.1s
+searched 275 queries in 110.0s
+searched 300 queries in 115.9s
+finished in 121.4s
+test beir_sqlite_vec ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 121.40s
+

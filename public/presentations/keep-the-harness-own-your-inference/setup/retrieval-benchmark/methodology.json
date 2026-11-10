@@ -1,0 +1,48 @@
+{
+  "measured_date": "2026-11-03",
+  "implementation": "Agentic API SqliteVecRepository, semantic search",
+  "embedding_model": "nomic-ai/nomic-embed-text-v1.5",
+  "embedding_dimensions": 768,
+  "embedding_normalization": true,
+  "document_content": "title + two newlines + body when title exists",
+  "tokenizer": "cl100k_base",
+  "chunk_tokens": 512,
+  "chunk_stride_tokens": 384,
+  "query_max_characters": 4096,
+  "embedding_prefixes": "No task-specific document/query prefixes in the captured preparation recipe",
+  "retrieval": "10 chunk hits, collapsed to original document ID using maximum score",
+  "baseline": "Exact cosine on the same normalized embedding arrays; scores clipped to [0,1]",
+  "primary_metric": "nDCG@10 (pytrec_eval ndcg_cut_10), higher is better",
+  "datasets": [
+    "nfcorpus",
+    "scifact",
+    "arguana"
+  ],
+  "judged_queries": 2029,
+  "search_failures": 0,
+  "excluded": "FiQA excluded because its chunk count exceeds the 10,000-chunk bound of this exact-search configuration",
+  "limits": [
+    "Retrieval-only repository benchmark; no LLM generation, HTTP file ingestion or citations evaluated",
+    "Different from the November 8 PDF walkthrough, which used keyword retrieval",
+    "No live OpenAI or OGX endpoint comparison; no latency or cost claim",
+    "Small score/tie-order differences exist; three-decimal scores round equally",
+    "Exact gateway source commit and embedding model revision were not retained in the saved run reports; harness and reports are retained"
+  ],
+  "sha256": {
+    "verify_metrics.py": "24d670340496f5906e6702ac4958fab6f25ce9dad569bde4f180002e2e1a4cdb",
+    "beir_sqlite_vec.py": "e6a35cfcc10ef023b6d752fff991583df8fd6663376d786f9b4c8f1ed7979e86",
+    "beir_sqlite_vec_benchmark.rs": "cf3b7570cc7372b9f8cd135f9507b9648fc477a0ff30f9e6df4a478a980e7fb2",
+    "scifact/report.json": "2bd8f7e533af50446255e8f7c666aa54e3709ddb22e3a0691534d32121bb4237",
+    "scifact/qrels.json": "8d66831d3f53e75f843bb35b1e93d1a1b9605d38c15bd84d3445b568facafe1d",
+    "scifact/results.json": "2389863f449df70a6acb0b37ba0bc13806c6bfd0bdc776543662018eb5ec1275",
+    "scifact/run.log": "d3297c31f6b67168f688c14f72bf35755e6793ca1418bb7cac70228ef139f3fd",
+    "nfcorpus/report.json": "2b24020f73a10d0394a1863f763d7b2711c101589e7fa0edd50da4c5438247ca",
+    "nfcorpus/qrels.json": "00186723295cf61a0a05079294190de39d2697629c97c81c70c5b8ab3635dc23",
+    "nfcorpus/results.json": "a236b82a7c329e7166ef401288b0d9e5a2e10314de624cea398976e77f9d256a",
+    "nfcorpus/run.log": "eb2e36c0c9b82e4baef0c236c781efb1ff991ad75ea9ea63534a7f9865521195",
+    "arguana/report.json": "05a595033bc2c47ada98a3e09b8e0650b432447274c2cfab6a8bb0cd8953cab4",
+    "arguana/qrels.json": "f4fb14d0586abb168bea448aa29846a15a781e3e8a9779d02dbfe84a5d07e03a",
+    "arguana/results.json": "c58af60af8c4d4a767487229530dd4f3af6f2ae875d97c3166475779b495b854",
+    "arguana/run.log": "917579a256ee18bebe401c406841762ef9905b75a53f234862273454267e4b31"
+  }
+}

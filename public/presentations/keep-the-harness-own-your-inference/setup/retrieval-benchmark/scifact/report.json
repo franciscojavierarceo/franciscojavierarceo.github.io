@@ -1,0 +1,18 @@
+{
+  "dataset": "scifact",
+  "documents": 5183,
+  "chunks": 6604,
+  "judged_queries": 300,
+  "sqlite_vec": {
+    "map_cut_10": 0.649622,
+    "ndcg_cut_10": 0.696806,
+    "recall_10": 0.829556
+  },
+  "exact_cosine": {
+    "map_cut_10": 0.649622,
+    "ndcg_cut_10": 0.696806,
+    "recall_10": 0.829556
+  },
+  "identical_top10_document_order": 299,
+  "search_failures": 0
+}

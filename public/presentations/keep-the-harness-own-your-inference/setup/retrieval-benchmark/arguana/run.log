@@ -1,0 +1,85 @@
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.13s
+     Running tests/beir_sqlite_vec_benchmark.rs (/tmp/agentic-api-file-search-core/target/debug/deps/beir_sqlite_vec_benchmark-53ce70556043ebcb)
+
+running 1 test
+uploaded 500 files in 12.3s
+uploaded 1000 files in 15.2s
+uploaded 1500 files in 18.1s
+uploaded 2000 files in 21.0s
+uploaded 2500 files in 23.8s
+uploaded 3000 files in 26.7s
+uploaded 3500 files in 29.6s
+uploaded 4000 files in 32.5s
+uploaded 4500 files in 35.4s
+uploaded 5000 files in 38.4s
+uploaded 5500 files in 41.3s
+uploaded 6000 files in 44.3s
+uploaded 6500 files in 47.4s
+uploaded 7000 files in 50.4s
+uploaded 7500 files in 53.2s
+uploaded 8000 files in 56.2s
+uploaded 8500 files in 59.0s
+test beir_sqlite_vec has been running for over 60 seconds
+indexing 8674 files
+index ready in 99.0s
+searched 25 queries in 108.9s
+searched 50 queries in 119.5s
+searched 75 queries in 129.8s
+searched 100 queries in 140.0s
+searched 125 queries in 150.1s
+searched 150 queries in 160.5s
+searched 175 queries in 171.0s
+searched 200 queries in 181.1s
+searched 225 queries in 191.2s
+searched 250 queries in 201.7s
+searched 275 queries in 211.9s
+searched 300 queries in 222.3s
+searched 325 queries in 232.4s
+searched 350 queries in 242.8s
+searched 375 queries in 253.0s
+searched 400 queries in 263.2s
+searched 425 queries in 273.6s
+searched 450 queries in 283.7s
+searched 475 queries in 293.9s
+searched 500 queries in 304.3s
+searched 525 queries in 314.7s
+searched 550 queries in 325.1s
+searched 575 queries in 335.3s
+searched 600 queries in 345.6s
+searched 625 queries in 355.8s
+searched 650 queries in 366.4s
+searched 675 queries in 376.7s
+searched 700 queries in 386.9s
+searched 725 queries in 397.1s
+searched 750 queries in 407.3s
+searched 775 queries in 417.5s
+searched 800 queries in 428.1s
+searched 825 queries in 438.4s
+searched 850 queries in 448.9s
+searched 875 queries in 459.4s
+searched 900 queries in 469.7s
+searched 925 queries in 479.7s
+searched 950 queries in 490.1s
+searched 975 queries in 500.3s
+searched 1000 queries in 510.6s
+searched 1025 queries in 520.6s
+searched 1050 queries in 530.7s
+searched 1075 queries in 540.8s
+searched 1100 queries in 550.8s
+searched 1125 queries in 561.2s
+searched 1150 queries in 571.8s
+searched 1175 queries in 582.0s
+searched 1200 queries in 592.2s
+searched 1225 queries in 602.4s
+searched 1250 queries in 612.9s
+searched 1275 queries in 622.9s
+searched 1300 queries in 633.2s
+searched 1325 queries in 643.1s
+searched 1350 queries in 653.3s
+searched 1375 queries in 663.5s
+searched 1400 queries in 673.7s
+finished in 676.2s
+test beir_sqlite_vec ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 676.16s
+

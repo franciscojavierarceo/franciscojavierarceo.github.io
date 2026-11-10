@@ -185,6 +185,19 @@ This recording uses keyword retrieval. It does not run an embedding service, and
 
 Sources: [Zou & Hastie: elastic net](https://web.stanford.edu/~hastie/Papers/elasticnet.pdf), [Friedman, Hastie & Tibshirani: glmnet](https://hastie.su.domains/Papers/glmnet.pdf), [Tibshirani et al.: strong rules](https://arxiv.org/abs/1011.2234). Source URLs and hashes are in `full_trace/corpus-sources.json`.
 
+### Retrieval benchmark: recompute the saved scores
+
+The fifth tab on slide 15 shows the separate **November 3 semantic-retrieval benchmark**, using Agentic API's sqlite-vec repository and an exact-cosine reference over the same embeddings. This is distinct from the keyword-based PDF demo. nDCG@10 rounds to **0.310** on NFCorpus, **0.697** on SciFact, and **0.393** on ArguAna for both methods, across **2,029 judged queries** with no search failures.
+
+The kit includes the original reports, returned document rankings, BEIR relevance judgments, run logs and preparation/scoring harness. Recompute the Agentic API metrics from the retained rankings:
+
+```bash
+python -m pip install pytrec-eval-terrier
+python retrieval-benchmark/verify_metrics.py
+```
+
+Success: all three metrics match the saved report for each dataset. This verification does not rerun embeddings or search. The exact source commit and embedding-model revision were not retained with those historical runs; see `retrieval-benchmark/methodology.json` for the recipe and limits. It is not a live OpenAI/OGX comparison or an answer-quality, latency, or cost benchmark.
+
 ## 7. Inspect the actual inference wire
 
 Put a local recording tap between Agentic API and vLLM. The tap below supports a local **HTTP** upstream; tunnel remote inference to localhost first. It captures request/response bodies, not request credential headers.

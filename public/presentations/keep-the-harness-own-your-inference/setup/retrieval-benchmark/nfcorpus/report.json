@@ -1,0 +1,18 @@
+{
+  "dataset": "nfcorpus",
+  "documents": 3633,
+  "chunks": 4921,
+  "judged_queries": 323,
+  "sqlite_vec": {
+    "map_cut_10": 0.113714,
+    "ndcg_cut_10": 0.31005,
+    "recall_10": 0.1462
+  },
+  "exact_cosine": {
+    "map_cut_10": 0.113623,
+    "ndcg_cut_10": 0.309966,
+    "recall_10": 0.145804
+  },
+  "identical_top10_document_order": 220,
+  "search_failures": 0
+}

@@ -1,0 +1,18 @@
+{
+  "dataset": "arguana",
+  "documents": 8674,
+  "chunks": 9278,
+  "judged_queries": 1406,
+  "sqlite_vec": {
+    "map_cut_10": 0.262357,
+    "ndcg_cut_10": 0.392804,
+    "recall_10": 0.803698
+  },
+  "exact_cosine": {
+    "map_cut_10": 0.262357,
+    "ndcg_cut_10": 0.392804,
+    "recall_10": 0.803698
+  },
+  "identical_top10_document_order": 1331,
+  "search_failures": 0
+}
