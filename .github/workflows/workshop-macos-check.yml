@@ -2,7 +2,7 @@ name: Workshop macOS attendee check
 on:
   push:
     branches: [codex/workshop-macos-validation]
-    paths: [.github/workflows/workshop-macos-check.yml, tests/workshop-native-smoke.py]
+    paths: [.github/workflows/workshop-macos-check.yml, tests/workshop-native-smoke.py, public/presentations/keep-the-harness-own-your-inference/setup/**]
 permissions:
   contents: read
 jobs:
@@ -31,6 +31,8 @@ jobs:
           mkdir agentic-workshop
           cd agentic-workshop
           curl -fL --retry 3 https://franciscojavierarceo.dev/presentations/keep-the-harness-own-your-inference/setup/workshop-kit.zip -o workshop-kit.zip
+          cp "$GITHUB_WORKSPACE/public/presentations/keep-the-harness-own-your-inference/setup/workshop-kit.zip" workshop-kit.zip
+          shasum -a 256 workshop-kit.zip
           unzip -q workshop-kit.zip
           cd workshop-kit
           python3 -m venv .venv
@@ -68,7 +70,8 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          agentic-workshop/workshop-kit/.venv/bin/python tests/workshop-native-smoke.py agentic-workshop/workshop-kit
+          . agentic-workshop/workshop-kit/.venv/bin/activate
+          python tests/workshop-native-smoke.py agentic-workshop/workshop-kit
       - name: Upload test evidence
         if: always()
         uses: actions/upload-artifact@v4

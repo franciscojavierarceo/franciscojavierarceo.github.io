@@ -6,6 +6,7 @@ search-provider or cluster validation is claimed. Uses only fixture content.
 import http.server
 import json
 import os
+import pty
 from pathlib import Path
 import shutil
 import socket
@@ -19,6 +20,34 @@ KIT = Path(sys.argv[1]).resolve()
 RESULT = Path('macos-check-results').resolve()
 RESULT.mkdir(exist_ok=True)
 seen = []
+
+# Verify attendee model selection, relative roots and POSIX terminal recording on the native OS.
+prepared = RESULT / 'relative-take'
+subprocess.run([sys.executable, str(KIT/'full_trace/prepare_codex.py'), '--root', str(prepared.relative_to(Path.cwd())), '--model', 'workshop-test', '--base-url', 'http://127.0.0.1:9000/v1', '--editable'], check=True)
+assert str(prepared) in (prepared/'codex-home/config.toml').read_text()
+assert (prepared/'workspace/penalty.py').read_bytes() == (KIT/'penalty/before/penalty.py').read_bytes()
+fixture_cli = RESULT / 'terminal-fixture'
+fixture_cli.write_text('#!'+sys.executable+'\nimport os\nfrom pathlib import Path\nassert (Path(os.environ["CODEX_HOME"])/"config.toml").is_file()\nassert os.environ.get("OPENAI_API_KEY")=="fixture-gateway-key"\nassert "DECOY_API_KEY" not in os.environ\nprint("PTY_FIXTURE_OK")\n')
+fixture_cli.chmod(0o755)
+master, slave = pty.openpty()
+terminal_env = {**os.environ, 'AGENTIC_GATEWAY_API_KEY': 'fixture-gateway-key', 'DECOY_API_KEY': 'not-forwarded'}
+terminal = subprocess.Popen([sys.executable, str(KIT/'full_trace/record_tui.py'), '--root', str(prepared.relative_to(Path.cwd())), '--codex', str(fixture_cli)], stdin=slave, stdout=slave, stderr=slave, env=terminal_env)
+os.close(slave)
+terminal_output = b''
+try:
+    while True:
+        try:
+            data = os.read(master, 65536)
+        except OSError:
+            break
+        if not data:
+            break
+        terminal_output += data
+finally:
+    os.close(master)
+assert terminal.wait(timeout=20) == 0, terminal_output
+assert 'PTY_FIXTURE_OK' in (prepared/'terminal.cast').read_text()
+print('PASS: native POSIX PTY recording, attendee model, absolute CODEX_HOME, selective credential forwarding')
 
 
 def run(args, **kwargs):
