@@ -9,6 +9,7 @@ import os
 import pty
 from pathlib import Path
 import shutil
+import signal
 import socket
 import subprocess
 import sys
@@ -26,6 +27,7 @@ prepared = RESULT / 'relative-take'
 subprocess.run([sys.executable, str(KIT/'full_trace/prepare_codex.py'), '--root', str(prepared.relative_to(Path.cwd())), '--model', 'workshop-test', '--base-url', 'http://127.0.0.1:9000/v1', '--editable'], check=True)
 assert str(prepared) in (prepared/'codex-home/config.toml').read_text()
 assert (prepared/'workspace/penalty.py').read_bytes() == (KIT/'penalty/before/penalty.py').read_bytes()
+assert set(subprocess.check_output(['git', 'diff', '--cached', '--name-only'], cwd=prepared/'workspace', text=True).splitlines()) == {'penalty.py', 'test_penalty.py'}
 fixture_cli = RESULT / 'terminal-fixture'
 fixture_cli.write_text('#!'+sys.executable+'\nimport os\nfrom pathlib import Path\nassert (Path(os.environ["CODEX_HOME"])/"config.toml").is_file()\nassert os.environ.get("OPENAI_API_KEY")=="fixture-gateway-key"\nassert "DECOY_API_KEY" not in os.environ\nprint("PTY_FIXTURE_OK")\n')
 fixture_cli.chmod(0o755)
@@ -137,7 +139,7 @@ env = os.environ.copy()
 env.update(AIE_MODEL='workshop-test', AIE_GATEWAY_URL=gateway_url, AGENTIC_API_HOME=str(RESULT/'runtime'), AIE_CAPTURE_DIR=str(RESULT/'captures'))
 agentic = os.environ.get('AGENTIC_BIN') or shutil.which('agentic')
 log = (RESULT/'gateway.log').open('w')
-process = subprocess.Popen([agentic, 'serve', '--upstream', upstream, '--gateway-port', str(gateway_port), '--database-url', 'sqlite://'+str(RESULT/'gateway.db')], env=env, stdout=log, stderr=subprocess.STDOUT)
+process = subprocess.Popen([agentic, 'serve', '--upstream', upstream, '--gateway-port', str(gateway_port), '--database-url', 'sqlite://'+str(RESULT/'gateway.db')], env=env, stdout=log, stderr=subprocess.STDOUT, start_new_session=True)
 try:
     for _ in range(120):
         if process.poll() is not None:
@@ -161,7 +163,10 @@ try:
     (RESULT/'summary.json').write_text(json.dumps({'platform': sys.platform, 'machine': os.uname().machine, 'native_gateway': True, 'native_codex': True, 'sdk_function_round_trip': True, 'state_hydration': True, 'compaction': True, 'inference': 'deterministic local fixture; no live GPU model'}, indent=2)+'\n')
     print('PASS: native gateway, SDK function loop, hydration, compaction and native Codex transport against deterministic fixture')
 finally:
-    process.terminate()
+    try:
+        os.killpg(process.pid, signal.SIGTERM)
+    except ProcessLookupError:
+        pass
     process.wait(timeout=15)
     log.close()
     server.shutdown()

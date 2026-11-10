@@ -245,7 +245,7 @@ python full_trace/record_tui.py --root runs/codex-take \
   --codex "$(command -v codex)"
 ```
 
-Both scripts resolve `--root` to an absolute path, so relative `runs/...` paths work on Mac. Preparation refuses to overwrite an existing take. Enter the section 4 prompt in the recorded Codex terminal, then exit Codex to finish. The recorder keeps unrelated credentials out of the child process; when set, it forwards only `AGENTIC_GATEWAY_API_KEY` as Codex’s provider credential. The terminal capture does not itself record the API wires: run the taps above alongside it. The original capture recipe is preserved in `full_trace/README.md`; its old presenter paths are historical, and the commands here are the attendee path.
+Both scripts resolve `--root` to an absolute path, so relative `runs/...` paths work on Mac. Preparation initializes a local Git repository and stages the original fixture, so `git diff` shows the edit without needing a Git identity or an initial commit. Preparation refuses to overwrite an existing take. Enter the section 4 prompt in the recorded Codex terminal, then exit Codex to finish. The recorder keeps unrelated credentials out of the child process; when set, it forwards only `AGENTIC_GATEWAY_API_KEY` as Codex’s provider credential. The terminal capture does not itself record the API wires: run the taps above alongside it. The original capture recipe is preserved in `full_trace/README.md`; its old presenter paths are historical, and the commands here are the attendee path.
 
 Only record fixture data. Request bodies and tool output can contain local files/context; inspect and redact them before publishing your own traces. [Public recording provenance](../captures/codex-tui/provenance.json) and [PDF-demo provenance](../captures/responses-full-trace/provenance.json) distinguish captures from edited playback.
 
@@ -281,7 +281,14 @@ Prerequisites: a disposable `kind` cluster, Docker, kubectl, Helm, and a reachab
 
 ### Running the cluster portion from a Mac
 
-Run the section 10 cluster commands on a **Linux Docker host** you control, accessed with `ssh YOUR_LINUX_DOCKER_HOST`. Download the kit there and repeat section 5 there to produce a Linux gateway binary; the Mac-native build from section 5 is a Mach-O executable and cannot run inside the Ubuntu image. Keep the GPU endpoint reachable from that Linux host and its cluster. The Mac remains the client.
+Run the section 10 cluster commands on a **Linux Docker host** you control, accessed with `ssh YOUR_LINUX_DOCKER_HOST`. Download the kit there and repeat section 5 there to produce a Linux gateway binary. On a fresh Ubuntu/Debian host, install the native build prerequisites first:
+
+```bash
+sudo apt-get update
+sudo apt-get install -y build-essential pkg-config libssl-dev
+```
+
+Install Rustup on that host too. The Mac Command Line Tools step is unnecessary on Linux; the Mac-native build from section 5 is a Mach-O executable and cannot run inside the Ubuntu image. Keep the GPU endpoint reachable from that Linux host and its cluster. The Mac remains the client.
 
 After creating the gateway Service on the Linux host, run this there and leave it open:
 
@@ -303,11 +310,11 @@ Set `AIE_GATEWAY_URL=http://127.0.0.1:9021` in another Mac terminal and run the 
 On that Linux Docker host:
 
 1. Build the section 5 gateway **for the Linux architecture of your kind node**. Copy its binary beside `full_trace/kubernetes/Dockerfile`; run `docker build -t aie-agentic-trace:dev full_trace/kubernetes`, then `kind load docker-image aie-agentic-trace:dev --name YOUR_CLUSTER`.
-2. Create namespace `llm-d-demo`. In `spark-connector.yaml`, replace the presenter's `http://172.18.0.1:18001` with an inference URL reachable **from inside the cluster**. Apply that manifest. A laptop's `127.0.0.1` is not a pod's localhost. Keep the connector's `/health` endpoint working.
+2. Create namespace `llm-d-demo` with `kubectl create namespace llm-d-demo --dry-run=client -o yaml | kubectl apply -f -`. In `spark-connector.yaml`, replace the presenter's `http://172.18.0.1:18001` with an inference URL reachable **from inside the cluster**. Apply that manifest. A laptop's `127.0.0.1` is not a pod's localhost. Keep the connector's `/health` endpoint working.
 3. Install the Router with the captured values:
 
 ```bash
-kubectl create namespace llm-d-demo
+kubectl create namespace llm-d-demo --dry-run=client -o yaml | kubectl apply -f -
 helm upgrade --install aie-router \
   oci://ghcr.io/llm-d/charts/llm-d-router-standalone \
   --version v0 --namespace llm-d-demo \

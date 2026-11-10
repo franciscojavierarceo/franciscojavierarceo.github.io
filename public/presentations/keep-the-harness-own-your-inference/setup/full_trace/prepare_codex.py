@@ -5,6 +5,7 @@ import json
 import os
 from pathlib import Path
 import shutil
+import subprocess
 
 
 def main():
@@ -50,6 +51,8 @@ supports_websockets = false
     shutil.copy2(fixture / ('before' if args.editable else 'after') / 'penalty.py', workspace / 'penalty.py')
     tests = fixture / 'before/test_penalty.py' if kit_fixture.exists() else fixture / 'test_penalty.py'
     shutil.copy2(tests, workspace / 'test_penalty.py')
+    subprocess.run(['git', 'init', '--quiet'], cwd=workspace, check=True)
+    subprocess.run(['git', 'add', 'penalty.py', 'test_penalty.py'], cwd=workspace, check=True)
     (root / 'gateway').mkdir()
     print('Prepared:', root)
     print('Model:', args.model)

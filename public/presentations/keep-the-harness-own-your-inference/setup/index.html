@@ -220,7 +220,7 @@ python full_trace/trace_proxy.py --port 8011 \
 python full_trace/record_tui.py --root runs/codex-take \
   --codex &quot;$(command -v codex)&quot;
 </code></pre>
-<p>Both scripts resolve <code>--root</code> to an absolute path, so relative <code>runs/...</code> paths work on Mac. Preparation refuses to overwrite an existing take. Enter the section 4 prompt in the recorded Codex terminal, then exit Codex to finish. The recorder keeps unrelated credentials out of the child process; when set, it forwards only <code>AGENTIC_GATEWAY_API_KEY</code> as Codex’s provider credential. The terminal capture does not itself record the API wires: run the taps above alongside it. The original capture recipe is preserved in <code>full_trace/README.md</code>; its old presenter paths are historical, and the commands here are the attendee path.</p>
+<p>Both scripts resolve <code>--root</code> to an absolute path, so relative <code>runs/...</code> paths work on Mac. Preparation initializes a local Git repository and stages the original fixture, so <code>git diff</code> shows the edit without needing a Git identity or an initial commit. Preparation refuses to overwrite an existing take. Enter the section 4 prompt in the recorded Codex terminal, then exit Codex to finish. The recorder keeps unrelated credentials out of the child process; when set, it forwards only <code>AGENTIC_GATEWAY_API_KEY</code> as Codex’s provider credential. The terminal capture does not itself record the API wires: run the taps above alongside it. The original capture recipe is preserved in <code>full_trace/README.md</code>; its old presenter paths are historical, and the commands here are the attendee path.</p>
 <p>Only record fixture data. Request bodies and tool output can contain local files/context; inspect and redact them before publishing your own traces. <a href="../captures/codex-tui/provenance.json">Public recording provenance</a> and <a href="../captures/responses-full-trace/provenance.json">PDF-demo provenance</a> distinguish captures from edited playback.</p>
 <h2 id="8-compaction-save-a-checkpoint-then-continue">8. Compaction: save a checkpoint, then continue</h2>
 <pre><code class="language-bash">python compact.py
@@ -238,7 +238,11 @@ python full_trace/record_tui.py --root runs/codex-take \
 <p>The recording used two CPU gateway pods sharing PostgreSQL and file storage, the official llm-d standalone Router, and <strong>one</strong> existing Spark GPU behind a connector. It demonstrated continuation across two gateway pods. It did not demonstrate multiple GPU workers, autoscaling, failover, or prefill/decode disaggregation.</p>
 <p>Prerequisites: a disposable <code>kind</code> cluster, Docker, kubectl, Helm, and a reachable tool-capable inference endpoint. Use the <a href="https://github.com/vllm-project/agentic-api/blob/main/docs/deploying/kubernetes.md">Agentic API Kubernetes guide</a> and <a href="https://github.com/llm-d/llm-d/blob/main/docs/getting-started/quickstart.md">llm-d quickstart</a> for cluster prerequisites, including the InferencePool CRD. The kit contains the exact recording manifests under <code>full_trace/kubernetes/</code>; these use disposable database credentials and a local image.</p>
 <h3 id="running-the-cluster-portion-from-a-mac">Running the cluster portion from a Mac</h3>
-<p>Run the section 10 cluster commands on a <strong>Linux Docker host</strong> you control, accessed with <code>ssh YOUR_LINUX_DOCKER_HOST</code>. Download the kit there and repeat section 5 there to produce a Linux gateway binary; the Mac-native build from section 5 is a Mach-O executable and cannot run inside the Ubuntu image. Keep the GPU endpoint reachable from that Linux host and its cluster. The Mac remains the client.</p>
+<p>Run the section 10 cluster commands on a <strong>Linux Docker host</strong> you control, accessed with <code>ssh YOUR_LINUX_DOCKER_HOST</code>. Download the kit there and repeat section 5 there to produce a Linux gateway binary. On a fresh Ubuntu/Debian host, install the native build prerequisites first:</p>
+<pre><code class="language-bash">sudo apt-get update
+sudo apt-get install -y build-essential pkg-config libssl-dev
+</code></pre>
+<p>Install Rustup on that host too. The Mac Command Line Tools step is unnecessary on Linux; the Mac-native build from section 5 is a Mach-O executable and cannot run inside the Ubuntu image. Keep the GPU endpoint reachable from that Linux host and its cluster. The Mac remains the client.</p>
 <p>After creating the gateway Service on the Linux host, run this there and leave it open:</p>
 <pre><code class="language-bash">kubectl -n agentic-demo port-forward --address 127.0.0.1 svc/agentic-api 9021:9000
 </code></pre>
@@ -251,10 +255,10 @@ python full_trace/record_tui.py --root runs/codex-take \
 <p>On that Linux Docker host:</p>
 <ol>
 <li>Build the section 5 gateway <strong>for the Linux architecture of your kind node</strong>. Copy its binary beside <code>full_trace/kubernetes/Dockerfile</code>; run <code>docker build -t aie-agentic-trace:dev full_trace/kubernetes</code>, then <code>kind load docker-image aie-agentic-trace:dev --name YOUR_CLUSTER</code>.</li>
-<li>Create namespace <code>llm-d-demo</code>. In <code>spark-connector.yaml</code>, replace the presenter's <code>http://172.18.0.1:18001</code> with an inference URL reachable <strong>from inside the cluster</strong>. Apply that manifest. A laptop's <code>127.0.0.1</code> is not a pod's localhost. Keep the connector's <code>/health</code> endpoint working.</li>
+<li>Create namespace <code>llm-d-demo</code> with <code>kubectl create namespace llm-d-demo --dry-run=client -o yaml | kubectl apply -f -</code>. In <code>spark-connector.yaml</code>, replace the presenter's <code>http://172.18.0.1:18001</code> with an inference URL reachable <strong>from inside the cluster</strong>. Apply that manifest. A laptop's <code>127.0.0.1</code> is not a pod's localhost. Keep the connector's <code>/health</code> endpoint working.</li>
 <li>Install the Router with the captured values:</li>
 </ol>
-<pre><code class="language-bash">kubectl create namespace llm-d-demo
+<pre><code class="language-bash">kubectl create namespace llm-d-demo --dry-run=client -o yaml | kubectl apply -f -
 helm upgrade --install aie-router \
   oci://ghcr.io/llm-d/charts/llm-d-router-standalone \
   --version v0 --namespace llm-d-demo \
