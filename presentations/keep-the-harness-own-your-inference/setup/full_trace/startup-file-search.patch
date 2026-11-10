@@ -1,0 +1,94 @@
+--- a/crates/agentic-server-core/src/executor/request.rs
++++ b/crates/agentic-server-core/src/executor/request.rs
+@@ -289,7 +289,7 @@
+             tracing::warn!(%error, "file blob reconciliation will retry while the gateway runs");
+         }
+         Ok(Self {
+-            file_search: Some(file_search),
++            file_search: None,
+             conv_handler,
+             resp_handler,
+             client,
+@@ -310,7 +310,8 @@
+             responses_config: cfg.responses,
+             metrics: ExecutorMetrics::from_global(),
+             storage_pool: Some(pool),
+-        })
++        }
++        .with_file_search_service(file_search))
+     }
+ }
+ 
+--- a/crates/agentic-server-core/tests/file_search_tool_test.rs
++++ b/crates/agentic-server-core/tests/file_search_tool_test.rs
+@@ -1,9 +1,11 @@
+ use std::fmt::Write;
+ use std::sync::Arc;
+ 
++use agentic_core::config::{Config, PostgresConfig, ResponsesConfig, SqliteConfig, ToolRuntimeConfig};
+ use agentic_core::executor::{ConversationHandler, ExecuteRequest, ExecutionContext, ResponseHandler};
+ use agentic_core::storage::{ConversationStore, ResponseStore, create_pool_with_schema};
+ use agentic_core::tool::GatewayExecutorRegistration;
++use agentic_core::tool::file_search::FileSearchExecutionParams;
+ use agentic_core::tool::file_search::{FileSearchHandler, FileSearchService};
+ use agentic_core::types::file_search::{AttachFileRequest, CreateVectorStoreRequest, FileSearchConfig};
+ use agentic_core::types::request_response::ResponsePayload;
+@@ -388,3 +390,58 @@
+         assert!(llm.request_bodies().await.is_empty());
+     }
+ }
++
++#[tokio::test]
++async fn configured_context_registers_the_same_search_service_used_by_uploads() {
++    let files = tempfile::tempdir().unwrap();
++    let mut tools = ToolRuntimeConfig::default();
++    tools.file_search.files_storage_dir = Some(files.path().to_owned());
++    let config = Config {
++        llm_api_base: "http://127.0.0.1:1".to_owned(),
++        openai_api_key: None,
++        llm_ready_timeout_s: 1.0,
++        llm_ready_interval_s: 0.1,
++        skip_llm_ready_check: true,
++        db_url: Some("sqlite::memory:".to_owned()),
++        postgres: PostgresConfig::default(),
++        sqlite: SqliteConfig::default(),
++        tools,
++        responses: ResponsesConfig::default(),
++    };
++    let ctx = ExecutionContext::from_config(&config).await.unwrap();
++    let service = ctx.file_search.as_ref().unwrap();
++    let file = service
++        .upload_file(
++            "policy.txt",
++            "text/plain",
++            "assistants",
++            b"The policy protects coral reefs.".to_vec(),
++        )
++        .await
++        .unwrap();
++    let store = service
++        .create_vector_store(CreateVectorStoreRequest::default())
++        .await
++        .unwrap();
++    service
++        .attach_file(
++            &store.id,
++            AttachFileRequest {
++                file_id: file.id,
++                ..Default::default()
++            },
++        )
++        .await
++        .unwrap();
++    let params = FileSearchExecutionParams {
++        declaration: serde_json::from_value(json!({"vector_store_ids":[store.id]})).unwrap(),
++        include_results: true,
++    };
++    let output = ctx
++        .gateway_executors
++        .file_search_handler()
++        .execute("call_startup", "file_search", r#"{"queries":["coral"]}"#, &params)
++        .await
++        .unwrap();
++    assert!(output.output.contains("coral reefs"));
++}

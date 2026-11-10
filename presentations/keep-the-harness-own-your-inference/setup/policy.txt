@@ -1,0 +1,11 @@
+Document: retry-policy-v3
+Status: authoritative policy for this workshop fixture only
+
+The workshop client accepts Retry-After as a non-negative ASCII integer number of seconds.
+Zero means retry immediately. Leading and trailing whitespace may be stripped.
+Missing, negative, fractional, HTTP-date, or malformed values use exponential backoff: 2 ** attempt.
+Cap every delay at 12 seconds, including exponential backoff and valid Retry-After values.
+The public retry_delay(attempt, retry_after=None) signature must stay unchanged.
+Use only the Python standard library. Do not edit the tests. Tests must not sleep or contact the network.
+
+This is a deliberately simplified exercise policy, not a complete HTTP Retry-After implementation.

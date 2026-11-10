@@ -1,0 +1,17 @@
+router:
+  epp:
+    resources:
+      requests: {cpu: 200m, memory: 512Mi}
+      limits: {memory: 2Gi}
+    flags: {v: 4}
+    pluginsConfigFile: default-plugins.yaml
+  proxy:
+    resources:
+      requests: {cpu: 100m, memory: 128Mi}
+      limits: {memory: 512Mi}
+    args: [--service-node, envoy-sidecar, --log-level, info, --concurrency, '2', -c, /etc/envoy/envoy.yaml]
+  modelServers:
+    matchLabels: {app: spark-vllm-connector}
+    targetPorts: [{number: 8000}]
+  extraServicePorts:
+    - {name: http, port: 80, protocol: TCP, targetPort: 8081}

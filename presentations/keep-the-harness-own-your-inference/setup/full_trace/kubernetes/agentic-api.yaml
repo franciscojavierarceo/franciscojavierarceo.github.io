@@ -1,0 +1,86 @@
+# Isolated local workshop demo. Credentials below are disposable demo values.
+apiVersion: v1
+kind: Namespace
+metadata: {name: agentic-demo}
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata: {name: postgres, namespace: agentic-demo}
+spec:
+  accessModes: [ReadWriteOnce]
+  resources: {requests: {storage: 1Gi}}
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata: {name: gateway-files, namespace: agentic-demo}
+spec:
+  accessModes: [ReadWriteOnce]
+  resources: {requests: {storage: 1Gi}}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata: {name: postgres, namespace: agentic-demo}
+spec:
+  replicas: 1
+  selector: {matchLabels: {app: postgres}}
+  template:
+    metadata: {labels: {app: postgres}}
+    spec:
+      containers:
+        - name: postgres
+          image: postgres:17-alpine
+          env:
+            - {name: POSTGRES_USER, value: demo}
+            - {name: POSTGRES_PASSWORD, value: demo}
+            - {name: POSTGRES_DB, value: agentic}
+          ports: [{containerPort: 5432}]
+          resources:
+            requests: {cpu: 100m, memory: 128Mi}
+            limits: {memory: 512Mi}
+          readinessProbe:
+            exec: {command: [pg_isready, -U, demo, -d, agentic]}
+          volumeMounts: [{name: data, mountPath: /var/lib/postgresql/data}]
+      volumes: [{name: data, persistentVolumeClaim: {claimName: postgres}}]
+---
+apiVersion: v1
+kind: Service
+metadata: {name: postgres, namespace: agentic-demo}
+spec:
+  selector: {app: postgres}
+  ports: [{port: 5432, targetPort: 5432}]
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata: {name: agentic-api, namespace: agentic-demo}
+spec:
+  replicas: 1
+  selector: {matchLabels: {app: agentic-api}}
+  template:
+    metadata: {labels: {app: agentic-api}}
+    spec:
+      securityContext: {fsGroup: 10001}
+      containers:
+        - name: gateway
+          image: aie-agentic-trace:dev
+          imagePullPolicy: Never
+          args: [--gateway-host, 0.0.0.0, --gateway-port, '9000']
+          env:
+            - {name: AGENTIC_API_HOME, value: /data/agentic}
+            - {name: DATABASE_URL, value: 'postgresql://demo:demo@postgres:5432/agentic'}
+            - {name: LLM_API_BASE, value: 'http://aie-router-epp.llm-d-demo.svc.cluster.local'}
+            - {name: SKIP_LLM_READY_CHECK, value: 'true'}
+            - {name: RUST_LOG, value: 'info,agentic_core::executor=debug'}
+          ports: [{containerPort: 9000}]
+          resources:
+            requests: {cpu: 100m, memory: 128Mi}
+            limits: {memory: 1Gi}
+          readinessProbe: {httpGet: {path: /ready, port: 9000}}
+          volumeMounts: [{name: files, mountPath: /data}]
+      volumes: [{name: files, persistentVolumeClaim: {claimName: gateway-files}}]
+---
+apiVersion: v1
+kind: Service
+metadata: {name: agentic-api, namespace: agentic-demo}
+spec:
+  selector: {app: agentic-api}
+  ports: [{port: 9000, targetPort: 9000}]

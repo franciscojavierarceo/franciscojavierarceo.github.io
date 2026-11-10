@@ -1,0 +1,47 @@
+# Local demo only: connector pods forward to one existing Spark GPU.
+# These pods are not independent GPU model servers.
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: spark-connector
+  namespace: llm-d-demo
+data:
+  default.conf: |
+    server {
+      listen 8000;
+      location / {
+        proxy_pass http://172.18.0.1:18001;
+        proxy_http_version 1.1;
+        proxy_buffering off;
+        proxy_read_timeout 240s;
+        proxy_set_header Connection "";
+      }
+    }
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: spark-vllm-connector
+  namespace: llm-d-demo
+spec:
+  replicas: 1
+  selector:
+    matchLabels: {app: spark-vllm-connector}
+  template:
+    metadata:
+      labels: {app: spark-vllm-connector}
+    spec:
+      containers:
+        - name: connector
+          image: nginx:1.28-alpine
+          ports: [{containerPort: 8000}]
+          resources:
+            requests: {cpu: 50m, memory: 32Mi}
+            limits: {memory: 128Mi}
+          readinessProbe:
+            httpGet: {path: /health, port: 8000}
+          volumeMounts:
+            - {name: config, mountPath: /etc/nginx/conf.d}
+      volumes:
+        - name: config
+          configMap: {name: spark-connector}
