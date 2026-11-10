@@ -9,6 +9,7 @@ from pathlib import Path
 import pty
 import select
 import signal
+import shutil
 import struct
 import sys
 import termios
@@ -21,9 +22,19 @@ def main():
     p.add_argument('--root', type=Path, required=True)
     p.add_argument('--cols', type=int, default=76)
     p.add_argument('--rows', type=int, default=36)
-    p.add_argument('--codex', default='/usr/lib/chatgpt/resources/codex')
+    p.add_argument('--codex', default=shutil.which('codex'))
     a = p.parse_args()
+    if not sys.stdin.isatty():
+        p.error('Run this recorder from an interactive Terminal, not a pipe or notebook')
+    if not a.codex:
+        p.error('Install Codex on PATH or pass --codex /absolute/path/to/codex')
+    a.root = a.root.expanduser().resolve()
+    a.codex = str(Path(a.codex).expanduser().absolute())
+    if not (a.root / 'codex-home/config.toml').exists():
+        p.error('Run prepare_codex.py with this --root first')
     env = {k: v for k, v in os.environ.items() if not any(s in k.upper() for s in ('API_KEY', 'TOKEN', 'SECRET', 'PASSWORD'))}
+    if key := os.environ.get('AGENTIC_GATEWAY_API_KEY'):
+        env['OPENAI_API_KEY'] = key
     env.update(CODEX_HOME=str(a.root/'codex-home'), TERM='xterm-256color', COLORTERM='truecolor')
     start = time.time()
     pid, master = pty.fork()

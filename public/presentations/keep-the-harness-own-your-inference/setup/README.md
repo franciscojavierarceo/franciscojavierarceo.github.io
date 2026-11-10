@@ -22,6 +22,24 @@ Keep Codex or Claude Code. Run the gateway on your laptop. Connect it to an open
 
 Mac/Linux instructions below use a POSIX shell. Windows users can use WSL2. A laptop can run the gateway against a remote inference endpoint; installing Agentic API does not make a large model fit into laptop memory. No OpenAI account credential is needed for the unauthenticated local gateway examples. A protected gateway or upstream needs its own credentials; web search also needs a search-provider key.
 
+## Mac prerequisites
+
+Use **Python 3.12** and **Node.js 22** for the checked setup, on Apple Silicon or Intel. Open Terminal and confirm:
+
+```bash
+uname -m
+python3.12 --version
+node --version
+npm --version
+git --version
+```
+
+If they are missing, install Python from [Python.org's macOS downloads](https://www.python.org/downloads/macos/) and Node 22 from [Node.js](https://nodejs.org/en/download). If you already use Homebrew, `brew install python@3.12 node@22` is another option; add Node's keg to this terminal's path with `export PATH="$(brew --prefix node@22)/bin:$PATH"`. Follow your package manager's supported macOS/hardware requirements. Git is provided by Apple's Command Line Tools; `xcode-select --install` opens their installer when needed. Complete installation before continuing.
+
+Use `python3.12` to create the virtual environment below. Inside it, `python` and `python3` refer to that environment. Do not install packages into Apple's `/usr/bin/python3`. For a Python.org installer, complete its **Install Certificates.command** step if HTTPS downloads report `CERTIFICATE_VERIFY_FAILED`; see [Python's Mac guide](https://docs.python.org/3/using/mac.html). Keep certificate verification enabled.
+
+The GPU-backed model runs on Linux/DGX Spark or another suitable serving host. Run only the gateway and harness on the Mac; the `[local]` vLLM extra is not the Mac installation path.
+
 ## 1. Download the workshop kit
 
 ```bash
@@ -30,15 +48,15 @@ cd agentic-workshop
 curl -fL https://franciscojavierarceo.dev/presentations/keep-the-harness-own-your-inference/setup/workshop-kit.zip -o workshop-kit.zip
 unzip workshop-kit.zip
 cd workshop-kit
-python3 -m venv .venv
+python3.12 -m venv .venv
 . .venv/bin/activate
 python -m pip install --upgrade pip
-python -m pip install agentic-api openai
+python -m pip install agentic-api==0.10.0 openai==3.46.0
 agentic-api doctor --mode remote
 agentic --version
 ```
 
-The base Python package bundles the Rust gateway and CLI; it does not install vLLM. This installs the available package release. For the exact development build behind the PDF recording, use section 5 instead. Record your installed versions with `python -m pip freeze` and `agentic --version` when comparing results.
+The base Python package bundles the Rust gateway and CLI; it does not install vLLM. This pins the published Agentic API 0.10.0 Mac wheels and the SDK used by the demo. Python 3.10+ is supported by the package; Python 3.12 is the workshop baseline. For the exact development build behind the PDF recording, use section 5 instead. Record your installed versions with `python -m pip freeze` and `agentic --version` when comparing results.
 
 [Python installation guide](https://github.com/vllm-project/agentic-api/blob/main/docs/guides/python-installation.md) · [Package on PyPI](https://pypi.org/project/agentic-api/)
 
@@ -63,7 +81,8 @@ Use an existing tool-capable vLLM endpoint, or tunnel to a GPU host you control:
 
 ```bash
 # Separate terminal; leave this running if using a remote GPU host.
-ssh -N -L 8000:127.0.0.1:8000 YOUR_GPU_HOST
+ssh -o ExitOnForwardFailure=yes -N \
+  -L 127.0.0.1:8000:127.0.0.1:8000 YOUR_GPU_HOST
 ```
 
 If starting vLLM yourself, use the model's documented tool/reasoning parser and chat template. There is no universal parser flag for all models. The recording used `nvidia/Qwen3.8-Flash-Next-FP4-Local` on a DGX Spark; that is a served model ID from the presenter's deployment, not a promise that every installation can download or serve that alias. Pick a model supported by your hardware and confirm its exact served name:
@@ -87,7 +106,7 @@ python demo.py state
 
 Success: `/ready` returns HTTP 200, `check_setup.py` reports a completed response, and the state demo recalls **DEMO-742** and its constraints through `previous_response_id`. The fresh control request has not received those facts. Judge the returned answer, not just the presence of a response ID. The gateway's SQLite database must remain in place between requests.
 
-For an authenticated gateway, set `AGENTIC_GATEWAY_API_KEY` privately. `check_setup.py`, `demo.py`, `compact.py`, and `web_search.py` read it. The original `full_trace/record.py` uses the fixture key `local-demo` and targets an unauthenticated local gateway; adapt its two `OpenAI` constructors before using a protected endpoint.
+For an authenticated gateway, set `AGENTIC_GATEWAY_API_KEY` privately. `check_setup.py`, `demo.py`, `compact.py`, and `web_search.py` read it. `full_trace/record.py` also reads this variable for both its initial and continuation clients, and uses the fixture key `local-demo` only when it is unset.
 
 ## 4. Let native Codex fix the bug
 
@@ -99,6 +118,7 @@ codex --version
 cp -R penalty/before my-codex-task
 cd my-codex-task
 git init
+git add penalty.py test_penalty.py
 agentic harness codex --gateway-url "$AIE_GATEWAY_URL" --model "$AIE_MODEL"
 ```
 
@@ -112,6 +132,7 @@ Approve the requested local file/command actions. Afterwards, independently run:
 python3 -m unittest -v
 python3 penalty.py
 cmp test_penalty.py ../penalty/before/test_penalty.py
+git diff -- penalty.py test_penalty.py
 cd ..
 ```
 
@@ -119,7 +140,7 @@ Success: all 3 tests pass; the script prints **0.6475**; `cmp` exits 0. Model ou
 
 ## 5. Build the exact PDF-demo gateway
 
-The November 8 PDF recording used development commit **45c729f5fe351c55edbb686a750bde1fe3eacf5e**, a startup-registration patch, and the **file-search-pdf** feature. Do not assume the PyPI wheel contains that exact implementation. This path requires Rust and the repository's native build prerequisites. Build in a separate checkout:
+The November 8 PDF recording used development commit **45c729f5fe351c55edbb686a750bde1fe3eacf5e**, a startup-registration patch, and the **file-search-pdf** feature. Do not assume the PyPI wheel contains that exact implementation. For a native Mac source build, install Apple’s Command Line Tools (`xcode-select --install`) and [Rustup](https://rustup.rs/) first. The pinned checkout selects Rust **1.98.1** automatically; `rustc --version` inside it confirms the toolchain. The PDF extractor is pure Rust; no PDFium or Poppler service is required. The base wheel path in section 1 needs no Rust compiler. Build in a separate checkout:
 
 ```bash
 # From workshop-kit, save its absolute location before entering the checkout.
@@ -127,6 +148,7 @@ export KIT_DIR="$PWD"
 git clone https://github.com/vllm-project/agentic-api.git recorded-gateway
 cd recorded-gateway
 git checkout 45c729f5fe351c55edbb686a750bde1fe3eacf5e
+rustc --version
 git apply --check "$KIT_DIR/full_trace/startup-file-search.patch"
 git apply "$KIT_DIR/full_trace/startup-file-search.patch"
 cargo build -p agentic-server --bins --features file-search-pdf
@@ -192,7 +214,7 @@ The fifth tab on slide 15 shows the separate **November 3 semantic-retrieval ben
 The kit includes the original reports, returned document rankings, BEIR relevance judgments, run logs and preparation/scoring harness. Recompute the Agentic API metrics from the retained rankings:
 
 ```bash
-python -m pip install pytrec-eval-terrier
+python -m pip install pytrec-eval-terrier==0.5.11
 python retrieval-benchmark/verify_metrics.py
 ```
 
@@ -214,7 +236,16 @@ Look for the hydrated `input` history upstream: `previous_response_id` is resolv
 
 To inspect sampled token pieces with a compatible vLLM Responses implementation, start another tap with `--token-logprobs`. It requests `message.output_text.logprobs`, `top_logprobs=1`, and disables thinking for this recording profile. A streamed text delta is not necessarily one token. Logprob token pieces are decoded pieces, not token IDs; tool-argument deltas are still fragments.
 
-For the exact historical Codex recording, the client-side tap also used `--omit-tool-output-ids` to remove optional `function_call_output.id` values while preserving `call_id`. Both original and adjusted requests were saved. This compatibility modification is not required for the SDK demo. Native terminal capture tools (`record_tui.py`, `prepare_codex.py`) are included under `full_trace/`; their historical defaults are documented in `full_trace/README.md`. In particular, `prepare_codex.py` creates a read-only, already-correct fixture; replace it with the section 4 buggy fixture and use `sandbox_mode="workspace-write"` to recreate the editing demo. Pass `--codex "$(command -v codex)"` to `record_tui.py` rather than its presenter-specific default.
+For the exact historical Codex recording, the client-side tap also used `--omit-tool-output-ids` to remove optional `function_call_output.id` values while preserving `call_id`. Both original and adjusted requests were saved. This compatibility modification is not required for the SDK demo. The attendee recorder supports your served model and creates an editable copy of the buggy fixture. Run these commands **from an interactive Terminal**, with the gateway reachable at the selected base URL:
+
+```bash
+python full_trace/prepare_codex.py --root runs/codex-take \
+  --base-url "$AIE_GATEWAY_URL/v1" --model "$AIE_MODEL" --editable
+python full_trace/record_tui.py --root runs/codex-take \
+  --codex "$(command -v codex)"
+```
+
+Both scripts resolve `--root` to an absolute path, so relative `runs/...` paths work on Mac. Preparation initializes a local Git repository and stages the original fixture, so `git diff` shows the edit without needing a Git identity or an initial commit. Preparation refuses to overwrite an existing take. Enter the section 4 prompt in the recorded Codex terminal, then exit Codex to finish. The recorder keeps unrelated credentials out of the child process; when set, it forwards only `AGENTIC_GATEWAY_API_KEY` as Codex’s provider credential. The terminal capture does not itself record the API wires: run the taps above alongside it. The original capture recipe is preserved in `full_trace/README.md`; its old presenter paths are historical, and the commands here are the attendee path.
 
 Only record fixture data. Request bodies and tool output can contain local files/context; inspect and redact them before publishing your own traces. [Public recording provenance](../captures/codex-tui/provenance.json) and [PDF-demo provenance](../captures/responses-full-trace/provenance.json) distinguish captures from edited playback.
 
@@ -248,14 +279,42 @@ The recording used two CPU gateway pods sharing PostgreSQL and file storage, the
 
 Prerequisites: a disposable `kind` cluster, Docker, kubectl, Helm, and a reachable tool-capable inference endpoint. Use the [Agentic API Kubernetes guide](https://github.com/vllm-project/agentic-api/blob/main/docs/deploying/kubernetes.md) and [llm-d quickstart](https://github.com/llm-d/llm-d/blob/main/docs/getting-started/quickstart.md) for cluster prerequisites, including the InferencePool CRD. The kit contains the exact recording manifests under `full_trace/kubernetes/`; these use disposable database credentials and a local image.
 
-To reproduce the recorded topology on a Linux Docker host:
+### Running the cluster portion from a Mac
+
+Run the section 10 cluster commands on a **Linux Docker host** you control, accessed with `ssh YOUR_LINUX_DOCKER_HOST`. Download the kit there and repeat section 5 there to produce a Linux gateway binary. On a fresh Ubuntu/Debian host, install the native build prerequisites first:
+
+```bash
+sudo apt-get update
+sudo apt-get install -y build-essential pkg-config libssl-dev
+```
+
+Install Rustup on that host too. The Mac Command Line Tools step is unnecessary on Linux; the Mac-native build from section 5 is a Mach-O executable and cannot run inside the Ubuntu image. Keep the GPU endpoint reachable from that Linux host and its cluster. The Mac remains the client.
+
+After creating the gateway Service on the Linux host, run this there and leave it open:
+
+```bash
+kubectl -n agentic-demo port-forward --address 127.0.0.1 svc/agentic-api 9021:9000
+```
+
+Then in a new Mac terminal:
+
+```bash
+ssh -o ExitOnForwardFailure=yes -N \
+  -L 127.0.0.1:9021:127.0.0.1:9021 YOUR_LINUX_DOCKER_HOST
+```
+
+Set `AIE_GATEWAY_URL=http://127.0.0.1:9021` in another Mac terminal and run the same laptop SDK/harness checks. Run `record_cluster.py` on the Linux host with its kubeconfig. A Docker Desktop/kind setup on Mac requires a Linux container build and its own pod-to-host networking; it is outside the recorded deployment recipe.
+
+### Recorded Linux-host deployment steps
+
+On that Linux Docker host:
 
 1. Build the section 5 gateway **for the Linux architecture of your kind node**. Copy its binary beside `full_trace/kubernetes/Dockerfile`; run `docker build -t aie-agentic-trace:dev full_trace/kubernetes`, then `kind load docker-image aie-agentic-trace:dev --name YOUR_CLUSTER`.
-2. Create namespace `llm-d-demo`. In `spark-connector.yaml`, replace the presenter's `http://172.18.0.1:18001` with an inference URL reachable **from inside the cluster**. Apply that manifest. A laptop's `127.0.0.1` is not a pod's localhost. Keep the connector's `/health` endpoint working.
+2. Create namespace `llm-d-demo` with `kubectl create namespace llm-d-demo --dry-run=client -o yaml | kubectl apply -f -`. In `spark-connector.yaml`, replace the presenter's `http://172.18.0.1:18001` with an inference URL reachable **from inside the cluster**. Apply that manifest. A laptop's `127.0.0.1` is not a pod's localhost. Keep the connector's `/health` endpoint working.
 3. Install the Router with the captured values:
 
 ```bash
-kubectl create namespace llm-d-demo
+kubectl create namespace llm-d-demo --dry-run=client -o yaml | kubectl apply -f -
 helm upgrade --install aie-router \
   oci://ghcr.io/llm-d/charts/llm-d-router-standalone \
   --version v0 --namespace llm-d-demo \
@@ -280,7 +339,7 @@ python full_trace/record_cluster.py \
   --model "$AIE_MODEL" --capture runs/cluster-take
 ```
 
-Set `KUBECONFIG` to your kind kubeconfig first. The recorder requires exactly two ready gateway pods, forwards them separately on 9031 and 9032, sends the first request to one pod, and continues through the other. Success: `deployment-proof.json` names **different** gateway pods and the final answer includes **0.6475**. The recorder closes its own port-forwards. Router/gateway logs and deployment inspection are saved alongside the API results.
+Set `KUBECONFIG` to your kind kubeconfig first, using an absolute file path. For example: `mkdir -p runs; kind get kubeconfig --name YOUR_CLUSTER > runs/kubeconfig; export KUBECONFIG="$PWD/runs/kubeconfig"`. The recorder requires exactly two ready gateway pods, forwards them separately on 9031 and 9032, sends the first request to one pod, and continues through the other. Success: `deployment-proof.json` names **different** gateway pods and the final answer includes **0.6475**. The recorder closes its own port-forwards. Router/gateway logs and deployment inspection are saved alongside the API results.
 
 For a real multi-GPU llm-d deployment, replace the connector with actual model-server pods and size them independently from the CPU gateways. Prefix-cache affinity is an inference-router concern; conversation state lives at the gateway/storage layer. Neither proves the other is being reused.
 
@@ -295,6 +354,12 @@ For a real multi-GPU llm-d deployment, replace the connector with actual model-s
 | Separate prefill/decode GPUs | Illustrated architecture; follow the [llm-d disaggregated-serving guide](https://github.com/llm-d/llm-d/tree/main/guides/pd-disaggregation) to deploy it on suitable hardware |
 | Skills/containers provisioning a fleet; retained-context swarm branches | Proposed design, not a released end-to-end swarm implementation |
 | Shared prefixes, coordination, speculative decoding make exploration cheaper | Hypotheses/mechanisms to measure; no cost reduction benchmark in this workshop |
+
+## Mac validation
+
+[Native macOS validation · November 10, 2026](https://github.com/franciscojavierarceo/franciscojavierarceo.github.io/actions/runs/42877825914) passed on **macOS 15 Apple Silicon and Intel**, using Python 3.12, Node 22, Agentic API 0.10.0 and Codex 0.160.0. The checks installed the published wheel, ran the exact fixtures, downloaded and verified the PDFs, recomputed retrieval metrics, and exercised the real gateway, native Codex CLI, SDK function loop, state hydration, compaction, and POSIX terminal recorder.
+
+The CI inference backend was a deterministic local fixture. These tests establish client/gateway integration and platform compatibility; they do not rerun model quality, live GPU inference, a paid web-search provider, or the Kubernetes deployment. The historical Rust/PDF source-build recipe was audited against its pinned source but was not compiled on Mac in this validation. An independent subagent also extracted the kit, followed its checks, and reviewed every shell block.
 
 ## Troubleshooting and cleanup
 
