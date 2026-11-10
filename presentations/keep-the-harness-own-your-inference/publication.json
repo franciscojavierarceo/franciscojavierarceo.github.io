@@ -22,7 +22,7 @@
     "captures/responses-full-trace/client.jsonl": "5d91e6a9bb431810603d024287a465952294b17ab16d499e91793e5a57d7fc64",
     "captures/responses-full-trace/inference.jsonl": "f32a21ab578f6398dccc8e2a660f1530817f13aedc1a0ae68b21981cc6c4b4e0",
     "captures/responses-full-trace/provenance.json": "7ea8a2350e913ae31e2e0eda5cc5a30f5831ee49a478fc8e4238a463d91855ee",
-    "index.html": "7fb0d26e090d9dc9fd1d20becfcd80a90c0d77f2c3b4c6e03e1b2c1f9b5b1b0d",
+    "index.html": "c09f7e286a2794df4f437bfebc292e168cec5bdf52b91fcdc1604e6e1cfc7a61",
     "media/claude-code-poster.jpg": "9e0bb95d88dc68444ece66d7bbfb712067e154613102d09659e5df81b1494522",
     "media/claude-code-web-search.mp4": "db653060f900b0d4d108c1f4ca722b51fb92270e227f1a0529b3554d6aec9b68",
     "media/codex-agent-loop-trace.jpg": "63613806a4fe3b8519266de4cc5068d0eb8457f73b5c52245f621a3fe5196370",
@@ -111,7 +111,8 @@
     "captures/retrieval-benchmark/arguana/report.json": "05a595033bc2c47ada98a3e09b8e0650b432447274c2cfab6a8bb0cd8953cab4",
     "captures/retrieval-benchmark/arguana/qrels.json": "f4fb14d0586abb168bea448aa29846a15a781e3e8a9779d02dbfe84a5d07e03a",
     "captures/retrieval-benchmark/arguana/results.json": "c58af60af8c4d4a767487229530dd4f3af6f2ae875d97c3166475779b495b854",
-    "captures/retrieval-benchmark/arguana/run.log": "917579a256ee18bebe401c406841762ef9905b75a53f234862273454267e4b31"
+    "captures/retrieval-benchmark/arguana/run.log": "917579a256ee18bebe401c406841762ef9905b75a53f234862273454267e4b31",
+    "presenter-guide.html": "6349f344605b02a24bf279162839b91686d9a5ffe0405cb71954db9cf2d27c2a"
   },
   "updated_at": "2026-11-08",
   "slide_count": 29
