@@ -209,7 +209,7 @@ Sources: [Zou & Hastie: elastic net](https://web.stanford.edu/~hastie/Papers/ela
 
 ### Retrieval benchmark: recompute the saved scores
 
-The fifth tab on slide 15 shows the separate **November 3 semantic-retrieval benchmark**, using Agentic API's sqlite-vec repository and an exact-cosine reference over the same embeddings. This is distinct from the keyword-based PDF demo. nDCG@10 rounds to **0.310** on NFCorpus, **0.697** on SciFact, and **0.393** on ArguAna for both methods, across **2,029 judged queries** with no search failures.
+The fifth tab on slide 16 shows the separate **November 3 semantic-retrieval benchmark**, using Agentic API's sqlite-vec repository and an exact-cosine reference over the same embeddings. This is distinct from the keyword-based PDF demo. nDCG@10 rounds to **0.310** on NFCorpus, **0.697** on SciFact, and **0.393** on ArguAna for both methods, across **2,029 judged queries** with no search failures.
 
 The kit includes the original reports, returned document rankings, BEIR relevance judgments, run logs and preparation/scoring harness. Recompute the Agentic API metrics from the retained rankings:
 
